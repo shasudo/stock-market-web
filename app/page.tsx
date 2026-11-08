@@ -58,7 +58,7 @@ export default function TodayPage() {
               key: "name",
               header: "Index",
               render: (r) => (
-                <Link href={`/markets?tab=indices`} className="font-medium hover:text-accent">
+                <Link href={`/markets?view=indices`} className="font-medium hover:text-accent">
                   {r.name}
                 </Link>
               ),

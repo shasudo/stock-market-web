@@ -56,6 +56,91 @@ export interface IndexListResponse {
   degraded: boolean;
 }
 
+export interface BseIndexRow {
+  securityId: number;
+  name: string;
+  tabs: string[];
+  last: number | null;
+  change: number | null;
+  changePct: number | null;
+  open: number | null;
+  high: number | null;
+  low: number | null;
+  prevClose: number | null;
+  high52: number | null;
+  low52: number | null;
+}
+
+export interface BseIndexResponse {
+  indices: BseIndexRow[];
+  advancing: number | null;
+  declining: number | null;
+  lastSyncAt: string | null;
+  historyPending: boolean;
+  generatedAt: string | null;
+}
+
+export interface IpoItem {
+  symbol: string | null;
+  companyName: string;
+  segment: string | null;
+  status: string | null;
+  openDate: string | null;
+  closeDate: string | null;
+  listingDate: string | null;
+  priceLow: number | null;
+  priceHigh: number | null;
+  issuePrice: number | null;
+  lotSize: number | null;
+  issueSizeCr: number | null;
+}
+
+export interface IpoResponse {
+  open: IpoItem[];
+  upcoming: IpoItem[];
+  closed: IpoItem[];
+  listed: IpoItem[];
+  generatedAt: string | null;
+  pending: boolean;
+  degraded: string[];
+}
+
+export interface ChainLeg {
+  ltp: number | null;
+  change: number | null;
+  changePct: number | null;
+  oi: number | null;
+  oiChange: number | null;
+  oiChangePct: number | null;
+  volume: number | null;
+  iv: number | null;
+  bid: number | null;
+  ask: number | null;
+  bidQty: number | null;
+  askQty: number | null;
+}
+
+export interface ChainRow {
+  strike: number;
+  call: ChainLeg | null;
+  put: ChainLeg | null;
+}
+
+export interface ChainResponse {
+  symbol: string;
+  expiry: string;
+  underlyingValue: number | null;
+  asOf: string | null;
+  rows: ChainRow[];
+  totals: { callOi: number; putOi: number; callVolume: number; putVolume: number } | null;
+  pcr: number | null;
+  volumePcr: number | null;
+  maxPain: number | null;
+  atmStrike: number | null;
+  expiries: string[];
+  lotSize: number | null;
+}
+
 export interface InstrumentQuote {
   securityId: number;
   exchange: string;

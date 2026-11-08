@@ -8,8 +8,8 @@ const DESTINATIONS = [
   { code: "TODAY", label: "Today — command view", href: "/" },
   { code: "MARKETS", label: "Markets — screener table", href: "/markets" },
   { code: "FNO", label: "F&O — snapshot & chain", href: "/fno" },
-  { code: "IPO", label: "IPO board", href: "/markets?tab=ipo" },
-  { code: "INDICES", label: "Indices terminals", href: "/markets?tab=indices" },
+  { code: "IPO", label: "IPO board", href: "/markets?view=ipo" },
+  { code: "INDICES", label: "Indices terminals", href: "/markets?view=indices" },
   { code: "MINE", label: "Mine — watchlist & portfolio", href: "/mine" },
   { code: "ALERTS", label: "Alerts", href: "/alerts" },
 ];
