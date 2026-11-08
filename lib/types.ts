@@ -12,12 +12,75 @@ export interface ApiEnvelope<T> {
 export class ApiError extends Error {
   readonly status: number;
   readonly body: string | null;
+  readonly fields: Record<string, string[]> | null;
 
-  constructor(status: number, message: string, body: string | null = null) {
+  constructor(
+    status: number,
+    message: string,
+    body: string | null = null,
+    fields: Record<string, string[]> | null = null,
+  ) {
     super(message);
     this.status = status;
     this.body = body;
+    this.fields = fields;
   }
+}
+
+export interface UserView {
+  id: string;
+  username: string;
+}
+
+export interface SessionView {
+  user: UserView;
+  accessToken: string;
+}
+
+export interface RefreshView {
+  accessToken: string;
+}
+
+export interface WatchlistStock {
+  id: string;
+  watchlistId: string;
+  tradingSymbol: string;
+  sector: string | null;
+  industry: string | null;
+  ltp: number | null;
+  entryPrice: number | null;
+  stopLoss: number | null;
+  target1: number | null;
+  netChange: number | null;
+  pctChange: number | null;
+}
+
+export interface WatchlistFolder {
+  id: string;
+  name: string;
+  isDefault: boolean;
+  stocks: WatchlistStock[];
+}
+
+export interface WatchlistsResponse {
+  watchlists: WatchlistFolder[];
+  watchlist: WatchlistFolder | null;
+}
+
+export type AlertDirection = "above" | "below";
+
+export interface AlertView {
+  id: string;
+  tradingSymbol: string;
+  displayName: string;
+  targetPrice: number;
+  direction: AlertDirection;
+  status: string;
+  source: string | null;
+  category: string | null;
+  triggeredAt: string | null;
+  createdAt: string | null;
+  ltp: number | null;
 }
 
 export interface NseIndexRow {
