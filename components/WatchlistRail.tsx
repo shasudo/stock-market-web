@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, Briefcase, Home, LineChart, Moon, Sun, Table2 } from "lucide-react";
+import { Bell, Briefcase, Home, LayoutGrid, LineChart, Moon, Sun, Table2 } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import { CommandPalette } from "./CommandPalette";
 import { cn } from "@/lib/cn";
@@ -13,6 +13,7 @@ const RAIL = [
   { href: "/fno", label: "F&O", icon: LineChart },
   { href: "/mine", label: "Mine", icon: Briefcase },
   { href: "/alerts", label: "Alerts", icon: Bell },
+  { href: "/browse", label: "Browse", icon: LayoutGrid },
 ];
 
 /** Desktop left rail (md:+). Icon rail on md, full labels on lg. */

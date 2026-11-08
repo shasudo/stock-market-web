@@ -7,13 +7,7 @@ import type { IndexListResponse } from "@/lib/types";
 import { usePoll } from "@/hooks/usePoll";
 import { ChangePill, DataStamp, Num } from "@/components/numbers";
 import { DataTable, EmptyState } from "@/components/DataTable";
-
-interface MoodResponse {
-  score: number | null;
-  zone: string | null;
-  asOf: string | null;
-  generatedAt: string | null;
-}
+import { MoodPanel } from "@/components/market/MoodPanel";
 
 interface FiiDii {
   fiiNet: number | null;
@@ -24,31 +18,12 @@ interface FiiDii {
 /** Today: what kind of day is it, in ten seconds. Indices + mood + flows. */
 export default function TodayPage() {
   const indices = usePoll(() => apiGet<IndexListResponse>("/market-data/indices/nse"), 30_000);
-  const mood = usePoll(() => apiGet<MoodResponse>("/market-data/mood-index"), 60_000);
 
   const rows = (indices.data?.indices ?? []).filter((r) => r.last != null).slice(0, 12);
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-4 p-4">
-      <section aria-label="Market mood" className="rounded-md border border-line bg-surface">
-        <div className="flex items-baseline justify-between px-4 pt-3">
-          <h2 className="text-sm font-semibold">Market mood</h2>
-          {mood.data?.zone != null && (
-            <span className="rounded-full bg-accent/10 px-2.5 py-0.5 text-xs font-bold capitalize text-accent">
-              {mood.data.zone.replace(/([a-z])([A-Z])/g, "$1 $2")}
-            </span>
-          )}
-        </div>
-        <div className="px-4 py-3">
-          {mood.data?.score != null ? (
-            <p className="tnum tnum-strong text-3xl">{mood.data.score.toFixed(0)}</p>
-          ) : (
-            <p className="tnum text-3xl text-faint">—</p>
-          )}
-          <p className="mt-1 text-xs text-muted">Breadth-driven 0–100 gauge. Rebuilt as history lands.</p>
-        </div>
-        <DataStamp label={mood.data?.generatedAt ?? mood.data?.asOf} />
-      </section>
+      <MoodPanel compact />
 
       <section aria-label="Key indices" className="overflow-hidden rounded-md border border-line bg-surface">
         <h2 className="px-4 pt-3 text-sm font-semibold">Key indices</h2>

@@ -3,16 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
-
-const DESTINATIONS = [
-  { code: "TODAY", label: "Today — command view", href: "/" },
-  { code: "MARKETS", label: "Markets — screener table", href: "/markets" },
-  { code: "FNO", label: "F&O — snapshot & chain", href: "/fno" },
-  { code: "IPO", label: "IPO board", href: "/markets?view=ipo" },
-  { code: "INDICES", label: "Indices terminals", href: "/markets?view=indices" },
-  { code: "MINE", label: "Mine — watchlist & portfolio", href: "/mine" },
-  { code: "ALERTS", label: "Alerts", href: "/alerts" },
-];
+import { LIVE_ROUTES } from "@/lib/nav";
 
 /** Bloomberg-thin keyboard layer: Cmd/Ctrl+K, type a code or name, Enter. */
 export function CommandPalette() {
@@ -44,9 +35,9 @@ export function CommandPalette() {
   if (!open) return null;
 
   const q = query.trim().toUpperCase();
-  const hits = DESTINATIONS.filter(
+  const hits = LIVE_ROUTES.filter(
     (d) => q === "" || d.code.includes(q) || d.label.toUpperCase().includes(q),
-  );
+  ).slice(0, 30);
 
   function go(href: string) {
     setOpen(false);
@@ -74,7 +65,7 @@ export function CommandPalette() {
             onKeyDown={(e) => {
               if (e.key === "Enter" && hits.length > 0 && hits[0] != null) go(hits[0].href);
             }}
-            placeholder="Type a destination — TODAY, FNO, IPO…"
+            placeholder="Type a destination — TODAY, FNO, PE…"
             className="h-11 w-full bg-transparent text-sm outline-none placeholder:text-faint"
           />
           <kbd className="tnum shrink-0 rounded border border-line px-1.5 py-0.5 text-[10px] text-muted">esc</kbd>

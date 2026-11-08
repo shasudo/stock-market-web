@@ -52,6 +52,10 @@ export function apiPatch<T>(path: string, body: unknown): Promise<T> {
   return request<T>("PATCH", path, body);
 }
 
+export function apiPut<T>(path: string, body: unknown): Promise<T> {
+  return request<T>("PUT", path, body);
+}
+
 /** DELETE with a JSON body — the backend deletes alerts/watchlist rows by id payload. */
 export function apiDelete<T>(path: string, body: unknown): Promise<T> {
   return request<T>("DELETE", path, body);

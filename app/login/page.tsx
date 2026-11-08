@@ -8,9 +8,9 @@ import { ApiError } from "@/lib/types";
 const USER_RE = /^[A-Za-z0-9_]{3,32}$/;
 
 /** Sign in / register. Mirrors the backend constraints so 400s are rare. */
-export default function LoginPage() {
+export default function LoginPage({ initialMode = "login" }: { initialMode?: "login" | "register" } = {}) {
   const router = useRouter();
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);

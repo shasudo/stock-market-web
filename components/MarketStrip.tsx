@@ -13,7 +13,7 @@ const WATCH = ["NIFTY 50", "NIFTY BANK", "INDIA VIX"];
 export function MarketStrip() {
   const { data, stale } = usePoll(() => apiGet<IndexListResponse>("/market-data/indices/nse"), 30_000);
   const now = useIstClock();
-  const session = sessionState(now);
+  const session = now == null ? "CLOSED" : sessionState(now);
 
   const rows = (data?.indices ?? []).filter((r) => WATCH.includes(r.name) && r.last != null);
 
@@ -49,12 +49,14 @@ export function MarketStrip() {
             "rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide",
             session === "LIVE" && "bg-up-tint text-up",
             session === "PRE-OPEN" && "bg-warn-tint text-warn",
-            session === "CLOSED" && "bg-down-tint text-down",
+            (session === "CLOSED" || now == null) && "bg-down-tint text-down",
           )}
         >
-          {session}
+          {now == null ? "···" : session}
         </span>
-        <span className="tnum text-xs text-muted">{istClockLabel(now)} IST</span>
+        <span className="tnum text-xs text-muted" suppressHydrationWarning>
+          {now == null ? "--:--:--" : `${istClockLabel(now)} IST`}
+        </span>
       </div>
     </header>
   );

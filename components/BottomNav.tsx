@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, Briefcase, Home, LineChart, Table2 } from "lucide-react";
+import { Bell, Briefcase, Home, LayoutGrid, LineChart, Table2 } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const ITEMS = [
   { href: "/", label: "Today", icon: Home },
   { href: "/markets", label: "Markets", icon: Table2 },
   { href: "/fno", label: "F&O", icon: LineChart },
+  { href: "/browse", label: "Browse", icon: LayoutGrid },
   { href: "/mine", label: "Mine", icon: Briefcase },
   { href: "/alerts", label: "Alerts", icon: Bell },
 ];
@@ -21,7 +22,7 @@ export function BottomNav() {
       aria-label="Primary"
       className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 backdrop-blur md:hidden"
     >
-      <ul className="grid grid-cols-5">
+      <ul className="grid grid-cols-6">
         {ITEMS.map(({ href, label, icon: Icon }) => {
           const active = pathname === href || (href !== "/" && pathname.startsWith(href));
           return (

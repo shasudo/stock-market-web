@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 // Dark-first default; the inline script applies the stored (or OS) theme
 // before first paint so there is no flash.
 function themeScript(): string {
-  return `(function(){try{var t=localStorage.getItem("smw-theme");var d=t?t==="dark":!window.matchMedia("(prefers-color-scheme: light)").matches;document.documentElement.classList.toggle("dark",d)}catch(e){document.documentElement.classList.add("dark")}}})();`;
+  return `(function(){try{var t=localStorage.getItem("smw-theme");var d=t?t==="dark":!window.matchMedia("(prefers-color-scheme: light)").matches;document.documentElement.classList.toggle("dark",d)}catch(e){document.documentElement.classList.add("dark")}})();`;
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

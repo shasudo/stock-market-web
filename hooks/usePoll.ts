@@ -46,10 +46,15 @@ export function usePoll<T>(
   return { data, ageMs: at == null ? null : Math.max(0, now - at), stale, failed };
 }
 
-/** IST wall clock, ticking once a second for the market strip. */
-export function useIstClock(): Date {
-  const [now, setNow] = useState(() => new Date());
+/**
+ * IST wall clock, ticking once a second for the market strip.
+ * Starts null so server and client render the same placeholder —
+ * a live Date in useState would mismatch by seconds and break hydration.
+ */
+export function useIstClock(): Date | null {
+  const [now, setNow] = useState<Date | null>(null);
   useEffect(() => {
+    setNow(new Date());
     const timer = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
