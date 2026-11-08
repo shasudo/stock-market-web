@@ -1,0 +1,25 @@
+[Unit]
+Description=Stock Market Web (Next.js)
+After=network-online.target stock-market-api-network.service
+Wants=network-online.target
+Requires=stock-market-api-network.service
+
+[Container]
+Image=localhost/stock-market-web:latest
+ContainerName=stock-market-web
+Network=stock-market-api-net
+Environment=API_ORIGIN=http://stock-market-api:8080
+PublishPort=127.0.0.1:3000:3000
+HealthCmd=curl -fsS http://127.0.0.1:3000/ > /dev/null
+HealthInterval=30s
+HealthRetries=3
+HealthStartPeriod=90s
+HealthTimeout=10s
+HealthOnFailure=restart
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target
