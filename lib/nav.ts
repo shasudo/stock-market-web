@@ -96,7 +96,8 @@ export const NAV: NavGroup[] = [
       { code: "QUOTE", label: "Quote", href: "/stock/RELIANCE", blurb: "Price header and ranges", status: "live" },
       { code: "CHART", label: "Chart", href: "/chart/RELIANCE", blurb: "Candles and indicators", status: "live" },
       { code: "CHARTING", label: "Pattern screener", href: "/charting", blurb: "Chart and candle patterns", status: "live" },
-      { code: "SCREENER", label: "Screening table", href: "/screening-table", blurb: "Filterable live table", status: "live" },
+      { code: "INDIC", label: "Indicators", href: "/chart-indicators", blurb: "SMA and EMA overlays", status: "live" },
+      { code: "SCREENER", label: "Screening table", href: "/screeners/screening-table", blurb: "Filterable live table", status: "live" },
     ],
   },
   {
@@ -110,7 +111,11 @@ export const NAV: NavGroup[] = [
       { code: "NOTES", label: "Notes", href: "/notes", blurb: "Symbol-linked notes", status: "live" },
       { code: "EVENTS", label: "My events", href: "/events", blurb: "Personal market calendar", status: "live" },
       { code: "PORTM", label: "Plan", href: "/portfolio/management", blurb: "Capital, regime and splits", status: "live" },
-      { code: "STRAT", label: "Strategies", href: "/vgsreddy-strategies", blurb: "Strategies and backtests", status: "live" },
+      { code: "STRAT", label: "Strategies", href: "/screeners/vgsreddy-strategies", blurb: "Strategies and backtests", status: "live" },
+      { code: "BUILDER", label: "Builder", href: "/analysis/strategy-builder", blurb: "Define a strategy", status: "live" },
+      { code: "BACKTEST", label: "Back-tests", href: "/analysis/strategy-back-test", blurb: "Every run", status: "live" },
+      { code: "BTGROUP", label: "Runs by strategy", href: "/analysis/strategy-back-test-group", blurb: "Grouped runs", status: "live" },
+      { code: "REPORTS", label: "Reports", href: "/analysis/reports", blurb: "Counts per strategy", status: "live" },
     ],
   },
   {

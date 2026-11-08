@@ -49,7 +49,7 @@ function Trades({ trades }: { trades: BacktestTrade[] }) {
   );
 }
 
-function RunCard({ run }: { run: BacktestRun }) {
+export function RunCard({ run }: { run: BacktestRun }) {
   const [open, setOpen] = useState(false);
   const entries = Object.entries(run.summary ?? {});
   return (
@@ -232,26 +232,11 @@ function StrategyCard({ strategy, onDeleted }: { strategy: StrategyDef; onDelete
   );
 }
 
-/** Strategies + backtests board. Auth-gated. */
-export function StrategiesBoard({ title }: { title: string }) {
-  const { user, checked } = useSession();
-  const [strategies, setStrategies] = useState<StrategyDef[] | null>(null);
+/** Standalone strategy create form (reused by the builder page). */
+export function StrategyCreateForm({ onCreated }: { onCreated: () => void }) {
   const [error, setError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [form, setForm] = useState({ name: "", timeframe: "D", instrument: "NSE", tradingType: "swing", legs: DEFAULT_LEGS });
-
-  const load = useCallback(async () => {
-    try {
-      const res = await apiGet<{ strategies: StrategyDef[] }>("/strategies");
-      setStrategies(res.strategies);
-    } catch (err) {
-      setError(errText(err));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (user) void load();
-  }, [user, load]);
 
   async function create(e: React.FormEvent) {
     e.preventDefault();
@@ -272,7 +257,7 @@ export function StrategiesBoard({ title }: { title: string }) {
         legs,
       });
       setForm({ name: "", timeframe: "D", instrument: "NSE", tradingType: "swing", legs: DEFAULT_LEGS });
-      await load();
+      onCreated();
     } catch (err) {
       setError(errText(err));
     } finally {
@@ -281,8 +266,6 @@ export function StrategiesBoard({ title }: { title: string }) {
   }
 
   return (
-    <SessionGate checked={checked} user={user} title={title}>
-      <div className="space-y-4">
         <form onSubmit={create} className="space-y-2 rounded-xl border border-line bg-surface p-3">
           <p className="text-sm font-semibold">New strategy</p>
           <div className="grid gap-2 sm:grid-cols-4">
@@ -348,7 +331,33 @@ export function StrategiesBoard({ title }: { title: string }) {
             {creating ? "Saving…" : "Save strategy"}
           </button>
         </form>
+  );
+}
 
+/** Strategies + backtests board. Auth-gated. */
+export function StrategiesBoard({ title }: { title: string }) {
+  const { user, checked } = useSession();
+  const [strategies, setStrategies] = useState<StrategyDef[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    try {
+      const res = await apiGet<{ strategies: StrategyDef[] }>("/strategies");
+      setStrategies(res.strategies);
+    } catch (err) {
+      setError(errText(err));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user) void load();
+  }, [user, load]);
+
+  return (
+    <SessionGate checked={checked} user={user} title={title}>
+      <div className="space-y-4">
+        <StrategyCreateForm onCreated={() => void load()} />
+        {error ? <p className="text-xs text-down">{error}</p> : null}
         {strategies == null ? (
           <div className="space-y-2" aria-label="Loading strategies">
             {Array.from({ length: 3 }).map((_, i) => <div key={i} className="skeleton h-20 w-full rounded-xl" />)}

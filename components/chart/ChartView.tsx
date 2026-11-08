@@ -6,7 +6,7 @@ import { usePoll } from "@/hooks/usePoll";
 import { apiGet } from "@/lib/api";
 import { inr as fmtPrice, int as fmtNum, signedPct as fmtPctSigned } from "@/lib/format";
 import type { ChartResponse } from "@/lib/types";
-import { PriceChart } from "@/components/chart/PriceChart";
+import { OVERLAYS, PriceChart, type OverlayId } from "@/components/chart/PriceChart";
 import { DataStamp } from "@/components/numbers";
 import { StaleBadge } from "@/components/market/shared";
 
@@ -27,7 +27,7 @@ function tfLabel(tf: string): string {
 }
 
 /** Keyed body: remounts per timeframe so the poller fetcher stays fresh. */
-function ChartBody({ symbol, timeframe }: { symbol: string; timeframe: string }) {
+function ChartBody({ symbol, timeframe, overlays }: { symbol: string; timeframe: string; overlays: OverlayId[] }) {
   const { data, stale, failed } = usePoll(
     () => apiGet<ChartResponse>(
       `/market-data/chart?symbol=${encodeURIComponent(symbol)}&timeframe=${encodeURIComponent(timeframe)}`,
@@ -69,14 +69,14 @@ function ChartBody({ symbol, timeframe }: { symbol: string; timeframe: string })
             {data?.message ?? "No candles for this timeframe."}
           </p>
         ) : (
-          <PriceChart candles={data.candles} />
+          <PriceChart candles={data.candles} overlays={overlays} />
         )}
         <div className="mt-2 flex items-center justify-between">
           <span className="flex items-center gap-2">
             {stale ? <StaleBadge /> : null}
             <DataStamp label={data?.generatedAt} className="border-0 px-0 py-0" />
           </span>
-          <p className="text-[11px] text-faint">SMA 20/50 · volume</p>
+          <p className="text-[11px] text-faint">Volume · {overlays.length} overlay{overlays.length === 1 ? "" : "s"}</p>
         </div>
       </section>
 
@@ -101,8 +101,13 @@ function ChartBody({ symbol, timeframe }: { symbol: string; timeframe: string })
 }
 
 /** Full chart terminal for a symbol: timeframe rail + candles + quote. */
-export function ChartView({ symbol }: { symbol: string }) {
+export function ChartView({ symbol, defaultOverlays }: { symbol: string; defaultOverlays?: OverlayId[] }) {
   const [timeframe, setTimeframe] = useState<string>("D");
+  const [overlays, setOverlays] = useState<OverlayId[]>(defaultOverlays ?? ["sma20", "sma50"]);
+
+  function toggle(id: OverlayId) {
+    setOverlays((prev) => (prev.includes(id) ? prev.filter((o) => o !== id) : [...prev, id]));
+  }
 
   return (
     <div className="space-y-4">
@@ -127,7 +132,24 @@ export function ChartView({ symbol }: { symbol: string }) {
         </Link>
       </div>
 
-      <ChartBody key={timeframe} symbol={symbol} timeframe={timeframe} />
+      <div className="flex flex-wrap gap-1.5" role="group" aria-label="Overlays">
+        {OVERLAYS.map((o) => {
+          const on = overlays.includes(o.id);
+          return (
+            <button
+              key={o.id}
+              type="button"
+              aria-pressed={on}
+              onClick={() => toggle(o.id)}
+              className={`rounded-full border px-2.5 py-1 font-mono text-xs tabular-nums ${on ? "border-accent bg-accent-dim text-accent" : "border-line text-faint"}`}
+            >
+              {o.label}
+            </button>
+          );
+        })}
+      </div>
+
+      <ChartBody key={timeframe} symbol={symbol} timeframe={timeframe} overlays={overlays} />
     </div>
   );
 }

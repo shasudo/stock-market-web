@@ -38,8 +38,38 @@ function sma(values: Array<number | null>, period: number): Array<number | null>
   });
 }
 
-/** Candles + volume + SMA20/50. Theme-aware via design tokens. */
-export function PriceChart({ candles }: { candles: ChartCandle[] }) {
+function ema(values: Array<number | null>, period: number): Array<number | null> {
+  const k = 2 / (period + 1);
+  let prev: number | null = null;
+  let seed: number[] = [];
+  return values.map((v) => {
+    if (v == null) {
+      prev = null;
+      seed = [];
+      return null;
+    }
+    if (prev == null) {
+      seed.push(v);
+      if (seed.length < period) return null;
+      prev = seed.reduce((a, b) => a + b, 0) / seed.length;
+      return prev;
+    }
+    prev = v * k + prev * (1 - k);
+    return prev;
+  });
+}
+
+export type OverlayId = "sma20" | "sma50" | "ema12" | "ema26";
+
+export const OVERLAYS: Array<{ id: OverlayId; label: string; period: number; kind: "sma" | "ema"; colorVar: string; fallback: string }> = [
+  { id: "sma20", label: "SMA 20", period: 20, kind: "sma", colorVar: "--smp-accent", fallback: "#1f6feb" },
+  { id: "sma50", label: "SMA 50", period: 50, kind: "sma", colorVar: "--smp-faint", fallback: "#6e7681" },
+  { id: "ema12", label: "EMA 12", period: 12, kind: "ema", colorVar: "--smp-warn", fallback: "#d29922" },
+  { id: "ema26", label: "EMA 26", period: 26, kind: "ema", colorVar: "--smp-fg", fallback: "#e6edf3" },
+];
+
+/** Candles + volume + selectable SMA/EMA overlays. Theme-aware via design tokens. */
+export function PriceChart({ candles, overlays = ["sma20", "sma50"] }: { candles: ChartCandle[]; overlays?: OverlayId[] }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -49,7 +79,6 @@ export function PriceChart({ candles }: { candles: ChartCandle[] }) {
     const line = cssVar("--smp-line", "#21262d");
     const up = cssVar("--smp-up", "#3fb950");
     const down = cssVar("--smp-down", "#f85149");
-    const accent = cssVar("--smp-accent", "#1f6feb");
 
     const chart: IChartApi = createChart(el, {
       layout: { background: { type: ColorType.Solid, color: "transparent" }, textColor: faint },
@@ -87,17 +116,14 @@ export function PriceChart({ candles }: { candles: ChartCandle[] }) {
       })),
     );
 
-    const values20 = sma(closes, 20);
-    const values50 = sma(closes, 50);
-    for (const [values, color, showLast] of [
-      [values20, accent, true],
-      [values50, faint, false],
-    ] as const) {
+    for (const def of OVERLAYS) {
+      if (!overlays.includes(def.id)) continue;
+      const values = def.kind === "sma" ? sma(closes, def.period) : ema(closes, def.period);
       const lineSeries = chart.addSeries(LineSeries, {
-        color,
+        color: cssVar(def.colorVar, def.fallback),
         lineWidth: 1,
         priceLineVisible: false,
-        lastValueVisible: showLast,
+        lastValueVisible: true,
         crosshairMarkerVisible: false,
       });
       lineSeries.setData(
@@ -115,7 +141,7 @@ export function PriceChart({ candles }: { candles: ChartCandle[] }) {
       ro.disconnect();
       chart.remove();
     };
-  }, [candles]);
+  }, [candles, overlays]);
 
   if (candles.length === 0) return null;
   return <div ref={ref} className="h-[420px] w-full" aria-label="Price chart" />;
