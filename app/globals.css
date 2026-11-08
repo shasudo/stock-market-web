@@ -1,1 +1,188 @@
 @import "tailwindcss";
+
+@theme inline {
+  --color-bg: var(--smp-bg);
+  --color-surface: var(--smp-surface);
+  --color-raised: var(--smp-raised);
+  --color-fg: var(--smp-fg);
+  --color-muted: var(--smp-muted);
+  --color-faint: var(--smp-faint);
+  --color-line: var(--smp-line);
+  --color-accent: var(--smp-accent);
+  --color-accent-fg: var(--smp-accent-fg);
+  --color-up: var(--smp-up);
+  --color-up-tint: var(--smp-up-tint);
+  --color-down: var(--smp-down);
+  --color-down-tint: var(--smp-down-tint);
+  --color-warn: var(--smp-warn);
+  --color-warn-tint: var(--smp-warn-tint);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-num: "JetBrains Mono", "IBM Plex Mono", "SF Mono", SFMono-Regular, Menlo,
+    Consolas, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  --animate-tick-up: tick-up 0.4s ease-out;
+  --animate-tick-down: tick-down 0.4s ease-out;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-marquee: marquee 40s linear infinite;
+}
+
+/* Light: quiet Apple-like canvas. Dark (default): full-time terminal. */
+:root {
+  --smp-bg: #f5f5f7;
+  --smp-surface: #ffffff;
+  --smp-raised: #ffffff;
+  --smp-fg: #1d1d1f;
+  --smp-muted: #6e6e73;
+  --smp-faint: #aeaeb2;
+  --smp-line: #e5e5ea;
+  --smp-accent: #2563eb;
+  --smp-accent-fg: #ffffff;
+  --smp-up: #16a34a;
+  --smp-up-tint: rgba(22, 163, 74, 0.1);
+  --smp-down: #dc2626;
+  --smp-down-tint: rgba(220, 38, 38, 0.08);
+  --smp-warn: #b45309;
+  --smp-warn-tint: rgba(180, 83, 9, 0.1);
+  color-scheme: light;
+}
+
+.dark {
+  --smp-bg: #0a0a0b;
+  --smp-surface: #141416;
+  --smp-raised: #1c1c1f;
+  --smp-fg: #ededed;
+  --smp-muted: #a1a1aa;
+  --smp-faint: #63636b;
+  --smp-line: rgba(255, 255, 255, 0.08);
+  --smp-accent: #38bdf8;
+  --smp-accent-fg: #06202b;
+  --smp-up: #3fb950;
+  --smp-up-tint: rgba(63, 185, 80, 0.14);
+  --smp-down: #f85149;
+  --smp-down-tint: rgba(248, 81, 73, 0.13);
+  --smp-warn: #fbbf24;
+  --smp-warn-tint: rgba(251, 191, 36, 0.12);
+  color-scheme: dark;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--smp-bg);
+  color: var(--smp-fg);
+  font-family: var(--font-sans);
+  letter-spacing: -0.015em;
+}
+
+/* Every numeral in the product. Mono + tabular so columns align and live
+   ticks never jitter. Minimum 500 weight on dark (thin strokes drown). */
+.tnum {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.dark .tnum {
+  font-weight: 500;
+}
+.tnum-strong {
+  font-weight: 700;
+}
+
+/* Thin scrollbars that stay out of the way on dense tables. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(128, 128, 128, 0.35) transparent;
+}
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.35);
+  border-radius: 9999px;
+}
+
+@keyframes tick-up {
+  0% {
+    background-color: var(--smp-up-tint);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes tick-down {
+  0% {
+    background-color: var(--smp-down-tint);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  60%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-33.333%);
+  }
+}
+
+/* One skeleton look: layout-faithful blocks with a sweeping sheen. */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--smp-line);
+  opacity: 0.55;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    45deg,
+    transparent 20%,
+    rgba(128, 128, 128, 0.25) 50%,
+    transparent 80%
+  );
+  animation: var(--animate-shimmer);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .marquee-track {
+    animation: none !important;
+  }
+}
