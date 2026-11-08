@@ -17,7 +17,6 @@ ENV NODE_ENV=production PORT=3000
 RUN apk add --no-cache curl
 COPY --from=build /app/package.json /app/package-lock.json ./
 COPY --from=build /app/next.config.ts ./
-COPY --from=build /app/public ./public
 COPY --from=build /app/.next ./.next
 RUN npm ci --omit=dev
 
