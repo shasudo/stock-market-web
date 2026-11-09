@@ -1,3 +1,4 @@
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 /** Relocated from the retired server module of the same domain.
  *  The shape is unchanged; Java serves it now, this file only types it. */
 export interface FnoUnderlying {
@@ -53,7 +54,7 @@ export async function fetchFnoUnderlyings(
     headers: { Accept: "application/json" },
     signal,
   });
-  const body: unknown = await response.json().catch(() => undefined);
+  const body: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
 
   if (!response.ok) {
     throw new FnoClientError(getErrorMessage(body));
@@ -79,7 +80,7 @@ export async function fetchOptionChain(
     headers: { Accept: "application/json" },
     signal,
   });
-  const body: unknown = await response.json().catch(() => undefined);
+  const body: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
 
   if (!response.ok) {
     throw new FnoClientError(getErrorMessage(body));
@@ -101,7 +102,7 @@ export async function fetchNearMonthFuture(
     headers: { Accept: "application/json" },
     signal,
   });
-  const body: unknown = await response.json().catch(() => undefined);
+  const body: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
 
   if (!response.ok) {
     throw new FnoClientError(getErrorMessage(body));

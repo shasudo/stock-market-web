@@ -92,6 +92,7 @@ import {
   type DailyCandlePatternId,
 } from "@/lib/market/candle-patterns";
 
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 type SourceTab =
   | "screening"
   | "watchlist"
@@ -2467,7 +2468,7 @@ export default function VgsReddyStrategiesPage() {
           { credentials: "same-origin", signal: controller.signal },
         );
         if (!response.ok) return;
-        const data: unknown = await response.json();
+        const data: unknown = unwrapApiEnvelope(await response.json());
         if (isMarketFilterOptions(data)) {
           setLiveFilterOptions(data);
         }
@@ -2603,7 +2604,7 @@ export default function VgsReddyStrategiesPage() {
           return;
         }
 
-        const data: unknown = await response.json();
+        const data: unknown = unwrapApiEnvelope(await response.json());
         if (!isMarketLiveResponse(data)) {
           throw new Error(INVALID_MARKET_RESPONSE_MESSAGE);
         }
@@ -2852,7 +2853,7 @@ export default function VgsReddyStrategiesPage() {
           signal: controller.signal,
         });
         if (!response.ok) return;
-        const data: unknown = await response.json();
+        const data: unknown = unwrapApiEnvelope(await response.json());
         if (!isMarketLiveResponse(data)) return;
         if (requestId !== curatedRequestIdRef.current) return;
         mergeLiveData(data.stocks);
@@ -3098,7 +3099,7 @@ export default function VgsReddyStrategiesPage() {
             setSymbolLookup({ status: "not-found" });
             return;
           }
-          const data: unknown = await response.json();
+          const data: unknown = unwrapApiEnvelope(await response.json());
           if (!isMarketLiveResponse(data)) {
             setSymbolLookup({ status: "not-found" });
             return;

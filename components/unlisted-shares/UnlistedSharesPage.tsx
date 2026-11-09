@@ -10,6 +10,7 @@ import type { IpoBoardResponse } from "@/lib/ipo/service";
 import type { UnlistedDetail, UnlistedSummary } from "@/lib/unlisted/types";
 import { nextSort, sortRows, type SortState } from "@/lib/super-investors/sorting";
 
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 const REFRESH_MS = 5 * 60_000;
 const TH = "whitespace-nowrap px-3 py-2.5 text-[11px] font-bold uppercase tracking-wider text-muted-foreground";
 const TD = "whitespace-nowrap px-3 py-2.5 text-xs tabular-nums";
@@ -198,10 +199,10 @@ export default function UnlistedSharesPage() {
       setLoading(true);
       const [priceResult, boardResult] = await Promise.allSettled([
         fetch("/api/market-data/unlisted-shares", { cache: "no-store", signal: controller.signal }).then((response) =>
-          response.ok ? (response.json() as Promise<UnlistedListResponse>) : Promise.reject(new Error(String(response.status))),
+          response.ok ? (response.json().then((body: unknown) => unwrapApiEnvelope(body)) as Promise<UnlistedListResponse>) : Promise.reject(new Error(String(response.status))),
         ),
         fetch("/api/market-data/ipo", { cache: "no-store", signal: controller.signal }).then((response) =>
-          response.ok ? (response.json() as Promise<IpoBoardResponse>) : Promise.reject(new Error(String(response.status))),
+          response.ok ? (response.json().then((body: unknown) => unwrapApiEnvelope(body)) as Promise<IpoBoardResponse>) : Promise.reject(new Error(String(response.status))),
         ),
       ]);
       if (!active) return;

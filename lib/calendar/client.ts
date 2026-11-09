@@ -1,5 +1,7 @@
 "use client";
 
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
+
 import type { EarningsResponse } from "@/lib/calendar/calendar";
 import type { IpoCalendarResponse } from "@/lib/calendar/ipo";
 import type { EconomicCalendarResponse } from "@/lib/calendar/economic";
@@ -27,7 +29,7 @@ export async function fetchEarnings(
       signal,
     },
   );
-  const body: unknown = await response.json().catch(() => undefined);
+  const body: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
   if (!response.ok) {
     throw new EarningsClientError(getErrorMessage(body));
   }
@@ -86,7 +88,7 @@ export async function fetchIpoCalendar(
     headers: { Accept: "application/json" },
     signal,
   });
-  const body: unknown = await response.json().catch(() => undefined);
+  const body: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
   if (!response.ok) {
     throw new IpoCalendarClientError(IPO_CALENDAR_UNAVAILABLE_MESSAGE);
   }
@@ -130,7 +132,7 @@ export async function fetchEconomicCalendar(
       signal,
     },
   );
-  const body: unknown = await response.json().catch(() => undefined);
+  const body: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
   if (!response.ok) {
     throw new EconomicCalendarClientError(
       ECONOMIC_CALENDAR_UNAVAILABLE_MESSAGE,

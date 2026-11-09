@@ -1,3 +1,4 @@
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 import type { MonthlyHeatmap } from "./monthly-heatmap";
 
 export const MONTHLY_HEATMAP_UNAVAILABLE_MESSAGE =
@@ -19,7 +20,7 @@ export async function fetchMonthlyHeatmap(
     headers: { Accept: "application/json" },
     signal,
   });
-  const body: unknown = await response.json().catch(() => undefined);
+  const body: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
 
   if (!response.ok) {
     const message =

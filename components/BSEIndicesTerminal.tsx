@@ -9,6 +9,7 @@ import type { BseIndexRow, BseIndicesResponse } from "@/lib/indices/bse";
 import { BSE_KEY_INDICES } from "@/lib/indices/bse";
 import { nextSort, sortRows, type SortState } from "@/lib/super-investors/sorting";
 
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 const REFRESH_MS = 30_000;
 const PENDING_REFRESH_MS = 15_000;
 
@@ -131,7 +132,7 @@ export default function BSEIndicesTerminal() {
   useEffect(() => {
     const controller = new AbortController();
     fetch("/api/market-data/indices/bse", { cache: "no-store", signal: controller.signal })
-      .then((response) => (response.ok ? (response.json() as Promise<BseIndicesResponse>) : Promise.reject(new Error(String(response.status)))))
+      .then((response) => (response.ok ? (response.json().then((body: unknown) => unwrapApiEnvelope(body)) as Promise<BseIndicesResponse>) : Promise.reject(new Error(String(response.status)))))
       .then((body) => {
         setData(body);
         setError(false);

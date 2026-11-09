@@ -9,6 +9,7 @@ import type { ConstituentRow, IndexDetailResponse, IndexListResponse } from "@/l
 import type { TechnicalRating } from "@/lib/global-markets/compute";
 import { nextSort, sortRows, type SortState } from "@/lib/super-investors/sorting";
 
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 const LIST_REFRESH_MS = 30_000;
 const DETAIL_REFRESH_MS = 30_000;
 const DEFAULT_INDEX = "NIFTY 50";
@@ -260,7 +261,7 @@ export default function NSEIndicesTerminal() {
   useEffect(() => {
     const controller = new AbortController();
     fetch("/api/market-data/indices/nse", { cache: "no-store", signal: controller.signal })
-      .then((response) => (response.ok ? (response.json() as Promise<IndexListResponse>) : Promise.reject(new Error(String(response.status)))))
+      .then((response) => (response.ok ? (response.json().then((body: unknown) => unwrapApiEnvelope(body)) as Promise<IndexListResponse>) : Promise.reject(new Error(String(response.status)))))
       .then((body) => {
         setList(body);
         setListError(false);
@@ -278,7 +279,7 @@ export default function NSEIndicesTerminal() {
   useEffect(() => {
     const controller = new AbortController();
     fetch(`/api/market-data/indices/nse/${encodeURIComponent(selected)}`, { cache: "no-store", signal: controller.signal })
-      .then((response) => (response.ok ? (response.json() as Promise<IndexDetailResponse>) : Promise.reject(new Error(String(response.status)))))
+      .then((response) => (response.ok ? (response.json().then((body: unknown) => unwrapApiEnvelope(body)) as Promise<IndexDetailResponse>) : Promise.reject(new Error(String(response.status)))))
       .then((body) => {
         setDetail(body);
         setDetailFor(selected);

@@ -1,3 +1,4 @@
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 /** Relocated from the retired server module of the same domain.
  *  The shape is unchanged; Java serves it now, this file only types it. */
 export interface ChartDataDTO {
@@ -47,7 +48,7 @@ export async function fetchChartData(
     headers: { Accept: "application/json" },
     signal,
   });
-  const body: unknown = await response.json().catch(() => undefined);
+  const body: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
 
   if (!response.ok) {
     const message =

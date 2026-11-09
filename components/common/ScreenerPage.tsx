@@ -13,6 +13,7 @@ import {
 import type { TopGainerLoserStock } from "@/lib/mockData";
 import apiClient from "@/lib/api-client";
 
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 const MARKET_PAGE_SIZE = 500;
 const PAGE_REQUEST_CONCURRENCY = 3;
 const MAX_MARKET_DATA_PAGES = 20;
@@ -291,11 +292,12 @@ function getMarketDataErrorMessage(error: unknown): string {
 
 async function fetchMarketPage(url: string): Promise<MarketPageResponse> {
   const response = await apiClient.get<unknown>(url);
-  if (!isMarketPageResponse(response.data)) {
+  const data: unknown = unwrapApiEnvelope(response.data);
+  if (!isMarketPageResponse(data)) {
     throw new MarketDataResponseError();
   }
 
-  return response.data;
+  return data;
 }
 
 async function fetchAllMoverStocks(

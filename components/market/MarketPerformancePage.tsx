@@ -92,6 +92,7 @@ import {
   matchesTechnicalFilter,
 } from "@/lib/market/technical-filter";
 
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 type TimePeriod =
   "today" | "intraday" | "days" | "weeks" | "months" | "years" | "customize";
 type SubTab = "custom" | "seasonality" | "ytd" | "52weeks" | "all_time";
@@ -2063,7 +2064,7 @@ function MarketPageContent({
           `/api/market/filters?exchange=${selectedExchange}`,
           { credentials: "same-origin", signal: controller.signal },
         );
-        const payload: unknown = await response.json();
+        const payload: unknown = unwrapApiEnvelope(await response.json());
         if (!response.ok || !isMarketFilterOptions(payload)) {
           throw new Error(INVALID_MARKET_RESPONSE_MESSAGE);
         }
@@ -2216,7 +2217,7 @@ function MarketPageContent({
         });
 
         if (!response.ok) {
-          const payload: unknown = await response.json().catch(() => undefined);
+          const payload: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
           if (requestId === marketRequestIdRef.current) {
             setError(
               getMarketApiErrorMessage(
@@ -2228,7 +2229,7 @@ function MarketPageContent({
           return;
         }
 
-        const data: unknown = await response.json();
+        const data: unknown = unwrapApiEnvelope(await response.json());
         if (!isMarketLiveResponse(data)) {
           throw new Error(INVALID_MARKET_RESPONSE_MESSAGE);
         }
@@ -2607,7 +2608,7 @@ function MarketPageContent({
             instruments,
           }),
         });
-        const payload: unknown = await response.json().catch(() => undefined);
+        const payload: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
         if (!response.ok || !isMarketColumnValuesResponse(payload)) {
           throw new Error(
             getMarketApiErrorMessage(

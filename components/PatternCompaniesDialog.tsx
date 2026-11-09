@@ -15,6 +15,7 @@ import {
   type PatternCompanyMatch,
 } from "@/lib/market/client-contract";
 
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 interface PatternCompaniesDialogProps {
   readonly groupId: string;
   readonly itemId: string;
@@ -73,7 +74,7 @@ export default function PatternCompaniesDialog({
             exchange,
           }),
         });
-        const payload: unknown = await response.json().catch(() => undefined);
+        const payload: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
         if (!response.ok || !isPatternCompaniesResponse(payload)) {
           throw new Error(
             getMarketApiErrorMessage(

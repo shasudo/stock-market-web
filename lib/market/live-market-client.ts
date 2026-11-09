@@ -1,3 +1,4 @@
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 import {
   getMarketApiErrorMessage,
   INVALID_MARKET_RESPONSE_MESSAGE,
@@ -172,7 +173,7 @@ function createLiveMarketUrl(request: LiveMarketRequest): string {
 
 async function readResponseBody(response: Response): Promise<unknown> {
   try {
-    return await response.json();
+    return unwrapApiEnvelope(await response.json());
   } catch {
     throw new LiveMarketClientError(
       response.ok

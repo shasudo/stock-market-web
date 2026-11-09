@@ -9,6 +9,7 @@ import type { ActiveOption, Buildup, ExpirySeries, FutureRow, OptionChainRow, Op
 import type { FnoSnapshotResponse, OptionChainResponse } from "@/lib/fno-snapshot/service";
 import { FNO_FAQ, FNO_GLOSSARY } from "@/lib/fno-snapshot/glossary";
 
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 const SNAPSHOT_REFRESH_MS = 30_000;
 const CHAIN_REFRESH_MS = 30_000;
 const GLOBAL_REFRESH_MS = 60_000;
@@ -204,7 +205,7 @@ function useSnapshot() {
       setLoading(true);
       try {
         const response = await fetch("/api/market-data/fno/snapshot", { cache: "no-store", signal: controller.signal });
-        const body = (await response.json()) as FnoSnapshotResponse & { message?: string };
+        const body = (unwrapApiEnvelope(await response.json()) as FnoSnapshotResponse & { message?: string });
         if (!response.ok || !Array.isArray(body.futures)) throw new Error(body.message ?? "F&O data is unavailable right now.");
         setData(body);
         setError(null);
@@ -240,7 +241,7 @@ function useOptionChain(symbol: string, expiry: string | null) {
         const params = new URLSearchParams({ symbol });
         if (expiry) params.set("expiry", expiry);
         const response = await fetch(`/api/market-data/fno/snapshot/chain?${params}`, { cache: "no-store", signal: controller.signal });
-        const body = (await response.json()) as OptionChainResponse & { message?: string };
+        const body = (unwrapApiEnvelope(await response.json()) as OptionChainResponse & { message?: string });
         if (!response.ok || !Array.isArray(body.rows)) throw new Error(body.message ?? "Option chain unavailable.");
         setChain(body);
         setError(null);
@@ -1212,7 +1213,7 @@ function GlobalIndicesCard() {
       try {
         const response = await fetch("/api/market-data/global-markets", { cache: "no-store", signal: controller.signal });
         if (!response.ok) throw new Error();
-        const body = (await response.json()) as { sections?: { id: string; groups: { label: string; rows: GlobalRow[] }[] }[] };
+        const body = (unwrapApiEnvelope(await response.json()) as { sections?: { id: string; groups: { label: string; rows: GlobalRow[] }[] }[] });
         const section = body.sections?.find((item) => item.id === "indices");
         setGroups(section?.groups ?? []);
         setFailed(false);

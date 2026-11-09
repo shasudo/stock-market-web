@@ -28,6 +28,7 @@ import {
 } from "@/lib/market-data/historical-data-client";
 import { isMarketLiveResponse } from "@/lib/market/client-contract";
 
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 // Same exchange scopes the VGS Reddy screener offers -- the four
 // "<Exchange> <Segment>" entries are one-click shortcuts there, kept so the
 // two lists read the same.
@@ -717,7 +718,7 @@ export default function HistoricalDataPage() {
             }).toString()}`,
             { cache: "no-store", signal: controller.signal },
           );
-          const body: unknown = await response.json().catch(() => undefined);
+          const body: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
           if (suggestControllerRef.current !== controller) return;
           setSuggestions(
             response.ok && isMarketLiveResponse(body)

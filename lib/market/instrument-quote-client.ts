@@ -1,3 +1,4 @@
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 /** Relocated from the retired server module of the same domain.
  *  The shape is unchanged; Java serves it now, this file only types it. */
 export interface InstrumentQuoteDTO {
@@ -71,7 +72,7 @@ export async function fetchIndexQuoteSnapshot(
     headers: { Accept: "application/json" },
     signal,
   });
-  const body: unknown = await response.json().catch(() => undefined);
+  const body: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
 
   if (!response.ok) {
     throw new IndexQuoteClientError(
@@ -103,7 +104,7 @@ export async function fetchEtfQuoteSnapshot(
     headers: { Accept: "application/json" },
     signal,
   });
-  const body: unknown = await response.json().catch(() => undefined);
+  const body: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
 
   if (!response.ok) {
     throw new IndexQuoteClientError(getErrorMessage(body, ETF_QUOTES_UNAVAILABLE_MESSAGE));
@@ -132,7 +133,7 @@ export async function fetchTickerQuoteSnapshot(
     headers: { Accept: "application/json" },
     signal,
   });
-  const body: unknown = await response.json().catch(() => undefined);
+  const body: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
 
   if (!response.ok) {
     throw new IndexQuoteClientError(

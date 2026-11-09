@@ -42,6 +42,7 @@ import {
   type IndexCategory,
 } from "@/lib/market-data/index-categories";
 
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 const REFRESH_INTERVAL_MS = 30_000;
 
 function toIndexData(quote: IndexQuoteDTO): IndexData {
@@ -211,7 +212,7 @@ async function fetchTechnicalValues(
     }),
     signal,
   });
-  const body: unknown = await response.json().catch(() => undefined);
+  const body: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
   if (!response.ok) {
     const message =
       typeof body === "object" &&

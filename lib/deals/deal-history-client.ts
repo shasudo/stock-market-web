@@ -1,5 +1,7 @@
 "use client";
 
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
+
 /** Relocated from the retired server module of the same domain.
  *  The shape is unchanged; Java serves it now, this file only types it. */
 export type DealHistoryType = "bulk" | "block" | "all";
@@ -73,7 +75,7 @@ export async function fetchDealHistory(
       signal,
     },
   );
-  const body: unknown = await response.json().catch(() => undefined);
+  const body: unknown = unwrapApiEnvelope(await response.json().catch(() => undefined));
   if (!response.ok) {
     throw new DealHistoryClientError(getErrorMessage(body));
   }
