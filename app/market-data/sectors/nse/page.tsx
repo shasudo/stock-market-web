@@ -1,10 +1,17 @@
-import { Suspense } from "react";
-import { SectorView } from "@/components/market/SectorView";
+"use client";
 
-export default function Page() {
+import { PieChart } from "lucide-react";
+import RealIndexTable from "@/components/market-data/RealIndexTable";
+
+export default function NSESectorsPage() {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-7xl p-4 text-sm text-muted">Loading…</div>}>
-      <SectorView by="sector" title="NSE sectors" blurb="NSE sector performance, aggregated from the live table." />
-    </Suspense>
+    <RealIndexTable
+      exchange="NSE"
+      title="NSE Sectors"
+      description="Sector-wise Performance on National Stock Exchange"
+      icon={PieChart}
+      iconWrapperClassName="bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/30"
+      iconClassName="text-purple-400"
+    />
   );
 }

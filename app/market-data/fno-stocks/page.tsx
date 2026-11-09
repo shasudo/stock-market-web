@@ -1,10 +1,12 @@
-import { Suspense } from "react";
-import { FnoStocksView } from "@/components/market/FnoStocksView";
+"use client";
 
-export default function Page() {
+import { AuthGuard } from "@/components/common";
+import MarketDataTabbedView from "@/components/MarketDataTabbedView";
+
+export default function FNOStocksPage() {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-7xl p-4 text-sm text-muted">Loading…</div>}>
-      <FnoStocksView />
-    </Suspense>
+    <AuthGuard>
+      <MarketDataTabbedView initialTab="fnoStocks" />
+    </AuthGuard>
   );
 }

@@ -1,7 +1,6 @@
-# Production image for stock-market-web (Next.js, `next start`).
+# Production image for stock-market-web (Next.js standalone server).
 # Loopback-bound like the API: Caddy terminates TLS and reverse-proxies.
-# API_ORIGIN must resolve from inside this container (same podman network
-# as the API container, reached by its container name).
+# API_ORIGIN is baked at build time (server-side rewrites to Java).
 FROM docker.io/library/node:22-alpine AS build
 
 WORKDIR /app

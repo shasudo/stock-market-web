@@ -1,10 +1,13 @@
-import { Suspense } from "react";
-import { EventsBoard } from "@/components/mine/JournalBoards";
+import EconomicCalendar from "@/components/calendar/EconomicCalendar";
 
-export default function Page() {
+export default function CalendarPage() {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-4xl p-4 text-sm text-muted">Loading…</div>}>
-      <EventsBoard title="Calendar" />
-    </Suspense>
+    <div className="min-h-screen bg-background py-6">
+      <div className="w-full px-4 lg:px-8">
+        <div className="rounded-2xl border border-border/90 bg-card shadow-xs p-6">
+          <EconomicCalendar />
+        </div>
+      </div>
+    </div>
   );
 }

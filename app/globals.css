@@ -1,188 +1,424 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-bg: var(--smp-bg);
-  --color-surface: var(--smp-surface);
-  --color-raised: var(--smp-raised);
-  --color-fg: var(--smp-fg);
-  --color-muted: var(--smp-muted);
-  --color-faint: var(--smp-faint);
-  --color-line: var(--smp-line);
-  --color-accent: var(--smp-accent);
-  --color-accent-fg: var(--smp-accent-fg);
-  --color-up: var(--smp-up);
-  --color-up-tint: var(--smp-up-tint);
-  --color-down: var(--smp-down);
-  --color-down-tint: var(--smp-down-tint);
-  --color-warn: var(--smp-warn);
-  --color-warn-tint: var(--smp-warn-tint);
+@custom-variant dark (&:where(.dark, .dark *));
 
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
-    "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --font-num: "JetBrains Mono", "IBM Plex Mono", "SF Mono", SFMono-Regular, Menlo,
-    Consolas, monospace;
-
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-
-  --animate-tick-up: tick-up 0.4s ease-out;
-  --animate-tick-down: tick-down 0.4s ease-out;
-  --animate-shimmer: shimmer 1.6s linear infinite;
-  --animate-marquee: marquee 40s linear infinite;
-}
-
-/* Light: quiet Apple-like canvas. Dark (default): full-time terminal. */
 :root {
-  --smp-bg: #f5f5f7;
-  --smp-surface: #ffffff;
-  --smp-raised: #ffffff;
-  --smp-fg: #1d1d1f;
-  --smp-muted: #6e6e73;
-  --smp-faint: #aeaeb2;
-  --smp-line: #e5e5ea;
-  --smp-accent: #2563eb;
-  --smp-accent-fg: #ffffff;
-  --smp-up: #16a34a;
-  --smp-up-tint: rgba(22, 163, 74, 0.1);
-  --smp-down: #dc2626;
-  --smp-down-tint: rgba(220, 38, 38, 0.08);
-  --smp-warn: #b45309;
-  --smp-warn-tint: rgba(180, 83, 9, 0.1);
   color-scheme: light;
+  /* Apple Human Interface System Tokens (macOS Sequoia / iOS 18 Light) */
+  --background: 240 5% 96.5%; /* #F5F5F7 Apple canvas */
+  --foreground: 240 6% 10%;   /* #1D1D1F Apple primary text */
+  --card: 0 0% 100%;          /* #FFFFFF Pure glass card fill */
+  --card-foreground: 240 6% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 6% 10%;
+  
+  /* Apple System Colors */
+  --primary: 211 100% 50%;    /* #007AFF Apple System Blue */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 5% 92%;    /* #E5E5EA System Fill */
+  --secondary-foreground: 240 6% 10%;
+  --muted: 240 5% 92%;
+  --muted-foreground: 240 4% 46%; /* #737373 Subheadline */
+  --accent: 211 100% 96%;
+  --accent-foreground: 211 100% 45%;
+  --destructive: 354 100% 59%; /* #FF3B30 Apple Red */
+  --destructive-foreground: 0 0% 100%;
+  --border: 240 6% 90%;       /* Subtle hairline divider */
+  --input: 240 6% 90%;
+  --ring: 211 100% 50%;
+  --radius: 1rem;             /* 16px Apple smooth corner */
+  
+  --success: 142 69% 49%;     /* #34C759 Apple System Green */
+  --error: 354 100% 59%;       /* #FF3B30 Apple System Red */
+  --warning: 35 100% 50%;      /* #FF9500 Apple System Orange */
+  --info: 198 93% 60%;        /* #5AC8FA Apple System Teal */
+  --purple: 280 67% 60%;      /* #AF52DE Apple System Purple */
+  --indigo: 242 56% 59%;      /* #5856D6 Apple System Indigo */
+
+  /* Apple macOS Finder / Stocks Table Tokens */
+  --apple-table-bg: 0 0% 100%;
+  --apple-row-even: 0 0% 100%;
+  --apple-row-odd: 240 5% 98.2%;
+  --apple-row-hover: 211 100% 97%;
+  --apple-header-bg: 240 5% 97.5%;
+  --apple-border: 240 6% 91%;
 }
 
+/* Class-based dark mode: zinc-950 base (#09090b), zinc-900 elevated
+   surfaces (#18181b), white/10 hairlines, indigo-400 accents.
+   Market semantics stay emerald/rose, brightened for dark contrast. */
 .dark {
-  --smp-bg: #0a0a0b;
-  --smp-surface: #141416;
-  --smp-raised: #1c1c1f;
-  --smp-fg: #ededed;
-  --smp-muted: #a1a1aa;
-  --smp-faint: #63636b;
-  --smp-line: rgba(255, 255, 255, 0.08);
-  --smp-accent: #38bdf8;
-  --smp-accent-fg: #06202b;
-  --smp-up: #3fb950;
-  --smp-up-tint: rgba(63, 185, 80, 0.14);
-  --smp-down: #f85149;
-  --smp-down-tint: rgba(248, 81, 73, 0.13);
-  --smp-warn: #fbbf24;
-  --smp-warn-tint: rgba(251, 191, 36, 0.12);
   color-scheme: dark;
+
+  --background: 240 10% 3.9%;   /* #09090b */
+  --foreground: 0 0% 98%;       /* #FAFAFA */
+  --card: 240 6% 10%;           /* #18181B zinc-900 elevated */
+  --card-foreground: 0 0% 98%;
+  --popover: 240 6% 10%;
+  --popover-foreground: 0 0% 98%;
+
+  --primary: 234 89% 74%;       /* indigo-400 #818CF8 */
+  --primary-foreground: 240 10% 3.9%;
+  --secondary: 240 4% 16%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 4% 16%;
+  --muted-foreground: 240 5% 65%;
+  --accent: 240 4% 16%;
+  --accent-foreground: 234 89% 80%;
+  --destructive: 351 95% 71%;   /* rose-400 #FB7185 */
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5% 16%;         /* white/10 over zinc-950 */
+  --input: 240 4% 18%;
+  --ring: 234 89% 74%;
+
+  --success: 160 84% 55%;       /* emerald-400 #34D399 */
+  --error: 351 95% 71%;         /* rose-400 #FB7185 */
+  --warning: 36 100% 62%;
+  --info: 199 89% 65%;
+  --purple: 280 70% 72%;
+  --indigo: 234 89% 74%;
+
+  --apple-table-bg: 240 6% 10%;
+  --apple-row-even: 240 6% 10%;
+  --apple-row-odd: 240 6% 6%;
+  --apple-row-hover: 234 89% 74%;
+  --apple-header-bg: 240 5% 8%;
+  --apple-border: 240 4% 16%;
 }
 
-html {
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-success: hsl(var(--success));
+  --color-error: hsl(var(--error));
+  --color-warning: hsl(var(--warning));
+  --color-info: hsl(var(--info));
+  --color-purple: hsl(var(--purple));
+  --color-indigo: hsl(var(--indigo));
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.5rem;
+  --radius-xl: var(--radius);
+  --radius-lg: calc(var(--radius) - 0.25rem);
+  --radius-md: calc(var(--radius) - 0.5rem);
+  --radius-sm: calc(var(--radius) - 0.65rem);
+}
+
+* {
+  border-color: hsl(var(--border));
 }
 
 body {
-  background: var(--smp-bg);
-  color: var(--smp-fg);
-  font-family: var(--font-sans);
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "SF Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
   letter-spacing: -0.015em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
-/* Every numeral in the product. Mono + tabular so columns align and live
-   ticks never jitter. Minimum 500 weight on dark (thin strokes drown). */
-.tnum {
-  font-family: var(--font-num);
-  font-variant-numeric: tabular-nums lining-nums;
-  font-weight: 500;
-  letter-spacing: 0;
-}
-.dark .tnum {
-  font-weight: 500;
-}
-.tnum-strong {
-  font-weight: 700;
+::selection {
+  background-color: rgba(0, 122, 255, 0.18);
+  color: #007aff;
 }
 
-/* Thin scrollbars that stay out of the way on dense tables. */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(128, 128, 128, 0.35) transparent;
-}
-*::-webkit-scrollbar {
+/* Apple Fluid Scrollbars */
+::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
-*::-webkit-scrollbar-track {
+
+::-webkit-scrollbar-track {
   background: transparent;
 }
-*::-webkit-scrollbar-thumb {
-  background: rgba(128, 128, 128, 0.35);
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.16);
   border-radius: 9999px;
 }
 
-@keyframes tick-up {
-  0% {
-    background-color: var(--smp-up-tint);
-  }
-  100% {
-    background-color: transparent;
-  }
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.32);
 }
 
-@keyframes tick-down {
-  0% {
-    background-color: var(--smp-down-tint);
-  }
-  100% {
-    background-color: transparent;
-  }
+/* Apple Glassmorphic & Materials Utility Classes */
+.apple-glass {
+  background-color: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
 }
 
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  60%,
-  100% {
-    transform: translateX(100%);
-  }
+.apple-glass-card {
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.03), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
 }
 
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-33.333%);
-  }
+.apple-card-hover {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* One skeleton look: layout-faithful blocks with a sweeping sheen. */
-.skeleton {
-  position: relative;
+.apple-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.06), 0 2px 6px 0 rgba(0, 0, 0, 0.03);
+}
+
+/* Apple Segmented Control System */
+.apple-segmented-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 0.875rem;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.apple-segmented-item-active {
+  background-color: #ffffff;
+  color: #1d1d1f;
+  font-weight: 600;
+  border-radius: 0.65rem;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+}
+
+.apple-segmented-item {
+  color: #737373;
+  font-weight: 500;
+  padding: 0.375rem 0.875rem;
+  border-radius: 0.65rem;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.apple-segmented-item:hover {
+  color: #1d1d1f;
+}
+
+/* Apple Stocks-Style Ticker Gain & Loss Pills */
+.apple-ticker-pill-up {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 0.55rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background-color: rgba(52, 199, 89, 0.12);
+  color: #248a3d;
+  border: 1px solid rgba(52, 199, 89, 0.24);
+}
+
+.apple-ticker-pill-down {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 0.55rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background-color: rgba(255, 59, 48, 0.1);
+  color: #d70015;
+  border: 1px solid rgba(255, 59, 48, 0.2);
+}
+
+/* Apple Table Styling Primitives */
+.finder-table-container {
+  border-radius: 1.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background-color: #ffffff;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.03), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
   overflow: hidden;
-  background: var(--smp-line);
-  opacity: 0.55;
-}
-.skeleton::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  transform: translateX(-100%);
-  background: linear-gradient(
-    45deg,
-    transparent 20%,
-    rgba(128, 128, 128, 0.25) 50%,
-    transparent 80%
-  );
-  animation: var(--animate-shimmer);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  .marquee-track {
-    animation: none !important;
-  }
+.finder-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
 }
+
+.finder-thead {
+  background-color: rgba(245, 245, 247, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.finder-th {
+  padding: 0.625rem 0.875rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #86868b;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.finder-row {
+  transition: background-color 0.12s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.finder-row:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.finder-row:nth-child(odd) {
+  background-color: rgba(245, 245, 247, 0.45);
+}
+
+.finder-row:hover {
+  background-color: rgba(0, 122, 255, 0.04) !important;
+}
+
+.finder-td {
+  padding: 0.625rem 0.875rem;
+  white-space: nowrap;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+/* Tabular figures for financial numbers */
+.num-font {
+  font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+/* Specular glows for Apple badges */
+.glow-emerald {
+  box-shadow: 0 0 16px rgba(52, 199, 89, 0.3);
+}
+
+.glow-rose {
+  box-shadow: 0 0 16px rgba(255, 59, 48, 0.3);
+}
+
+.glow-indigo {
+  box-shadow: 0 0 16px rgba(0, 122, 255, 0.3);
+}
+
+/* Dark-mode companions for the Apple utility classes above.
+   Consumed by the navbar and the market-table surfaces (market performance,
+   screener filters, gainers/losers, watchlist, alerts, global markets);
+   other surfaces migrate later. */
+.dark ::selection {
+  background-color: rgba(129, 140, 248, 0.32);
+  color: #fafafa;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+.dark .apple-glass {
+  background-color: rgba(24, 24, 27, 0.82);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.dark .apple-glass-card {
+  background-color: rgba(24, 24, 27, 0.92);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.dark .apple-segmented-group {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark .apple-segmented-item-active {
+  background-color: #27272a;
+  color: #fafafa;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.dark .apple-segmented-item {
+  color: #a1a1aa;
+}
+
+.dark .apple-segmented-item:hover {
+  color: #fafafa;
+}
+
+.dark .apple-ticker-pill-up {
+  background-color: rgba(52, 211, 153, 0.14);
+  color: #34d399;
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.dark .apple-ticker-pill-down {
+  background-color: rgba(251, 113, 133, 0.14);
+  color: #fb7185;
+  border-color: rgba(251, 113, 133, 0.3);
+}
+
+.dark .finder-table-container {
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: #18181b;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.dark .finder-thead {
+  background-color: rgba(24, 24, 27, 0.88);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .finder-th {
+  color: #a1a1aa;
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .finder-row {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+.dark .finder-row:nth-child(even) {
+  background-color: #18181b;
+}
+
+.dark .finder-row:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.dark .finder-row:hover {
+  background-color: rgba(129, 140, 248, 0.08) !important;
+}
+
+.dark .finder-td {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+

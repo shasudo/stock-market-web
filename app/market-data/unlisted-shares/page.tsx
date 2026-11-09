@@ -1,10 +1,5 @@
-import { Suspense } from "react";
-import { UnlistedView } from "@/components/market/BoardsView";
+import UnlistedSharesPage from "@/components/unlisted-shares/UnlistedSharesPage";
 
 export default function Page() {
-  return (
-    <Suspense fallback={<div className="mx-auto max-w-7xl p-4 text-sm text-muted">Loading…</div>}>
-      <UnlistedView />
-    </Suspense>
-  );
+  return <UnlistedSharesPage />;
 }

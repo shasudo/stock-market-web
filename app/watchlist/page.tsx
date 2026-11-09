@@ -1,10 +1,5 @@
-import { Suspense } from "react";
-import { WatchlistBoard } from "@/components/mine/WatchlistBoard";
+import WatchlistPage from "@/components/WatchlistPage";
 
-export default function Page() {
-  return (
-    <Suspense fallback={<div className="mx-auto max-w-4xl p-4 text-sm text-muted">Loading…</div>}>
-      <WatchlistBoard listType="normal" title="Watchlist" blurb="Folders, levels and targets — your opportunity set." />
-    </Suspense>
-  );
+export default function WatchlistRoute() {
+  return <WatchlistPage />;
 }

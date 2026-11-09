@@ -1,14 +1,13 @@
-import { NewsFeed } from "@/components/market/NewsFeed";
+import NewsFlowPage from "@/components/NewsFlowPage";
 
 export default function NewsPage() {
   return (
-    <main className="mx-auto w-full max-w-4xl space-y-4 px-4 py-6">
-      <header>
-        <p className="text-xs uppercase tracking-wider text-faint">Flows</p>
-        <h1 className="text-xl font-bold tracking-tight">News flow</h1>
-        <p className="mt-0.5 text-xs text-faint">Corporate actions, bulk and block deals in one feed.</p>
-      </header>
-      <NewsFeed />
-    </main>
+    <div className="min-h-screen bg-background py-6">
+      <div className="w-full px-4 lg:px-8">
+        <div className="rounded-2xl border border-border/90 bg-card shadow-xs p-6">
+          <NewsFlowPage />
+        </div>
+      </div>
+    </div>
   );
 }

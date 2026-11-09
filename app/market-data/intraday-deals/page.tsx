@@ -1,5 +1,7 @@
-import { DealHistoryRoute } from "@/components/market/MarketBoards";
+"use client";
 
-export default function IntradayDealsPage() {
-  return <DealHistoryRoute />;
+import IntradayDealsPage from "@/components/IntradayDealsPage";
+
+export default function IntradayDealsRoute() {
+  return <IntradayDealsPage />;
 }

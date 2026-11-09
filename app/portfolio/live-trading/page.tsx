@@ -1,10 +1,15 @@
-import { Suspense } from "react";
-import { TradingBoard } from "@/components/mine/TradingBoard";
+"use client";
 
-export default function Page() {
+import { TrendingUp } from "lucide-react";
+import { TradingBoard } from "@/components/portfolio/TradingBoard";
+
+export default function LiveTradingPage() {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-4xl p-4 text-sm text-muted">Loading…</div>}>
-      <TradingBoard mode="live" title="Live trading" blurb="Real book — reconcile with your broker." />
-    </Suspense>
+    <TradingBoard
+      mode="live"
+      title="Live Trading Portfolio"
+      description="Positions added from any stock's three-dot menu"
+      icon={TrendingUp}
+    />
   );
 }

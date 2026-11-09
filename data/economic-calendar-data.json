@@ -1,0 +1,482 @@
+{
+  "economic": [
+    {
+      "id": "e1-y",
+      "date": "Yesterday",
+      "time": "14:30",
+      "currency": "USD",
+      "event": "Core PPI (MoM) (Nov)",
+      "importance": 3,
+      "actual": "0.1%",
+      "forecast": "0.2%",
+      "previous": "0.0%"
+    },
+    {
+      "id": "e2-y",
+      "date": "Yesterday",
+      "time": "19:00",
+      "currency": "USD",
+      "event": "FOMC Meeting Minutes",
+      "importance": 3,
+      "actual": "",
+      "forecast": "",
+      "previous": ""
+    },
+    {
+      "id": "e1",
+      "date": "Today",
+      "time": "01:30",
+      "currency": "NZD",
+      "event": "Westpac Consumer Sentiment (Q4)",
+      "importance": 2,
+      "actual": "96.5",
+      "forecast": "",
+      "previous": "90.9"
+    },
+    {
+      "id": "e2",
+      "date": "Today",
+      "time": "02:00",
+      "currency": "JPY",
+      "event": "CFTC JPY speculative net positions",
+      "importance": 2,
+      "actual": "26.5K",
+      "forecast": "",
+      "previous": "31.2K"
+    },
+    {
+      "id": "e3",
+      "date": "Today",
+      "time": "02:00",
+      "currency": "AUD",
+      "event": "CFTC AUD speculative net positions",
+      "importance": 2,
+      "actual": "-84.2K",
+      "forecast": "",
+      "previous": "-75.9K"
+    },
+    {
+      "id": "e4",
+      "date": "Today",
+      "time": "02:00",
+      "currency": "USD",
+      "event": "CFTC S&P 500 speculative net positions",
+      "importance": 2,
+      "actual": "-155.3K",
+      "forecast": "",
+      "previous": "-147.4K"
+    },
+    {
+      "id": "e21",
+      "date": "Today",
+      "time": "02:00",
+      "currency": "USD",
+      "event": "API Weekly Crude Oil Stock",
+      "importance": 3,
+      "actual": "-9.300M",
+      "forecast": "-2.200M",
+      "previous": "-4.800M"
+    },
+    {
+      "id": "e5",
+      "date": "Tomorrow",
+      "time": "14:30",
+      "currency": "USD",
+      "event": "Initial Jobless Claims",
+      "importance": 3,
+      "actual": "",
+      "forecast": "215K",
+      "previous": "220K"
+    },
+    {
+      "id": "e6",
+      "date": "Tomorrow",
+      "time": "16:00",
+      "currency": "USD",
+      "event": "Existing Home Sales (Nov)",
+      "importance": 2,
+      "actual": "",
+      "forecast": "3.85M",
+      "previous": "3.96M"
+    }
+  ],
+  "holidays": [
+    {
+      "id": "h1",
+      "date": "Dec 16, 2025",
+      "country": "Bahrain",
+      "exchange": "Bahrain Stock Exchange",
+      "holiday": "National Day"
+    },
+    {
+      "id": "h2",
+      "date": "Dec 16, 2025",
+      "country": "Bangladesh",
+      "exchange": "Dhaka Stock Exchange",
+      "holiday": "National Day"
+    },
+    {
+      "id": "h3",
+      "date": "Dec 16, 2025",
+      "country": "Kazakhstan",
+      "exchange": "Kazakhstan Stock exchange",
+      "holiday": "Independence Day"
+    },
+    {
+      "id": "h4",
+      "date": "Dec 16, 2025",
+      "country": "Namibia",
+      "exchange": "Namibia Stock Exchange",
+      "holiday": "Day of Reconciliation"
+    },
+    {
+      "id": "h5",
+      "date": "Dec 16, 2025",
+      "country": "South Africa",
+      "exchange": "Johannesburg Stock Exchange",
+      "holiday": "Day of Reconciliation"
+    },
+    {
+      "id": "h6",
+      "date": "Dec 17, 2025",
+      "country": "Bahrain",
+      "exchange": "Bahrain Stock Exchange",
+      "holiday": "National Day"
+    },
+    {
+      "id": "h7",
+      "date": "Dec 18, 2025",
+      "country": "Qatar",
+      "exchange": "Doha Stock Exchange",
+      "holiday": "National Day"
+    },
+    {
+      "id": "h8",
+      "date": "Dec 22, 2025",
+      "country": "Zimbabwe",
+      "exchange": "Zimbabwe Stock Exchange",
+      "holiday": "Unity Day"
+    },
+    {
+      "id": "h9",
+      "date": "Dec 24, 2025",
+      "country": "Argentina",
+      "exchange": "Buenos Aires Stock Exchange",
+      "holiday": "Christmas"
+    },
+    {
+      "id": "h10",
+      "date": "Dec 24, 2025",
+      "country": "Australia",
+      "exchange": "Sydney Stock Exchange",
+      "holiday": "Christmas - Early close at 14:00"
+    },
+    {
+      "id": "h11",
+      "date": "Dec 24, 2025",
+      "country": "Austria",
+      "exchange": "Vienna Stock Exchange",
+      "holiday": "Christmas"
+    }
+  ],
+  "earnings": [
+    {
+      "id": "er1",
+      "date": "Today",
+      "time": "Pre-Market",
+      "company": "Accenture (ACN)",
+      "eps": "3.32",
+      "epsForecast": "3.38",
+      "revenue": "17.1B",
+      "revenueForecast": "17.3B",
+      "marketCap": "210.5B"
+    },
+    {
+      "id": "er2",
+      "date": "Today",
+      "time": "After Hours",
+      "company": "FedEx (FDX)",
+      "eps": "--",
+      "epsForecast": "3.91",
+      "revenue": "--",
+      "revenueForecast": "22.2B",
+      "marketCap": "68.4B"
+    },
+    {
+      "id": "er3",
+      "date": "Tomorrow",
+      "time": "Pre-Market",
+      "company": "Nike (NKE)",
+      "eps": "--",
+      "epsForecast": "0.64",
+      "revenue": "--",
+      "revenueForecast": "12.8B",
+      "marketCap": "145.2B"
+    }
+  ],
+  "dividends": [
+    {
+      "id": "d1",
+      "date": "Dec 17, 2025",
+      "company": "Amerigo Resources (ARREF)",
+      "exDivDate": "Dec 17, 2025",
+      "dividend": "0.0360946",
+      "type": "3M",
+      "paymentDate": "Jan 15, 2026",
+      "yield": "4.60%"
+    },
+    {
+      "id": "d2",
+      "date": "Dec 17, 2025",
+      "company": "Angel Oak Financial (FINS)",
+      "exDivDate": "Dec 17, 2025",
+      "dividend": "0.115",
+      "type": "1M",
+      "paymentDate": "Dec 31, 2025",
+      "yield": "10.53%"
+    },
+    {
+      "id": "d3",
+      "date": "Dec 17, 2025",
+      "company": "Ares Management (ARES)",
+      "exDivDate": "Dec 17, 2025",
+      "dividend": "1.12",
+      "type": "3M",
+      "paymentDate": "Dec 31, 2025",
+      "yield": "2.58%"
+    },
+    {
+      "id": "d4",
+      "date": "Dec 17, 2025",
+      "company": "BlackRock TCP (TCPC)",
+      "exDivDate": "Dec 17, 2025",
+      "dividend": "0.25",
+      "type": "3M",
+      "paymentDate": "Dec 31, 2025",
+      "yield": "17.04%"
+    },
+    {
+      "id": "d5",
+      "date": "Dec 17, 2025",
+      "company": "Bosideng ADR (BSDGY)",
+      "exDivDate": "Dec 17, 2025",
+      "dividend": "0.343881",
+      "type": "6M",
+      "paymentDate": "Jan 26, 2026",
+      "yield": "5.08%"
+    },
+    {
+      "id": "d6",
+      "date": "Dec 17, 2025",
+      "company": "Camden Property (CPT)",
+      "exDivDate": "Dec 17, 2025",
+      "dividend": "1.05",
+      "type": "3M",
+      "paymentDate": "Jan 16, 2026",
+      "yield": "3.98%"
+    },
+    {
+      "id": "d7",
+      "date": "Dec 17, 2025",
+      "company": "Cannae (CNNE)",
+      "exDivDate": "Dec 17, 2025",
+      "dividend": "0.15",
+      "type": "3M",
+      "paymentDate": "Dec 31, 2025",
+      "yield": "3.69%"
+    },
+    {
+      "id": "d8",
+      "date": "Dec 17, 2025",
+      "company": "Clough Global Allocati... (GLV)",
+      "exDivDate": "Dec 17, 2025",
+      "dividend": "0.0526",
+      "type": "1M",
+      "paymentDate": "Dec 31, 2025",
+      "yield": "10.52%"
+    },
+    {
+      "id": "d9",
+      "date": "Dec 17, 2025",
+      "company": "Clough Global Opport... (GLO)",
+      "exDivDate": "Dec 17, 2025",
+      "dividend": "0.0501",
+      "type": "1M",
+      "paymentDate": "Dec 31, 2025",
+      "yield": "10.69%"
+    },
+    {
+      "id": "d10",
+      "date": "Dec 17, 2025",
+      "company": "Clough Global (GLQ)",
+      "exDivDate": "Dec 17, 2025",
+      "dividend": "0.065",
+      "type": "1M",
+      "paymentDate": "Dec 31, 2025",
+      "yield": "10.28%"
+    }
+  ],
+  "splits": [
+    {
+      "id": "s1",
+      "date": "Dec 24, 2025",
+      "company": "Raia Drogasil ADR (RADLY)",
+      "ratio": "1.02:1",
+      "exDate": "Today"
+    },
+    {
+      "id": "s2",
+      "date": "Dec 23, 2025",
+      "company": "Texas Pacific (TPL)",
+      "ratio": "3:1",
+      "exDate": ""
+    },
+    {
+      "id": "s3",
+      "date": "Dec 22, 2025",
+      "company": "Knowledge Marine Engineering Works (KNOW)",
+      "ratio": "2:1",
+      "exDate": ""
+    },
+    {
+      "id": "s4",
+      "date": "Dec 22, 2025",
+      "company": "Knowledge Marine Engineering Works (KNOW)",
+      "ratio": "2:1",
+      "exDate": ""
+    },
+    {
+      "id": "s5",
+      "date": "Dec 19, 2025",
+      "company": "Dr. Lal PathLabs (DLPA)",
+      "ratio": "2:1",
+      "exDate": ""
+    },
+    {
+      "id": "s6",
+      "date": "Dec 19, 2025",
+      "company": "Space Incubatrix (SPAI)",
+      "ratio": "10:1",
+      "exDate": ""
+    },
+    {
+      "id": "s7",
+      "date": "Dec 18, 2025",
+      "company": "BSF Enterprise (BSFAB)",
+      "ratio": "1:12",
+      "exDate": ""
+    },
+    {
+      "id": "s8",
+      "date": "Dec 18, 2025",
+      "company": "ServiceNow Inc (NOW)",
+      "ratio": "5:1",
+      "exDate": ""
+    }
+  ],
+  "ipo": [
+    {
+      "id": "i1",
+      "date": "Dec 03, 2025",
+      "company": "Park Dental Part... (PARK)",
+      "exchange": "NASDAQ",
+      "ipoValue": "20.0M",
+      "price": "13.00",
+      "last": "13.44"
+    },
+    {
+      "id": "i2",
+      "date": "Dec 04, 2025",
+      "company": "Regentis Biomat... (RGNT)",
+      "exchange": "NYSE",
+      "ipoValue": "8.0M",
+      "price": "8.00",
+      "last": "6.05"
+    },
+    {
+      "id": "i3",
+      "date": "Dec 04, 2025",
+      "company": "Bitcoin Infrastru... (BIXIU)",
+      "exchange": "NASDAQ",
+      "ipoValue": "200.0M",
+      "price": "10.00",
+      "last": "10.01"
+    },
+    {
+      "id": "i4",
+      "date": "Dec 04, 2025",
+      "company": "New America Ac... (NWAX_u)",
+      "exchange": "NYSE",
+      "ipoValue": "300.0M",
+      "price": "10.00",
+      "last": "10.33"
+    },
+    {
+      "id": "i5",
+      "date": "Dec 05, 2025",
+      "company": "Leapfrog Acquis... (LFACU)",
+      "exchange": "NASDAQ",
+      "ipoValue": "143.8M",
+      "price": "10.00",
+      "last": "-"
+    }
+  ],
+  "expiration": [
+    {
+      "id": "x1",
+      "instrument": "European Union Allowance (EUA) Yearly",
+      "contract": "CFI2Zc1",
+      "month": "Dec 25",
+      "settlement": "Dec 15, 2025",
+      "rollover": ""
+    },
+    {
+      "id": "x2",
+      "instrument": "Carbon Emissions",
+      "contract": "CFI2Z5",
+      "month": "Dec 25",
+      "settlement": "Dec 15, 2025",
+      "rollover": "Jun 30, 2025"
+    },
+    {
+      "id": "x3",
+      "instrument": "US Corporate High Yield Very Liquid c1",
+      "contract": "BYHc1",
+      "month": "Dec 25",
+      "settlement": "Dec 16, 2025",
+      "rollover": "Sep 16, 2025"
+    },
+    {
+      "id": "x4",
+      "instrument": "US Corporate Investment Grade c1",
+      "contract": "QIBc1",
+      "month": "Dec 25",
+      "settlement": "Dec 16, 2025",
+      "rollover": "Sep 16, 2025"
+    },
+    {
+      "id": "x5",
+      "instrument": "US Corporate IG Duration Hedged c1",
+      "contract": "DHBc1",
+      "month": "Dec 25",
+      "settlement": "Dec 16, 2025",
+      "rollover": "Sep 16, 2025"
+    },
+    {
+      "id": "x6",
+      "instrument": "VSTOXX Mini",
+      "contract": "FVSc1",
+      "month": "Dec 25",
+      "settlement": "Dec 17, 2025",
+      "rollover": "Nov 19, 2025"
+    },
+    {
+      "id": "x7",
+      "instrument": "S&P 500 VIX",
+      "contract": "VXc1",
+      "month": "Dec 25",
+      "settlement": "Dec 17, 2025",
+      "rollover": "Nov 19, 2025"
+    }
+  ]
+}

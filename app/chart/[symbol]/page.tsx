@@ -1,14 +1,18 @@
-import { ChartView } from "@/components/chart/ChartView";
+"use client";
 
-export default async function ChartSymbolPage({
+import { use } from "react";
+import ChartTerminalLoader from "@/components/chart/terminal/ChartTerminalLoader";
+import { AuthGuard } from "@/components/common";
+
+export default function ChartSymbolPage({
   params,
 }: {
   params: Promise<{ symbol: string }>;
 }) {
-  const { symbol } = await params;
+  const { symbol } = use(params);
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 py-6">
-      <ChartView symbol={decodeURIComponent(symbol)} />
-    </main>
+    <AuthGuard loadingMessage="Loading chart...">
+      <ChartTerminalLoader symbol={decodeURIComponent(symbol)} />
+    </AuthGuard>
   );
 }

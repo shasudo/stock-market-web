@@ -1,5 +1,7 @@
-import { HistoricalRoute } from "@/components/market/TerminalBoards";
+"use client";
 
-export default function HistoricalDataPage() {
-  return <HistoricalRoute />;
+import HistoricalDataPage from "@/components/market-data/HistoricalDataPage";
+
+export default function HistoricalDataRoute() {
+  return <HistoricalDataPage />;
 }

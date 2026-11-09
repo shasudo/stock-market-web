@@ -1,10 +1,15 @@
-import { Suspense } from "react";
-import { TradingBoard } from "@/components/mine/TradingBoard";
+"use client";
 
-export default function Page() {
+import { FileText } from "lucide-react";
+import { TradingBoard } from "@/components/portfolio/TradingBoard";
+
+export default function PaperTradingPage() {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-4xl p-4 text-sm text-muted">Loading…</div>}>
-      <TradingBoard mode="paper" title="Paper trading" blurb="Positions with play money, marked to LTP." />
-    </Suspense>
+    <TradingBoard
+      mode="paper"
+      title="Paper Trading Live"
+      description="Positions added from any stock's three-dot menu"
+      icon={FileText}
+    />
   );
 }

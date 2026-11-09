@@ -1,10 +1,12 @@
-import { Suspense } from "react";
-import { GlobalView } from "@/components/market/BoardsView";
+"use client";
 
-export default function Page() {
+import { AuthGuard } from "@/components/common";
+import GlobalMarketsView from "@/components/global-markets/GlobalMarketsView";
+
+export default function GlobalMarketsPage() {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-7xl p-4 text-sm text-muted">Loading…</div>}>
-      <GlobalView />
-    </Suspense>
+    <AuthGuard loadingMessage="Loading global markets...">
+      <GlobalMarketsView />
+    </AuthGuard>
   );
 }

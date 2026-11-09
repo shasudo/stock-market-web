@@ -1,10 +1,11 @@
-import { Suspense } from "react";
-import { WatchlistBoard } from "@/components/mine/WatchlistBoard";
+import WatchlistPage from "@/components/WatchlistPage";
 
-export default function Page() {
+export default function PrepositionWatchlistRoute() {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-4xl p-4 text-sm text-muted">Loading…</div>}>
-      <WatchlistBoard listType="preposition" title="Preposition" blurb="Staged entries waiting for a trigger." />
-    </Suspense>
+    <WatchlistPage
+      title="Preposition Watchlist"
+      description="Stocks you're pre-positioning for, tracked separately from your main watchlist"
+      listType="preposition"
+    />
   );
 }

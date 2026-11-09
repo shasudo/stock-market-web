@@ -1,10 +1,12 @@
-import { Suspense } from "react";
-import { BandHittersView } from "@/components/market/TerminalBoards";
+"use client";
 
-export default function Page() {
+import { AuthGuard } from "@/components/common";
+import PriceBandHittersView from "@/components/PriceBandHittersView";
+
+export default function PriceBandHittersPage() {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-7xl p-4 text-sm text-muted">Loading…</div>}>
-      <BandHittersView />
-    </Suspense>
+    <AuthGuard>
+      <PriceBandHittersView />
+    </AuthGuard>
   );
 }
