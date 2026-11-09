@@ -5,6 +5,10 @@ import { useAuthStore } from "@/store/useAuthStore";
 import axios from "axios";
 import apiClient from "@/lib/api-client";
 import {
+  extractDashboardStats,
+  type DashboardStats,
+} from "@/lib/dashboard/stats-guard";
+import {
   TrendingUp,
   TrendingDown,
   Eye,
@@ -23,65 +27,7 @@ const REFRESH_INTERVAL_MS = 30_000;
 // than current, even though the last fetch itself succeeded.
 const STALE_AFTER_MS = 5 * 60_000;
 
-interface Stats {
-  totalGainers: number;
-  totalLosers: number;
-  avgGain: number;
-  avgLoss: number;
-  lastSyncAt: string | null;
-  topGainer: {
-    company: string;
-    sector: string;
-    ltp: number;
-    percentInChange: number;
-  } | null;
-  topLoser: {
-    company: string;
-    sector: string;
-    ltp: number;
-    percentInChange: number;
-  } | null;
-}
-
-interface DashboardStatsResponse {
-  readonly success: true;
-  readonly stats: Stats;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === "object";
-}
-
-function isTopPerformer(
-  value: unknown,
-): value is NonNullable<Stats["topGainer"]> {
-  return (
-    isRecord(value) &&
-    typeof value.company === "string" &&
-    typeof value.sector === "string" &&
-    typeof value.ltp === "number" &&
-    typeof value.percentInChange === "number"
-  );
-}
-
-function isStats(value: unknown): value is Stats {
-  return (
-    isRecord(value) &&
-    typeof value.totalGainers === "number" &&
-    typeof value.totalLosers === "number" &&
-    typeof value.avgGain === "number" &&
-    typeof value.avgLoss === "number" &&
-    (value.lastSyncAt === null || typeof value.lastSyncAt === "string") &&
-    (value.topGainer === null || isTopPerformer(value.topGainer)) &&
-    (value.topLoser === null || isTopPerformer(value.topLoser))
-  );
-}
-
-function isDashboardStatsResponse(
-  value: unknown,
-): value is DashboardStatsResponse {
-  return isRecord(value) && value.success === true && isStats(value.stats);
-}
+type Stats = DashboardStats;
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -121,13 +67,14 @@ function DashboardContent() {
         const response = await apiClient.get<unknown>("/api/stocks/stats");
         if (!isCurrent) return;
 
-        if (!isDashboardStatsResponse(response.data)) {
+        const loaded = extractDashboardStats(response.data);
+        if (loaded === null) {
           setErrorMessage("The statistics service returned an invalid response.");
           setIsColdStart(false);
           return;
         }
 
-        setStats(response.data.stats);
+        setStats(loaded);
         setErrorMessage(null);
         setIsColdStart(false);
       } catch (error: unknown) {
