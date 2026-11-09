@@ -1,0 +1,22 @@
+# Public front door: Next.js web app + Spring Boot API, both loopback-bound.
+# TLS via Lets Encrypt on the nip.io hostname (resolves to this host).
+# The browser calls the web app under /api/* (same origin); Next rewrites
+# those server-side to Java. Direct Java clients keep /api/v1/* + /actuator/*.
+#
+# Lives on Oracle at /etc/caddy/Caddyfile (Caddy from apt, `caddy` service).
+# After editing there: `sudo caddy fmt --overwrite /etc/caddy/Caddyfile &&
+# sudo systemctl reload caddy`.
+129-225-78-203.nip.io {
+
+	handle /api/v1/* {
+		reverse_proxy 127.0.0.1:8080
+	}
+
+	handle /actuator/* {
+		reverse_proxy 127.0.0.1:8080
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:3000
+	}
+}
