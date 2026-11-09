@@ -61,7 +61,7 @@ function getRetriableRequestConfig(
  * into the flat shape every consumer already expects. Scoped to auth only —
  * every other envelope already matches.
  */
-function normalizeAuthEnvelope(url: string | undefined, payload: unknown): unknown {
+export function normalizeAuthResponse(url: string | undefined, payload: unknown): unknown {
   if (url == null || !isRecord(payload) || payload.success !== true) {
     return payload;
   }
@@ -90,7 +90,7 @@ async function refreshSession(): Promise<RefreshSessionResponse> {
     withCredentials: true,
   });
 
-  const normalized = normalizeAuthEnvelope(REFRESH_ENDPOINT, response.data);
+  const normalized = normalizeAuthResponse(REFRESH_ENDPOINT, response.data);
   if (!isRefreshSessionResponse(normalized)) {
     throw new Error(
       "The authentication service returned an invalid refresh response.",
@@ -110,7 +110,7 @@ apiClient.interceptors.request.use((request) => {
 
 apiClient.interceptors.response.use(
   (response) => {
-    response.data = normalizeAuthEnvelope(response.config.url, response.data);
+    response.data = normalizeAuthResponse(response.config.url, response.data);
     return response;
   },
   async (error: unknown) => {

@@ -111,11 +111,12 @@ export function isRegisterResponse(value: unknown): value is RegisterResponse {
   if (!isRecord(value) || value.success !== true) {
     return false;
   }
-  // Legacy shape: {success, message?, data: {id, username, email?}}.
+  // Legacy shape: {success, message?, data: {id, username, email}}.
   if (
     isRecord(value.data) &&
     isNonEmptyString(value.data.id) &&
-    isNonEmptyString(value.data.username)
+    isNonEmptyString(value.data.username) &&
+    isNonEmptyString(value.data.email)
   ) {
     return true;
   }

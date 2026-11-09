@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuthStore } from "@/store/useAuthStore";
 import axios from "axios";
+import { normalizeAuthResponse } from "@/lib/api-client";
 import toast from "react-hot-toast";
 import { LogIn, BarChart3, ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
@@ -41,12 +42,13 @@ export default function LoginPage() {
       const response = await axios.post<unknown>("/api/auth/login", formData, {
         withCredentials: true,
       });
-      if (!isLoginResponse(response.data)) {
+      const payload = normalizeAuthResponse("/api/auth/login", response.data);
+      if (!isLoginResponse(payload)) {
         toast.error("The authentication service returned an invalid response");
         return;
       }
 
-      const { user, accessToken } = response.data;
+      const { user, accessToken } = payload;
 
       setAuth(user, accessToken);
       toast.success("Welcome back!");
