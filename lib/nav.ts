@@ -125,7 +125,7 @@ export const NAV: NavGroup[] = [
       { code: "LOGIN", label: "Sign in", href: "/login", blurb: "Session and sync", status: "live" },
       { code: "REGISTER", label: "Register", href: "/register", blurb: "Create an account", status: "live" },
       { code: "DASH", label: "Dashboard", href: "/dashboard", blurb: "Personal overview", status: "live" },
-      { code: "NEWS", label: "News", href: "/news", blurb: "Market news flow", status: "later" },
+      { code: "NEWS", label: "News", href: "/news", blurb: "Actions and deals feed", status: "live" },
     ],
   },
 ];
