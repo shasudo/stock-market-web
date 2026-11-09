@@ -158,7 +158,10 @@ export function isMarketLiveResponse(
     isMarketFilteredCounts(value.filteredCounts) &&
     (value.lastSyncAt === null || typeof value.lastSyncAt === "string") &&
     isMarketSyncStatus(value.syncStatus) &&
+    // Java sends explicit null for absent optionals; the retired backend
+    // omitted the key. Accept both.
     (value.patternSummary === undefined ||
+      value.patternSummary === null ||
       isPatternSummaryPayload(value.patternSummary))
   );
 }
