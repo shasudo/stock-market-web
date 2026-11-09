@@ -9,6 +9,7 @@ import type { IpoIssue, IpoSubscription } from "@/lib/ipo/parse";
 import type { IpoBoardResponse } from "@/lib/ipo/service";
 import { nextSort, sortRows, type SortState } from "@/lib/super-investors/sorting";
 
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 const REFRESH_MS = 60_000;
 const PENDING_REFRESH_MS = 10_000;
 
@@ -457,7 +458,7 @@ export default function IPOPage() {
       setLoading(true);
       try {
         const response = await fetch("/api/market-data/ipo", { cache: "no-store", signal: controller.signal });
-        const body: unknown = await response.json().catch(() => null);
+        const body: unknown = unwrapApiEnvelope(await response.json().catch(() => null));
         if (!active) return;
         if (!response.ok || !isBoard(body)) {
           setError("IPO data is temporarily unavailable. Retrying shortly.");

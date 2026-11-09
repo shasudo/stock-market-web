@@ -96,8 +96,12 @@ function CompanyDetail({ slug, onClose }: { slug: string; onClose: () => void })
   useEffect(() => {
     const controller = new AbortController();
     fetch(`/api/market-data/unlisted-shares/${encodeURIComponent(slug)}`, { cache: "no-store", signal: controller.signal })
-      .then((response) => (response.ok ? response.json() : Promise.reject(new Error(String(response.status)))))
-      .then((body: { company: UnlistedDetail }) => setCompany(body.company))
+      .then((response) => (response.ok ? response.json().then((b: unknown) => unwrapApiEnvelope(b)) : Promise.reject(new Error(String(response.status)))))
+      .then((body: unknown) => {
+        if (typeof body === "object" && body !== null && "company" in body) {
+          setCompany((body as { company: UnlistedDetail }).company);
+        }
+      })
       .catch((error: unknown) => {
         if (!(error instanceof Error && error.name === "AbortError")) setFailed(true);
       });

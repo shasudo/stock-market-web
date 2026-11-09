@@ -11,6 +11,7 @@ import type {
   GlobalMarketsResponse,
 } from "@/lib/global-markets/service";
 
+import { unwrapApiEnvelope } from "@/lib/api-envelope";
 const REFRESH_MS = 60_000;
 const PENDING_REFRESH_MS = 8_000;
 
@@ -244,7 +245,7 @@ export default function GlobalMarketsView() {
           headers: { Accept: "application/json" },
           signal: controller.signal,
         });
-        const body: unknown = await response.json().catch(() => null);
+        const body: unknown = unwrapApiEnvelope(await response.json().catch(() => null));
         if (!active) return;
         if (!response.ok || !isResponse(body)) {
           setError("Global market data is temporarily unavailable. Retrying shortly.");
