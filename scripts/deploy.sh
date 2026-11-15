@@ -25,7 +25,8 @@ echo "==> installed quadlet unit"
 systemctl --user daemon-reload
 
 echo "==> building image"
-podman build -f "$SRC/Containerfile" -t localhost/stock-market-web:latest "$SRC"
+podman build --build-arg API_ORIGIN=http://stock-market-api:8080 -f "$SRC/Containerfile" \
+  -t localhost/stock-market-web:latest "$SRC"
 
 echo "==> restarting web"
 systemctl --user restart stock-market-web.service

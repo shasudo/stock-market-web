@@ -7,7 +7,11 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
-RUN npm run build
+# Server-side /api rewrites must stay inside the podman network. The public
+# hostname works for browsers but hairpins large responses through OCI/Caddy
+# and stalls them; the in-cluster name avoids that path entirely.
+ARG API_ORIGIN=http://stock-market-api:8080
+RUN API_ORIGIN=${API_ORIGIN} npm run build
 
 FROM docker.io/library/node:22-alpine
 
