@@ -24,13 +24,11 @@ import {
   LineChart,
   Table as TableIcon,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { useSearchParams } from "next/navigation";
 import WatchlistChartView from "@/components/watchlist/WatchlistChartView";
 import { isMarketOpen } from "@/lib/market-hours";
 import {
-  PageHeader,
   StockActionsMenu,
   SearchInput,
   TabCount,
@@ -41,6 +39,8 @@ import {
   saveHiddenColumns,
   matchesSearch,
 } from "@/components/common";
+import { PageHeader } from "@/components/ds";
+import { cn } from "@/lib/utils";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import type { LucideIcon } from "lucide-react";
 import type { WatchlistCategory } from "@/types";
@@ -308,15 +308,13 @@ export default function WatchlistPage({
   listType = "normal",
 }: WatchlistPageProps = {}) {
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
-        <PageHeader title={title} description={description} icon={icon} />
-        <Suspense
-          fallback={<LoadingSpinner message="Loading watchlist..." />}
-        >
-          <WatchlistCategoryBoard listType={listType} />
-        </Suspense>
-      </div>
+    <div>
+      <PageHeader title={title} description={description} icon={icon} />
+      <Suspense
+        fallback={<LoadingSpinner message="Loading watchlist..." />}
+      >
+        <WatchlistCategoryBoard listType={listType} />
+      </Suspense>
     </div>
   );
 }
@@ -1034,8 +1032,8 @@ export function WatchlistCategoryBoard({
       />
 
       {/* Category Tabs and View Switcher */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-        <div className="flex items-center gap-1 flex-wrap overflow-x-auto w-full sm:w-fit">
+      <div className="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+        <div className="apple-segmented-group w-full overflow-x-auto sm:w-fit">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -1047,19 +1045,23 @@ export function WatchlistCategoryBoard({
             return (
               <button
                 key={tab.id}
+                type="button"
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center space-x-2 px-4 py-2 text-xs md:text-sm font-semibold transition-all whitespace-nowrap ${
-                  isActive ? "bg-primary text-primary-foreground shadow-xs shadow-primary/20" : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                }`}
+                aria-current={isActive ? "page" : undefined}
+                className={cn(
+                  "apple-segmented-item flex items-center gap-2 text-xs whitespace-nowrap",
+                  isActive && "apple-segmented-item-active",
+                )}
               >
-                <Icon className={`w-4 h-4 ${isSpecial ? "text-error" : ""}`} />
+                <Icon className={cn("h-4 w-4", isSpecial && "text-error")} />
                 <span>{tab.label}</span>
                 <span
-                  className={`px-1.5 py-0.2 rounded-md text-[10px] font-mono ${
+                  className={cn(
+                    "rounded-md px-1.5 py-0.5 font-mono text-[10px]",
                     isActive
-                      ? "bg-white/25 dark:bg-zinc-950/10 text-white dark:text-zinc-950"
-                      : "bg-muted text-muted-foreground"
-                  }`}
+                      ? "bg-primary/10 text-primary"
+                      : "bg-muted text-muted-foreground",
+                  )}
                 >
                   {count}
                 </span>
@@ -1069,17 +1071,17 @@ export function WatchlistCategoryBoard({
         </div>
 
         {/* View Mode Switcher: Table vs Chart View */}
-        <div className="flex items-center rounded-xl border border-border bg-card shadow-xs p-1 shrink-0 self-start sm:self-auto">
+        <div className="apple-segmented-group shrink-0 self-start sm:self-auto">
           <button
             type="button"
             onClick={() => setViewMode("table")}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-              viewMode === "table"
-                ? "bg-primary text-primary-foreground shadow-xs"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-            }`}
+            aria-pressed={viewMode === "table"}
+            className={cn(
+              "apple-segmented-item flex items-center gap-1.5 text-xs",
+              viewMode === "table" && "apple-segmented-item-active",
+            )}
           >
-            <TableIcon className="w-3.5 h-3.5" />
+            <TableIcon className="h-3.5 w-3.5" />
             <span>Table</span>
           </button>
           <button
@@ -1090,13 +1092,13 @@ export function WatchlistCategoryBoard({
               }
               setViewMode("chart");
             }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-              viewMode === "chart"
-                ? "bg-primary text-primary-foreground shadow-xs"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-            }`}
+            aria-pressed={viewMode === "chart"}
+            className={cn(
+              "apple-segmented-item flex items-center gap-1.5 text-xs",
+              viewMode === "chart" && "apple-segmented-item-active",
+            )}
           >
-            <LineChart className="w-3.5 h-3.5" />
+            <LineChart className="h-3.5 w-3.5" />
             <span>View Chart</span>
           </button>
         </div>
@@ -1122,21 +1124,19 @@ export function WatchlistCategoryBoard({
         />
       ) : (
         /* Main Table Card */
-        <motion.div
+        <div
           key={activeTab}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-        className="rounded-3xl border border-border bg-card/95 backdrop-blur-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04),0_1px_3px_rgb(0,0,0,0.02)] overflow-hidden"
-      >
-        <div className="px-5 py-4 border-b border-border bg-muted/80 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          className="overflow-hidden rounded-[10px] border border-border bg-card"
+        >
+        <div className="flex flex-col gap-3 border-b border-border bg-muted/60 px-4 py-3 md:flex-row md:items-center md:justify-between">
           <h2
-            className={`text-sm md:text-base font-extrabold capitalize flex items-center gap-2 ${
-              activeTab === "multibagger" ? "text-error" : "text-foreground"
-            }`}
+            className={cn(
+              "flex items-center gap-2 text-[13px] font-semibold capitalize",
+              activeTab === "multibagger" ? "text-error" : "text-foreground",
+            )}
           >
             {activeTab === "multibagger" && (
-              <Zap className="w-4 h-4 fill-current" />
+              <Zap className="h-4 w-4 fill-current" />
             )}
             {tabs.find((t) => t.id === activeTab)?.label}
           </h2>
@@ -1162,14 +1162,14 @@ export function WatchlistCategoryBoard({
             </div>
           </div>
         </div>
-        <div className="overflow-x-auto scrollbar-thin">
-          <table className="w-full text-left border-collapse text-xs md:text-sm min-w-[1200px]">
-            <thead className="bg-muted/90 backdrop-blur-md border-b border-border sticky top-0 z-10">
+        <div className="w-full overflow-x-auto">
+          <table className="w-full border-collapse text-left text-[13px] min-w-[1200px]">
+            <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
               <tr>
                 {visibleColumns.map((key) => (
                   <th
                     key={key}
-                    className={`px-4 py-3.5 text-${WATCHLIST_COLUMN_ALIGN[key] ?? "left"} text-[11px] font-bold text-muted-foreground uppercase tracking-[0.06em] select-none`}
+                    className={`px-3.5 py-2.5 text-${WATCHLIST_COLUMN_ALIGN[key] ?? "left"} align-middle text-[11px] font-semibold uppercase tracking-wider text-muted-foreground whitespace-nowrap select-none`}
                   >
                     {WATCHLIST_COLUMN_LABELS[key]}
                   </th>
@@ -1191,7 +1191,7 @@ export function WatchlistCategoryBoard({
                 stocks.map((stock, index) => (
                   <tr
                     key={stock.id}
-                    className="finder-row transition-colors border-b border-border hover:bg-primary/10 even:bg-card odd:bg-muted/50 group"
+                    className="border-b border-border transition-colors last:border-b-0 even:bg-card odd:bg-muted/40 hover:bg-primary/[0.05] group"
                   >
                     {visibleColumns.map((key) => (
                       <Fragment key={key}>
@@ -1215,7 +1215,7 @@ export function WatchlistCategoryBoard({
             </tbody>
           </table>
         </div>
-      </motion.div>
+      </div>
     )}
   </>
 );

@@ -13,8 +13,9 @@ import {
   Trash2,
   type LucideIcon,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import toast from "react-hot-toast";
+import { PageHeader } from "@/components/ds";
+import { cn } from "@/lib/utils";
 import {
   StockActionsMenu,
   SearchInput,
@@ -613,27 +614,10 @@ export function TradingBoard({
     totalInvestment > 0 ? (totalPnL / totalInvestment) * 100 : 0;
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 py-8 md:px-6 md:py-12">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <div className="flex items-center space-x-4 mb-8">
-            <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center">
-              <Icon className="w-7 h-7 text-primary" />
-            </div>
-            <div>
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground">
-                {title}
-              </h1>
-              <p className="text-lg text-muted-foreground mt-1">
-                {description}
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-1 flex-wrap mb-6">
+    <div>
+      <PageHeader title={title} description={description} icon={Icon} />
+      <div>
+          <div className="apple-segmented-group mb-4 overflow-x-auto">
             {tabs.map((tab) => {
               const TabIcon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -644,23 +628,25 @@ export function TradingBoard({
               return (
                 <button
                   key={tab.id}
+                  type="button"
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 text-xs md:text-sm font-semibold transition-all whitespace-nowrap ${
-                    isActive
-                      ? "bg-primary text-primary-foreground shadow-xs shadow-primary/20 flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold transition-colors whitespace-nowrap"
-                      : "text-muted-foreground hover:bg-muted hover:text-muted-foreground flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold transition-colors whitespace-nowrap"
-                  }`}
+                  aria-current={isActive ? "page" : undefined}
+                  className={cn(
+                    "apple-segmented-item flex items-center gap-2 text-xs whitespace-nowrap",
+                    isActive && "apple-segmented-item-active",
+                  )}
                 >
                   <TabIcon
-                    className={`w-4 h-4 ${tab.isSpecial ? "text-[#FF3B30]" : ""}`}
+                    className={cn("h-4 w-4", tab.isSpecial && "text-error")}
                   />
                   <span>{tab.label}</span>
                   <span
-                    className={`px-1.5 py-0.2 rounded-md text-[10px] font-mono ${
+                    className={cn(
+                      "rounded-md px-1.5 py-0.5 font-mono text-[10px]",
                       isActive
-                        ? "bg-white/25 dark:bg-zinc-950/10 text-white dark:text-zinc-950"
-                        : "bg-slate-200/80 text-muted-foreground"
-                    }`}
+                        ? "bg-primary/10 text-primary"
+                        : "bg-muted text-muted-foreground",
+                    )}
                   >
                     {count}
                   </span>
@@ -668,20 +654,18 @@ export function TradingBoard({
               );
             })}
           </div>
-        </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="rounded-2xl border border-border/90 bg-card shadow-xs overflow-hidden"
+        <div className="overflow-hidden rounded-[10px] border border-border bg-card"
         >
-          <div className="px-5 py-4 border-b border-border bg-muted/80 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-muted/60 px-4 py-3">
             <h2
-              className={`text-sm md:text-base font-extrabold capitalize flex items-center gap-2 ${activeTab === "multibagger" ? "text-error" : "text-foreground"}`}
+              className={cn(
+                "flex items-center gap-2 text-[13px] font-semibold capitalize",
+                activeTab === "multibagger" ? "text-error" : "text-foreground",
+              )}
             >
               {activeTab === "multibagger" && (
-                <Zap className="w-4 h-4 fill-current" />
+                <Zap className="h-4 w-4 fill-current" />
               )}
               {tabs.find((tab) => tab.id === activeTab)?.label} Positions
             </h2>
@@ -707,14 +691,14 @@ export function TradingBoard({
               </div>
             </div>
           </div>
-          <div className="overflow-x-auto scrollbar-thin">
-            <table className="w-full text-left border-collapse text-xs md:text-sm min-w-[1450px]">
-              <thead className="bg-muted/90 backdrop-blur-md border-b border-border sticky top-0 z-10">
+          <div className="w-full overflow-x-auto">
+            <table className="w-full border-collapse text-left text-[13px] min-w-[1450px]">
+              <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
                 <tr>
                   {visibleColumns.map((key) => (
                     <th
                       key={key}
-                      className={`px-4 py-3.5 text-${TRADE_COLUMN_ALIGN[key] ?? "left"} text-[11px] font-bold text-muted-foreground uppercase tracking-[0.06em] select-none`}
+                      className={`px-3.5 py-2.5 text-${TRADE_COLUMN_ALIGN[key] ?? "left"} align-middle text-[11px] font-semibold uppercase tracking-wider text-muted-foreground whitespace-nowrap select-none`}
                     >
                       {TRADE_COLUMN_LABELS[key]}
                     </th>
@@ -736,7 +720,7 @@ export function TradingBoard({
                   visibleTrades.map((trade, index) => (
                     <tr
                       key={trade.id}
-                      className="finder-row transition-colors border-b border-border/80 hover:bg-primary/10 even:bg-card odd:bg-muted/50 group"
+                      className="border-b border-border transition-colors last:border-b-0 even:bg-card odd:bg-muted/40 hover:bg-primary/[0.05] group"
                     >
                       {visibleColumns.map((key) => (
                         <Fragment key={key}>
@@ -770,8 +754,8 @@ export function TradingBoard({
                     <span
                       className={
                         totalPnL >= 0
-                          ? "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-mono font-bold border num-font bg-success/10 text-success border-success/30"
-                          : "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-mono font-bold border num-font bg-error/10 text-error border-error/30"
+                          ? "inline-flex min-w-[76px] items-center justify-end gap-1 rounded-md border border-emerald-600/25 bg-emerald-600/10 px-2 py-0.5 font-mono text-xs font-semibold tabular-nums text-emerald-800 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-300"
+                          : "inline-flex min-w-[76px] items-center justify-end gap-1 rounded-md border border-rose-600/25 bg-rose-600/10 px-2 py-0.5 font-mono text-xs font-semibold tabular-nums text-rose-800 dark:border-rose-400/25 dark:bg-rose-400/10 dark:text-rose-300"
                       }
                     >
                       {totalPnL >= 0 ? (
@@ -788,7 +772,7 @@ export function TradingBoard({
               </tfoot>
             </table>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
