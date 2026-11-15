@@ -127,7 +127,13 @@ export function isPublicPage(pathname: string): boolean {
 }
 
 export function isPublicApi(pathname: string): boolean {
-  return pathname === "/api/auth" || pathname.startsWith("/api/auth/");
+  if (pathname === "/api/auth" || pathname.startsWith("/api/auth/")) {
+    return true;
+  }
+  // Header strip on the public sign-in/registration pages. The backend
+  // serves it without credentials, so gating it here only blanks the
+  // decoration without buying any security.
+  return pathname === "/api/market-data/ticker";
 }
 
 export type PageGateDecision = "allow" | "login" | "dashboard";

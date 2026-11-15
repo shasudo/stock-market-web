@@ -28,6 +28,8 @@ test("isPublicApi only allows the auth exchange endpoints", () => {
   assert.equal(isPublicApi("/api/auth/logout"), true);
   assert.equal(isPublicApi("/api/watchlist"), false);
   assert.equal(isPublicApi("/api/market/live"), false);
+  assert.equal(isPublicApi("/api/market-data/ticker"), true);
+  assert.equal(isPublicApi("/api/market-data/indices"), false);
   assert.equal(isPublicApi("/api/stocks/stats"), false);
 });
 

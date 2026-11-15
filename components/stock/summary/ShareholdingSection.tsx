@@ -7,6 +7,7 @@ import type {
   ShareholdingPatternResponse,
   ShareholdingQuarter,
 } from "@/lib/shareholding-pattern/types";
+import { normalizeShareholdingQuarter } from "@/lib/shareholding-pattern/normalize";
 
 type CategoryKey = "promoters" | "fiis" | "diis" | "government" | "public" | "others";
 
@@ -29,14 +30,6 @@ function quarterLabel(date: string): string {
 
 function pct(value: number | null): string {
   return value === null ? "—" : `${value.toFixed(2)}%`;
-}
-
-function isQuarter(value: unknown): value is ShareholdingQuarter {
-  return (
-    value !== null &&
-    typeof value === "object" &&
-    typeof (value as ShareholdingQuarter).asOfDate === "string"
-  );
 }
 
 function LatestSplit({ quarter }: { quarter: ShareholdingQuarter }) {
@@ -142,7 +135,13 @@ export function ShareholdingSection({ symbol }: { symbol: string }) {
           ? (response.data.data as ShareholdingPatternResponse | null)
           : null;
         if (!active) return;
-        const quarters = Array.isArray(data?.quarters) ? data.quarters.filter(isQuarter) : null;
+        const quarters = Array.isArray(data?.quarters)
+          ? data.quarters
+              .map(normalizeShareholdingQuarter)
+              .filter(
+                (quarter): quarter is ShareholdingQuarter => quarter !== null,
+              )
+          : null;
         const holders = Array.isArray(data?.holders) ? data.holders.filter(isHolderLine) : [];
         setState({ symbol, quarters, holders, failed: quarters === null });
       } catch {

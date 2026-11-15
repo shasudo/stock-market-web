@@ -76,7 +76,12 @@ export function PeersSection({ symbol }: { symbol: string }) {
           industry: typeof data.industry === "string" ? data.industry : null,
           peers: data.peers
             .map(asPeerRow)
-            .filter((row): row is PeerRow => row !== null),
+            .filter((row): row is PeerRow => row !== null)
+            .filter(
+              (row, index, rows) =>
+                rows.findIndex((other) => other.symbol === row.symbol) ===
+                index,
+            ),
         });
       } catch (err: unknown) {
         if (!active) return;
