@@ -13,7 +13,6 @@ import {
   Eye,
   EyeOff,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import {
   isRegisterResponse,
   type ApiErrorResponse,
@@ -41,6 +40,11 @@ function getRegistrationErrorMessage(error: unknown): string {
   const message = error.response?.data?.message;
   return typeof message === "string" ? message : "Registration failed";
 }
+
+const inputClassName =
+  "w-full rounded-md border border-border bg-card px-4 py-2.5 text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary";
+
+const labelClassName = "mb-2 block text-[13px] font-medium text-foreground";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -112,87 +116,60 @@ export default function RegisterPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {}
-      <div className="hidden lg:flex flex-1 bg-secondary items-center justify-center p-12 border-r border-border">
+    <div className="flex min-h-screen bg-background">
+      <div className="hidden flex-1 items-center justify-center border-r border-border bg-muted/40 p-12 lg:flex">
         <div className="max-w-lg">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-4xl font-display font-bold text-foreground mb-6">
-              Start your trading journey today
-            </h2>
-            <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              Join thousands of successful traders using professional-grade
-              tools to make informed decisions.
-            </p>
+          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-foreground">
+            Start your trading journey today
+          </h2>
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            Join thousands of successful traders using professional-grade
+            tools to make informed decisions.
+          </p>
 
-            <div className="space-y-4">
-              {benefits.map((benefit, index) => (
-                <motion.div
-                  key={benefit}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 + index * 0.1 }}
-                  className="flex items-center space-x-3"
-                >
-                  <div className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
-                    <Check className="h-4 w-4 text-primary-foreground" />
-                  </div>
-                  <span className="text-foreground">{benefit}</span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+          <ul className="space-y-3">
+            {benefits.map((benefit) => (
+              <li key={benefit} className="flex items-center gap-2.5">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary">
+                  <Check className="h-3 w-3 text-primary-foreground" />
+                </span>
+                <span className="text-sm text-foreground">{benefit}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
-      {}
-      <div className="flex-1 flex items-center justify-center p-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-md"
-        >
-          {}
+      <div className="flex flex-1 items-center justify-center p-8">
+        <div className="w-full max-w-md">
           <Link
             href="/"
-            className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 group"
+            className="group mb-8 inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
-            <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+            <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
             Back to home
           </Link>
 
-          {}
-          <div className="flex items-center space-x-3 mb-8">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-              <BarChart3 className="h-5 w-5 text-primary-foreground" />
+          <div className="mb-8 flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
+              <BarChart3 className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="text-2xl font-display font-semibold text-foreground">
+            <span className="text-xl font-semibold tracking-tight text-foreground">
               StockMarket Pro
             </span>
           </div>
 
-          {}
           <div className="mb-8">
-            <h1 className="text-3xl font-display font-bold text-foreground mb-2">
+            <h1 className="mb-2 text-2xl font-semibold tracking-tight text-foreground">
               Create your account
             </h1>
-            <p className="text-muted-foreground">Start trading in minutes</p>
+            <p className="text-sm text-muted-foreground">Start trading in minutes</p>
           </div>
 
-          {}
           <form onSubmit={handleSubmit} className="space-y-5">
-            {}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="first-name"
-                  className="block text-sm font-medium text-foreground mb-2"
-                >
+                <label htmlFor="first-name" className={labelClassName}>
                   First Name
                 </label>
                 <input
@@ -202,17 +179,14 @@ export default function RegisterPage() {
                   onChange={(event) =>
                     updateFormField("firstName", event.target.value)
                   }
-                  className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-foreground placeholder:text-muted-foreground"
+                  className={inputClassName}
                   placeholder="John"
                   autoComplete="given-name"
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="last-name"
-                  className="block text-sm font-medium text-foreground mb-2"
-                >
+                <label htmlFor="last-name" className={labelClassName}>
                   Last Name
                 </label>
                 <input
@@ -222,20 +196,16 @@ export default function RegisterPage() {
                   onChange={(event) =>
                     updateFormField("lastName", event.target.value)
                   }
-                  className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-foreground placeholder:text-muted-foreground"
+                  className={inputClassName}
                   placeholder="Doe"
                   autoComplete="family-name"
                 />
               </div>
             </div>
 
-            {}
             <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-foreground mb-2"
-              >
-                Username <span className="text-error">*</span>
+              <label htmlFor="username" className={labelClassName}>
+                Username <span className="text-destructive">*</span>
               </label>
               <input
                 id="username"
@@ -244,20 +214,16 @@ export default function RegisterPage() {
                 onChange={(event) =>
                   updateFormField("username", event.target.value)
                 }
-                className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-foreground placeholder:text-muted-foreground"
+                className={inputClassName}
                 placeholder="johndoe"
                 required
                 autoComplete="username"
               />
             </div>
 
-            {}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-foreground mb-2"
-              >
-                Email Address <span className="text-error">*</span>
+              <label htmlFor="email" className={labelClassName}>
+                Email Address <span className="text-destructive">*</span>
               </label>
               <input
                 id="email"
@@ -266,21 +232,17 @@ export default function RegisterPage() {
                 onChange={(event) =>
                   updateFormField("email", event.target.value)
                 }
-                className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-foreground placeholder:text-muted-foreground"
+                className={inputClassName}
                 placeholder="john@example.com"
                 required
                 autoComplete="email"
               />
             </div>
 
-            {}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-foreground mb-2"
-                >
-                  Password <span className="text-error">*</span>
+                <label htmlFor="password" className={labelClassName}>
+                  Password <span className="text-destructive">*</span>
                 </label>
                 <div className="relative">
                   <input
@@ -290,7 +252,7 @@ export default function RegisterPage() {
                     onChange={(event) =>
                       updateFormField("password", event.target.value)
                     }
-                    className="w-full px-4 py-3 pr-12 bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-foreground placeholder:text-muted-foreground"
+                    className={`${inputClassName} pr-12`}
                     placeholder="••••••••"
                     required
                     minLength={10}
@@ -304,7 +266,7 @@ export default function RegisterPage() {
                     }
                     aria-pressed={showPassword}
                     aria-controls="password"
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    className="absolute top-1/2 right-4 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {showPassword ? (
                       <EyeOff className="h-4 w-4" />
@@ -316,11 +278,8 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label
-                  htmlFor="confirm-password"
-                  className="block text-sm font-medium text-foreground mb-2"
-                >
-                  Confirm <span className="text-error">*</span>
+                <label htmlFor="confirm-password" className={labelClassName}>
+                  Confirm <span className="text-destructive">*</span>
                 </label>
                 <div className="relative">
                   <input
@@ -330,7 +289,7 @@ export default function RegisterPage() {
                     onChange={(event) =>
                       updateFormField("confirmPassword", event.target.value)
                     }
-                    className="w-full px-4 py-3 pr-12 bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-foreground placeholder:text-muted-foreground"
+                    className={`${inputClassName} pr-12`}
                     placeholder="••••••••"
                     required
                     minLength={10}
@@ -346,7 +305,7 @@ export default function RegisterPage() {
                     }
                     aria-pressed={showConfirmPassword}
                     aria-controls="confirm-password"
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    className="absolute top-1/2 right-4 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {showConfirmPassword ? (
                       <EyeOff className="h-4 w-4" />
@@ -358,36 +317,34 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {}
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary text-primary-foreground py-3.5 rounded-xl font-semibold hover:bg-primary/90 transition-all shadow-sm hover:shadow-luxury disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center mt-6"
+              className="mt-6 flex w-full items-center justify-center rounded-md bg-primary py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? (
-                <div className="w-5 h-5 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
               ) : (
                 <>
-                  <UserPlus className="h-5 w-5 mr-2" />
+                  <UserPlus className="mr-2 h-4 w-4" />
                   Create Account
                 </>
               )}
             </button>
           </form>
 
-          {}
           <div className="mt-8 text-center">
             <p className="text-sm text-muted-foreground">
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="text-foreground font-semibold hover:underline"
+                className="font-semibold text-foreground hover:underline"
               >
                 Sign in here
               </Link>
             </p>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

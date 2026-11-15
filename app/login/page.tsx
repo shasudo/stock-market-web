@@ -8,7 +8,6 @@ import axios from "axios";
 import { normalizeAuthResponse } from "@/lib/api-client";
 import toast from "react-hot-toast";
 import { LogIn, BarChart3, ArrowLeft, Eye, EyeOff } from "lucide-react";
-import { motion } from "framer-motion";
 import {
   isLoginResponse,
   type ApiErrorResponse,
@@ -23,6 +22,9 @@ function getLoginErrorMessage(error: unknown): string {
   const message = error.response?.data?.message;
   return typeof message === "string" ? message : "Login failed";
 }
+
+const inputClassName =
+  "w-full rounded-md border border-border bg-card px-4 py-2.5 text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -61,51 +63,40 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {}
-      <div className="flex-1 flex items-center justify-center p-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-md"
-        >
-          {}
+    <div className="flex min-h-screen bg-background">
+      <div className="flex flex-1 items-center justify-center p-8">
+        <div className="w-full max-w-md">
           <Link
             href="/"
-            className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 group"
+            className="group mb-8 inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
-            <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+            <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
             Back to home
           </Link>
 
-          {}
-          <div className="flex items-center space-x-3 mb-8">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-              <BarChart3 className="h-5 w-5 text-primary-foreground" />
+          <div className="mb-8 flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
+              <BarChart3 className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="text-2xl font-display font-semibold text-foreground">
+            <span className="text-xl font-semibold tracking-tight text-foreground">
               StockMarket Pro
             </span>
           </div>
 
-          {}
           <div className="mb-8">
-            <h1 className="text-3xl font-display font-bold text-foreground mb-2">
+            <h1 className="mb-2 text-2xl font-semibold tracking-tight text-foreground">
               Welcome back
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Sign in to your account to continue
             </p>
           </div>
 
-          {}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {}
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label
                 htmlFor="username"
-                className="block text-sm font-medium text-foreground mb-2"
+                className="mb-2 block text-[13px] font-medium text-foreground"
               >
                 Username
               </label>
@@ -116,18 +107,17 @@ export default function LoginPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, username: e.target.value })
                 }
-                className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-foreground placeholder:text-muted-foreground"
+                className={inputClassName}
                 placeholder="Enter your username"
                 required
                 autoComplete="username"
               />
             </div>
 
-            {}
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-foreground mb-2"
+                className="mb-2 block text-[13px] font-medium text-foreground"
               >
                 Password
               </label>
@@ -139,7 +129,7 @@ export default function LoginPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
                   }
-                  className="w-full px-4 py-3 pr-12 bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-foreground placeholder:text-muted-foreground"
+                  className={`${inputClassName} pr-12`}
                   placeholder="Enter your password"
                   required
                   autoComplete="current-password"
@@ -149,83 +139,68 @@ export default function LoginPage() {
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                   aria-pressed={showPassword}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  className="absolute top-1/2 right-4 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
+                    <EyeOff className="h-4 w-4" />
                   ) : (
-                    <Eye className="h-5 w-5" />
+                    <Eye className="h-4 w-4" />
                   )}
                 </button>
               </div>
             </div>
 
-            {}
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary text-primary-foreground py-3.5 rounded-xl font-semibold hover:bg-primary/90 transition-all shadow-sm hover:shadow-luxury disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="flex w-full items-center justify-center rounded-md bg-primary py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? (
-                <div className="w-5 h-5 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
               ) : (
                 <>
-                  <LogIn className="h-5 w-5 mr-2" />
+                  <LogIn className="mr-2 h-4 w-4" />
                   Sign In
                 </>
               )}
             </button>
           </form>
 
-          {}
           <div className="mt-8 text-center">
             <p className="text-sm text-muted-foreground">
               Don&apos;t have an account?{" "}
               <Link
                 href="/register"
-                className="text-foreground font-semibold hover:underline"
+                className="font-semibold text-foreground hover:underline"
               >
                 Create one now
               </Link>
             </p>
           </div>
-        </motion.div>
+        </div>
       </div>
 
-      {}
-      <div className="hidden lg:flex flex-1 bg-secondary items-center justify-center p-12 border-l border-border">
+      <div className="hidden flex-1 items-center justify-center border-l border-border bg-muted/40 p-12 lg:flex">
         <div className="max-w-lg">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h2 className="text-4xl font-display font-bold text-foreground mb-6">
-              Professional trading made simple
-            </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-              Access institutional-grade market data, build intelligent
-              watchlists, and manage your portfolio with precision.
-            </p>
-            <div className="space-y-4">
-              {[
-                "Real-time market data",
-                "Advanced analytics",
-                "Secure & reliable",
-              ].map((feature, index) => (
-                <motion.div
-                  key={feature}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 + index * 0.1 }}
-                  className="flex items-center space-x-3"
-                >
-                  <div className="w-2 h-2 bg-primary rounded-full" />
-                  <span className="text-foreground">{feature}</span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-foreground">
+            Professional trading made simple
+          </h2>
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            Access institutional-grade market data, build intelligent
+            watchlists, and manage your portfolio with precision.
+          </p>
+          <ul className="space-y-3">
+            {[
+              "Real-time market data",
+              "Advanced analytics",
+              "Secure & reliable",
+            ].map((feature) => (
+              <li key={feature} className="flex items-center gap-2.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                <span className="text-sm text-foreground">{feature}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
