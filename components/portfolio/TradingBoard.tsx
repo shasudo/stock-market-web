@@ -737,7 +737,7 @@ export function TradingBoard({
                     >
                       {search.trim()
                         ? `No positions match "${search.trim()}".`
-                        : `No ${mode} positions yet — use the ⋮ menu on any stock to add one.`}
+                        : `No ${mode} positions yet — use the three-dot menu on any stock to add one.`}
                     </td>
                   </tr>
                 )}

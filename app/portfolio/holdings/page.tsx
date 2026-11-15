@@ -237,7 +237,7 @@ function HoldingsContent() {
                     >
                       {search.trim()
                         ? `No holdings match "${search.trim()}".`
-                        : "No holdings yet - use the ⋮ menu on any stock to add one."}
+                        : "No holdings yet - use the three-dot menu on any stock to add one."}
                     </td>
                   </tr>
                 )}
