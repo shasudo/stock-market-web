@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import Navbar from "@/components/Navbar";
-import MarketTicker from "@/components/MarketTicker";
+import TerminalShell from "@/components/shell/TerminalShell";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({
@@ -33,9 +32,7 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased bg-background text-foreground">
         <ThemeProvider>
-          <MarketTicker />
-          <Navbar />
-          {children}
+          <TerminalShell>{children}</TerminalShell>
           <Toaster
             position="top-center"
             toastOptions={{
@@ -44,8 +41,8 @@ export default function RootLayout({
                 background: "#18181B",
                 color: "#FAFAFA",
                 border: "1px solid #27272A",
-                borderRadius: "12px",
-                padding: "16px 24px",
+                borderRadius: "10px",
+                padding: "14px 20px",
                 fontSize: "14px",
                 fontWeight: "500",
               },

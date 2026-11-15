@@ -97,8 +97,8 @@ export default function MarketTicker() {
       <style jsx>{`
         .market-ticker-wrapper {
           width: 100%;
-          background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          background: #0b0e14;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
           overflow: hidden;
         }
 
@@ -162,11 +162,11 @@ export default function MarketTicker() {
         }
 
         .ticker-change.positive {
-          color: #22c55e;
+          color: #6ce9a6;
         }
 
         .ticker-change.negative {
-          color: #ef4444;
+          color: #fda29b;
         }
 
         .ticker-change :global(.ticker-icon) {
