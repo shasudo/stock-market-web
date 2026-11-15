@@ -3,9 +3,10 @@ interface UpperWickMarkProps {
 }
 
 /**
- * UpperWick brand mark — a cream ₹ whose leg bounces into a rising
- * chart arrow, on an espresso tile with a racing-green edge.
- * Fixed colors so it reads identically in light and dark mode.
+ * UpperWick brand mark — a bold U whose right stem breaks high above
+ * the cap line like an upper wick shooting skyward, on an espresso
+ * tile with a racing-green edge. Fixed colors so it reads identically
+ * in light and dark mode.
  */
 export function UpperWickMark({ className = "h-8 w-8" }: UpperWickMarkProps) {
   return (
@@ -27,21 +28,17 @@ export function UpperWickMark({ className = "h-8 w-8" }: UpperWickMarkProps) {
         strokeOpacity="0.55"
         strokeWidth="1.5"
       />
-      <g
+      <g fill="#F4EBD9">
+        <rect x="18" y="30" width="10" height="13" />
+        <polygon points="36,41 36,15 46,10 46,41" />
+      </g>
+      <path
+        d="M23 30 V40 A9 9 0 0 0 41 40"
         fill="none"
         stroke="#F4EBD9"
-        strokeWidth="4.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M18 16 H42" />
-        <path d="M18 26 H38" />
-        <path d="M23 16 V26" />
-        <path d="M42 16 C42 23 37 26 31 26" />
-        <path d="M31 26 L21 44 L30 35 L36 39 L50 21" />
-        <path d="M50 21 L43.4 23.4" />
-        <path d="M50 21 L47.5 27.6" />
-      </g>
+        strokeWidth="10"
+        strokeLinecap="butt"
+      />
     </svg>
   );
 }
