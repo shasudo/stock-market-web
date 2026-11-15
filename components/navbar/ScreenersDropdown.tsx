@@ -47,46 +47,55 @@ export function ScreenersDropdown({ isActive }: ScreenersDropdownProps) {
             ))}
           </div>
 
-          {}
-          <div className="border-b border-border">
-            <div className={sectionHeader}>Chart Patterns</div>
-            {screenersLinks.technical.chartPatterns.map((link) => (
-              <Link key={link.label} href={link.href} className={linkClass}>
-                {link.label}
-              </Link>
-            ))}
-          </div>
+          {screenersLinks.technical.chartPatterns.length > 0 && (
+            <>
+              {}
+              <div className="border-b border-border">
+                <div className={sectionHeader}>Chart Patterns</div>
+                {screenersLinks.technical.chartPatterns.map((link) => (
+                  <Link key={link.label} href={link.href} className={linkClass}>
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </>
+          )}
 
-          {}
-          <div className="border-b border-border">
-            <div className={sectionHeader}>Drawing Tools</div>
-            {screenersLinks.technical.drawingTools.map((link) => (
-              <Link key={link.label} href={link.href} className={linkClass}>
-                {link.label}
-              </Link>
-            ))}
-          </div>
+          {screenersLinks.technical.drawingTools.length > 0 && (
+            <>
+              {}
+              <div className="border-b border-border">
+                <div className={sectionHeader}>Drawing Tools</div>
+                {screenersLinks.technical.drawingTools.map((link) => (
+                  <Link key={link.label} href={link.href} className={linkClass}>
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </>
+          )}
 
-          {}
-          <div className="border-b border-border">
-            <div className="px-4 py-1.5 text-sm font-bold text-foreground">
-              Indicators
-            </div>
-          </div>
+          {screenersLinks.technical.indicators.length > 0 && (
+            <>
+              {}
+              <div className="border-b border-border">
+                <div className="px-4 py-1.5 text-sm font-bold text-foreground">
+                  Indicators
+                </div>
+              </div>
+            </>
+          )}
 
-          {}
-          <div>
-            <div className="px-4 py-1.5 text-sm font-bold text-foreground">
-              Strategies
-            </div>
-          </div>
-        </div>
-
-        {}
-        <div className="min-w-[160px]">
-          <div className="px-4 py-2 text-sm font-bold text-foreground border-b border-border bg-muted">
-            Fundamental
-          </div>
+          {screenersLinks.technical.strategies.length > 0 && (
+            <>
+              {}
+              <div>
+                <div className="px-4 py-1.5 text-sm font-bold text-foreground">
+                  Strategies
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </NavDropdown>

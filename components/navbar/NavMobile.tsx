@@ -320,41 +320,40 @@ export function NavMobile({ user, onLogout, onClose }: NavMobileProps) {
                     </Link>
                   ))}
                 </div>
-                <div className="mb-2">
-                  <div className="py-1 text-xs font-semibold text-muted-foreground">
-                    Chart Patterns
+                {screenersLinks.technical.chartPatterns.length > 0 && (
+                  <div className="mb-2">
+                    <div className="py-1 text-xs font-semibold text-muted-foreground">
+                      Chart Patterns
+                    </div>
+                    {screenersLinks.technical.chartPatterns.map((link) => (
+                      <Link
+                        key={link.label}
+                        href={link.href}
+                        onClick={closeAll}
+                        className="block py-2 pl-2 text-sm rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
                   </div>
-                  {screenersLinks.technical.chartPatterns.map((link) => (
-                    <Link
-                      key={link.label}
-                      href={link.href}
-                      onClick={closeAll}
-                      className="block py-2 pl-2 text-sm rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-                <div className="mb-2">
-                  <div className="py-1 text-xs font-semibold text-muted-foreground">
-                    Drawing Tools
+                )}
+                {screenersLinks.technical.drawingTools.length > 0 && (
+                  <div className="mb-2">
+                    <div className="py-1 text-xs font-semibold text-muted-foreground">
+                      Drawing Tools
+                    </div>
+                    {screenersLinks.technical.drawingTools.map((link) => (
+                      <Link
+                        key={link.label}
+                        href={link.href}
+                        onClick={closeAll}
+                        className="block py-2 pl-2 text-sm rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
                   </div>
-                  {screenersLinks.technical.drawingTools.map((link) => (
-                    <Link
-                      key={link.label}
-                      href={link.href}
-                      onClick={closeAll}
-                      className="block py-2 pl-2 text-sm rounded-lg transition-colors text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <div className="text-xs font-bold text-foreground uppercase tracking-wider mb-2 pb-1 border-b border-border">
-                  Fundamental
-                </div>
+                )}
               </div>
             </motion.div>
           )}

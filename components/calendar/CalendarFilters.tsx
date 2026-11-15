@@ -1,7 +1,5 @@
 "use client";
 
-import { Calendar } from "lucide-react";
-
 interface CalendarFiltersProps {
   activeFilter: string;
   onFilterChange: (filter: string) => void;
@@ -30,30 +28,6 @@ export default function CalendarFilters({
               {filter}
             </button>
           ))}
-          <button className="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-muted text-foreground hover:bg-muted border border-transparent">
-            <Calendar className="w-4 h-4" />
-            <span>Custom dates</span>
-          </button>
-        </div>
-
-        <div>
-          <button className="flex items-center gap-1 font-semibold text-primary text-sm border border-border rounded px-3 py-1.5 bg-card hover:bg-muted">
-            Show Filters
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="ml-1"
-            >
-              <path d="m6 9 6 6 6-6" />
-            </svg>
-          </button>
         </div>
       </div>
 

@@ -4298,8 +4298,8 @@ export function MarketPerformancePage({
 }: {
   enableAddColumns?: boolean;
   /**
-   * This component backs three separate routes (Total Market Performance,
-   * the Screening Table, and the market-data dummy table). Each page's
+   * This component backs two separate routes (Total Market Performance
+   * and the Screening Table). Each page's
    * settings (filters, hidden columns, sort, tab, added columns) persist
    * per settingsScope via usePersistedSettings, so pass a scope unique to
    * the page rendering this -- otherwise their saved config bleeds into

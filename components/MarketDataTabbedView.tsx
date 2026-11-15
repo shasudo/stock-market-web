@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChevronDown, Settings } from "lucide-react";
 import Link from "next/link";
 import IndicesDataTable, {
   type IndexData,
@@ -341,8 +340,6 @@ export default function MarketDataTabbedView({
   );
   const [indicesStreaming, setIndicesStreaming] = useState(true);
   const [hasIndexSnapshot, setHasIndexSnapshot] = useState(false);
-  const selectedIndex = "NIFTY 500";
-  const selectedPeriod = "1 Day";
 
   const isIndicesTab =
     activeCategory === "indicesFno" ||
@@ -1152,26 +1149,6 @@ export default function MarketDataTabbedView({
                 ))}
               </div>
 
-              {}
-              <button className="flex items-center space-x-2 px-3 py-2 rounded-lg border border-border bg-card hover:bg-muted">
-                <span className="text-sm font-medium text-foreground">
-                  {selectedIndex}
-                </span>
-                <ChevronDown className="w-4 h-4 text-foreground" />
-              </button>
-
-              {}
-              <button className="flex items-center space-x-2 px-3 py-2 rounded-lg border border-border bg-card hover:bg-muted">
-                <span className="text-sm font-medium text-foreground">
-                  {selectedPeriod}
-                </span>
-                <ChevronDown className="w-4 h-4 text-foreground" />
-              </button>
-
-              {}
-              <button className="p-2 rounded-lg hover:bg-muted">
-                <Settings className="w-5 h-5 text-foreground" />
-              </button>
             </div>
           </div>
 
