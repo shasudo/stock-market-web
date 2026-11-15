@@ -293,7 +293,7 @@ export default function RegisterPage() {
                     className="w-full px-4 py-3 pr-12 bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-foreground placeholder:text-muted-foreground"
                     placeholder="••••••••"
                     required
-                    minLength={6}
+                    minLength={10}
                     autoComplete="new-password"
                   />
                   <button
@@ -333,7 +333,7 @@ export default function RegisterPage() {
                     className="w-full px-4 py-3 pr-12 bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-foreground placeholder:text-muted-foreground"
                     placeholder="••••••••"
                     required
-                    minLength={6}
+                    minLength={10}
                     autoComplete="new-password"
                   />
                   <button

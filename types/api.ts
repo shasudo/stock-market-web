@@ -80,9 +80,15 @@ export function isAuthenticatedUser(
     isRecord(value) &&
     isNonEmptyString(value.id) &&
     isNonEmptyString(value.username) &&
-    (value.email === undefined || typeof value.email === "string") &&
-    (value.firstName === undefined || typeof value.firstName === "string") &&
-    (value.lastName === undefined || typeof value.lastName === "string")
+    (value.email === undefined ||
+      value.email === null ||
+      typeof value.email === "string") &&
+    (value.firstName === undefined ||
+      value.firstName === null ||
+      typeof value.firstName === "string") &&
+    (value.lastName === undefined ||
+      value.lastName === null ||
+      typeof value.lastName === "string")
   );
 }
 
