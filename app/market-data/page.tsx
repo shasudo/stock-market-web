@@ -54,6 +54,7 @@ const customHrefs: Record<string, string> = {
   "BSE Indices": "/market-data/indices/bse",
   "NSE Sectors": "/market-data/sectors/nse",
   "BSE Sectors": "/market-data/sectors/bse",
+  Sectors: "/market-data/sectors-data",
   "FII & DII Activity": "/market-data/fii-dii",
   "F&O Stocks": "/market-data/fno-stocks",
   "IPO's": "/market-data/ipo",
