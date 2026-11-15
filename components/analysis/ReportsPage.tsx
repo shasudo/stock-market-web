@@ -10,7 +10,7 @@ import {
   TrendingDown,
   ArrowRight,
 } from "lucide-react";
-import { PageHeader } from "@/components/common";
+import { PageHeader } from "@/components/ds";
 import { getAxiosErrorMessage } from "@/lib/api-client";
 import { fetchStrategies, type StrategyDefinitionDTO } from "@/lib/strategy-client";
 import { fetchBacktestRuns, type BacktestRunDTO } from "@/lib/backtest-client";
@@ -142,8 +142,8 @@ export default function ReportsPage() {
   const overall = aggregate(allRuns);
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
+    <div>
+      <div className="w-full">
         <PageHeader
           title="Strategy Performance Reports"
           description="Aggregated quantitative backtest analytics, trade win rates, and cumulative P&L across all strategies"
@@ -203,7 +203,7 @@ export default function ReportsPage() {
             <div className="rounded-2xl border border-border/90 bg-card shadow-xs overflow-hidden">
               <div className="overflow-x-auto scrollbar-thin">
                 <table className="w-full text-left border-collapse text-xs md:text-sm">
-                  <thead className="bg-muted/90 backdrop-blur-md border-b border-border sticky top-0 z-10">
+                  <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
                     <tr className="text-muted-foreground text-[11px] font-bold uppercase tracking-wider select-none">
                       <th className="px-3.5 py-3">Strategy Name</th>
                       <th className="px-3 py-3">Asset</th>

@@ -953,11 +953,11 @@ export default function HistoricalDataPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 py-4">
+    <div>
+      <div className="w-full">
         <div
           ref={stockPickerRef}
-          className="relative mb-4 rounded-2xl border border-border/90 bg-card p-4 shadow-xs"
+          className="relative mb-4 rounded-[10px] border border-border bg-card p-4"
         >
           {selectedStock && !isPickerOpen ? (
             <div className="flex items-center gap-3 flex-wrap">
@@ -1386,7 +1386,7 @@ export default function HistoricalDataPage() {
 
             <div className="overflow-x-auto max-h-[70vh] overflow-y-auto scrollbar-thin">
               <table className="w-full text-xs border-collapse text-left">
-                <thead className="sticky top-0 z-10 bg-muted/90 backdrop-blur-md border-b border-border">
+                <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
                   <tr>
                     {COLUMNS.map((column) => (
                       <th

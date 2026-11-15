@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+
 import { TrendingUp, TrendingDown, type LucideIcon } from "lucide-react";
 import {
   fetchIndexQuoteSnapshot,
@@ -82,15 +82,11 @@ export default function RealIndexTable({
   );
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
+    <div>
+      <div className="w-full">
+        <div>
           {/* Header Card */}
-          <div className="bg-card border border-border/80 rounded-2xl p-5 mb-5 shadow-xs">
+          <div className="rounded-[10px] border border-border bg-card p-4 mb-4">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex items-center gap-3">
                 <div className={`p-2.5 rounded-xl border border-primary/20 ${iconWrapperClassName}`}>
@@ -142,7 +138,7 @@ export default function RealIndexTable({
                 </div>
               ) : (
                 <table className="w-full text-left border-collapse text-xs md:text-sm">
-                  <thead className="bg-muted/90 backdrop-blur-md border-b border-border sticky top-0 z-10">
+                  <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
                     <tr>
                       <th className="px-3.5 py-3 text-[11px] font-bold text-muted-foreground uppercase tracking-wider select-none">
                         Index Name
@@ -245,7 +241,7 @@ export default function RealIndexTable({
               )}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

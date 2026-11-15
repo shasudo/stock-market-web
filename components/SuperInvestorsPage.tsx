@@ -256,7 +256,7 @@ function InvestorsTable({
 
       <div className="overflow-x-auto scrollbar-thin">
         <table className="w-full border-collapse text-left text-xs md:text-sm">
-          <thead className="sticky top-0 z-10 border-b border-border bg-muted/90 backdrop-blur-md">
+          <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
             <tr>
               <SortableTh className={TH} label={`${SUPER_INVESTOR_CATEGORY_LABELS[category]} Investor`} sortKey="name" sort={sort} onSort={onSort} />
               <SortableTh className={TH} label="Holdings" sortKey="holdings" sort={sort} onSort={onSort} align="right" />
@@ -392,7 +392,7 @@ function KeyChangesTable({
       </div>
       <div className="overflow-x-auto scrollbar-thin">
         <table className="w-full border-collapse text-left text-xs md:text-sm">
-          <thead className="sticky top-0 z-10 border-b border-border bg-muted/90 backdrop-blur-md">
+          <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
             <tr>
               <SortableTh className={TH} label="Filed" sortKey="filed" sort={sort} onSort={onSort} />
               <SortableTh className={TH} label="Investor" sortKey="investor" sort={sort} onSort={onSort} />
@@ -515,7 +515,7 @@ function RecentDealsTable({
       </p>
       <div className="overflow-x-auto scrollbar-thin">
         <table className="w-full border-collapse text-left text-xs md:text-sm">
-          <thead className="sticky top-0 z-10 border-b border-border bg-muted/90 backdrop-blur-md">
+          <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
             <tr>
               <SortableTh className={TH} label="Date" sortKey="date" sort={sort} onSort={onSort} />
               <SortableTh className={TH} label="Investor" sortKey="investor" sort={sort} onSort={onSort} />
@@ -638,7 +638,7 @@ function CommonStocksTable({
       </div>
       <div className="overflow-x-auto scrollbar-thin">
         <table className="w-full border-collapse text-left text-xs md:text-sm">
-          <thead className="sticky top-0 z-10 border-b border-border bg-muted/90 backdrop-blur-md">
+          <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
             <tr>
               <SortableTh className={TH} label="Stock" sortKey="stock" sort={sort} onSort={onSort} />
               <SortableTh className={TH} label="Price" sortKey="price" sort={sort} onSort={onSort} align="right" />
@@ -879,8 +879,8 @@ export default function SuperInvestorsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
+    <div>
+      <div className="w-full">
         <UnofficialSourceBadge
           label="Holdings parsed from NSE's public shareholding-pattern filings (unofficial access, not a supported API); prices from the live quote feed"
           lastSyncAt={live?.meta.snapshotBuiltAt ?? null}

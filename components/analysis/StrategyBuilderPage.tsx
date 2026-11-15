@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { motion } from "framer-motion";
+
 import { Check, Layers, Pencil, Plus, Trash2, X, Sparkles } from "lucide-react";
 import toast from "react-hot-toast";
 import { TechnicalColumnPicker } from "@/components/TechnicalColumnPicker";
@@ -153,10 +153,10 @@ function StrategyBuilderContent() {
   );
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
+    <div>
+      <div className="w-full">
         {/* Header Card */}
-        <div className="bg-card border border-border/80 rounded-2xl p-6 mb-6 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="rounded-[10px] border border-border bg-card p-4 mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-primary/20 shadow-lg">
               <Layers className="w-6 h-6" />
@@ -190,23 +190,20 @@ function StrategyBuilderContent() {
         </div>
 
         {/* Strategies Table Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="overflow-hidden rounded-2xl border border-border/90 bg-card shadow-xs"
+        <div className="overflow-hidden rounded-[10px] border border-border bg-card"
         >
-          <div className="flex items-center justify-between border-b border-border bg-muted/80 px-5 py-3.5">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-foreground">
+          <div className="flex items-center justify-between border-b border-border bg-muted/60 px-4 py-3">
+            <h2 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
               Active Strategy Rules
             </h2>
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/30">
+            <span className="inline-flex items-center rounded-md border border-primary/25 bg-primary/[0.08] px-2 py-0.5 text-xs font-semibold text-primary">
               {rows.length} strategies configured
             </span>
           </div>
 
           <div className="overflow-x-auto scrollbar-thin">
             <table className="w-full text-left border-collapse text-xs">
-              <thead className="bg-muted/90 backdrop-blur-md border-b border-border sticky top-0 z-10">
+              <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
                 <tr className="text-muted-foreground text-[11px] font-bold uppercase tracking-wider select-none">
                   <th className="border-r border-border px-3 py-3 text-center whitespace-nowrap w-12">
                     #
@@ -437,7 +434,7 @@ function StrategyBuilderContent() {
               </tbody>
             </table>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

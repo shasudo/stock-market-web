@@ -91,34 +91,34 @@ function getHref(text: string): string | null {
 
 export default function MarketDataPage() {
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
-        <div className="rounded-2xl border border-border/90 bg-card shadow-xs overflow-hidden">
+    <div>
+      <div className="w-full">
+        <div className="overflow-hidden rounded-[10px] border border-border bg-card">
           <table className="w-full border-collapse">
             <thead>
               <tr>
                 <th
                   colSpan={3}
-                  className="py-3 px-4 text-center text-xl font-extrabold tracking-tight text-foreground border-b border-border bg-muted/80"
+                  className="border-b border-border bg-muted/60 px-4 py-3 text-center text-xl font-semibold tracking-tight text-foreground"
                 >
                   Market Data
                 </th>
               </tr>
-              <tr className="border-b border-border bg-muted/50">
-                <th className="w-1/3 py-3 px-4 text-left text-[11px] font-bold uppercase tracking-wider text-muted-foreground border-r border-border bg-card">
+              <tr className="border-b border-border bg-muted/60">
+                <th className="w-1/3 border-r border-border px-4 py-2.5 text-left align-middle text-[11px] font-semibold uppercase tracking-wider text-muted-foreground whitespace-nowrap">
                   Market Overview
                 </th>
-                <th className="w-1/3 py-3 px-4 text-left text-[11px] font-bold uppercase tracking-wider text-muted-foreground border-r border-border bg-card">
+                <th className="w-1/3 border-r border-border px-4 py-2.5 text-left align-middle text-[11px] font-semibold uppercase tracking-wider text-muted-foreground whitespace-nowrap">
                   Equity
                 </th>
-                <th className="w-1/3 py-3 px-4 text-left text-[11px] font-bold uppercase tracking-wider text-muted-foreground bg-card">
+                <th className="w-1/3 px-4 py-2.5 text-left align-middle text-[11px] font-semibold uppercase tracking-wider text-muted-foreground whitespace-nowrap">
                   Others
                 </th>
               </tr>
             </thead>
             <tbody>
               {marketDataRows.map((row, idx) => (
-                <tr key={idx} className="finder-row transition-colors border-b border-border/80 hover:bg-primary/10 even:bg-card odd:bg-muted/50 group">
+                <tr key={idx} className="border-b border-border transition-colors last:border-b-0 even:bg-card odd:bg-muted/40 hover:bg-primary/[0.05]">
                   {[row[0], row[1], row[2]].map((text, cell) => {
                     if (!text) return <td key={cell} className={cell === 2 ? "py-2 px-4 text-sm text-muted-foreground font-medium" : "py-2 px-4 border-r border-border text-sm text-muted-foreground font-medium"} />;
                     const href = getHref(text);

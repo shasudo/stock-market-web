@@ -10,7 +10,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import toast from "react-hot-toast";
-import { PageHeader } from "@/components/common";
+import { PageHeader } from "@/components/ds";
 import { getAxiosErrorMessage } from "@/lib/api-client";
 import {
   fetchBacktestRuns,
@@ -115,7 +115,7 @@ function TradeTable({ trades }: { trades: readonly BacktestTradeDTO[] }) {
   return (
     <div className="overflow-x-auto rounded-2xl border border-border/90 bg-card shadow-xs scrollbar-thin">
       <table className="w-full text-left border-collapse text-xs">
-        <thead className="bg-muted/90 backdrop-blur-md border-b border-border sticky top-0 z-10">
+        <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
           <tr className="text-muted-foreground text-[10px] font-bold uppercase tracking-wider select-none">
             <th className="py-2.5 px-3">Entry Date</th>
             <th className="py-2.5 px-3 text-right">Entry Price</th>
@@ -340,8 +340,8 @@ export default function StrategyBackTestPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
+    <div>
+      <div className="w-full">
         <PageHeader
           title="Quantitative Strategy Backtest"
           description="Simulate strategy execution against real historical equity data and inspect complete trade ledger and drawdown metrics"

@@ -275,7 +275,7 @@ export function SuperInvestorDetail({
               </div>
               <div className="overflow-x-auto scrollbar-thin">
                 <table className="w-full border-collapse text-left text-xs md:text-sm">
-                  <thead className="sticky top-0 z-10 border-b border-border bg-muted/90 backdrop-blur-md">
+                  <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
                     <tr>
                       {COLUMNS.map((column) => (
                         <SortableTh

@@ -652,7 +652,7 @@ function PortfolioManagementContent() {
 
           <Table>
             <TableHeader>
-              <TableRow className="finder-row bg-card hover:bg-primary/10 border-b border-border/80">
+              <TableRow className="border-b border-border bg-card hover:bg-primary/[0.05]">
                 <TableHead className="w-[30%] text-foreground font-bold border-r border-black">
                   Following Strategies
                 </TableHead>
@@ -822,7 +822,7 @@ function PortfolioManagementContent() {
 
           <Table>
             <TableHeader>
-              <TableRow className="finder-row bg-card hover:bg-primary/10 border-b border-border/80">
+              <TableRow className="border-b border-border bg-card hover:bg-primary/[0.05]">
                 <TableHead className="w-1/2 text-center text-green-500 font-bold border-r border-black">
                   Positives
                 </TableHead>

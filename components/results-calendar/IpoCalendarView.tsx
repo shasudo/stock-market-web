@@ -169,7 +169,7 @@ export default function IpoCalendarView() {
         <div className="rounded-2xl border border-border/90 bg-card shadow-xs overflow-hidden">
           <div className="overflow-x-auto scrollbar-thin">
             <table className="w-full text-left border-collapse text-xs md:text-sm">
-              <thead className="bg-muted/90 backdrop-blur-md border-b border-border sticky top-0 z-10">
+              <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
                 <tr className="text-muted-foreground text-[11px] font-bold uppercase tracking-wider select-none">
                   <th className="py-3 px-4">Company</th>
                   <th className="py-3 px-4">Open</th>

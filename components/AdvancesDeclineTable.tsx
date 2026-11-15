@@ -509,42 +509,42 @@ export default function AdvancesDeclineTable(): ReactElement {
   };
 
   return (
-    <div className="w-full min-h-screen py-6 md:py-10">
-      <div className="w-full px-4 lg:px-8">
-        {/* Apple Breadth Gauge Summary Card */}
-        <div className="rounded-2xl border border-border/90 bg-card shadow-xs p-6 mb-6">
+    <div className="w-full">
+      <div className="w-full">
+        {/* Breadth summary card */}
+        <div className="rounded-[10px] border border-border bg-card p-4 mb-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             <div>
-              <h1 className="text-2xl md:text-3xl font-extrabold text-foreground tracking-[-0.035em]">
+              <h1 className="text-xl font-semibold tracking-tight text-foreground">
                 Advances & Declines
               </h1>
-              <p className="text-xs md:text-sm text-muted-foreground font-medium mt-0.5">
+              <p className="mt-0.5 text-[13px] text-muted-foreground">
                 Market breadth ratio, directional distribution, and net liquidity across NSE equities
               </p>
             </div>
 
-            {/* Apple Breadth Badges */}
+            {/* Breadth badges */}
             <div className="flex items-center gap-2 flex-wrap">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#34C759]/10 border border-[#34C759]/25 text-[#248a3d] text-xs font-bold font-mono num-font">
-                <span className="w-2 h-2 rounded-full bg-[#34C759]" />
+              <div className="flex items-center gap-2 rounded-md border border-emerald-600/25 bg-emerald-600/10 px-3 py-1.5 font-mono text-xs font-semibold tabular-nums text-emerald-800 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-300">
+                <span className="h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400" />
                 Advances: {formatCount(filteredCounts?.gainers)}
               </div>
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#FF3B30]/10 border border-[#FF3B30]/25 text-[#d70015] text-xs font-bold font-mono num-font">
-                <span className="w-2 h-2 rounded-full bg-[#FF3B30]" />
+              <div className="flex items-center gap-2 rounded-md border border-rose-600/25 bg-rose-600/10 px-3 py-1.5 font-mono text-xs font-semibold tabular-nums text-rose-800 dark:border-rose-400/25 dark:bg-rose-400/10 dark:text-rose-300">
+                <span className="h-2 w-2 rounded-full bg-rose-600 dark:bg-rose-400" />
                 Declines: {formatCount(filteredCounts?.losers)}
               </div>
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/[0.04] border border-border/90 text-muted-foreground text-xs font-bold font-mono num-font">
-                <span className="w-2 h-2 rounded-full bg-muted-foreground" />
+              <div className="flex items-center gap-2 rounded-md border border-border bg-muted px-3 py-1.5 font-mono text-xs font-semibold tabular-nums text-muted-foreground">
+                <span className="h-2 w-2 rounded-full bg-muted-foreground" />
                 Unchanged: {formatCount(filteredCounts?.unchanged)}
               </div>
             </div>
           </div>
 
-          {/* Visual Apple Activity-Style Ratio Bar */}
+          {/* Breadth ratio bar */}
           {filteredCounts && (filteredCounts.gainers > 0 || filteredCounts.losers > 0) && (
-            <div className="w-full h-2.5 rounded-full bg-black/[0.04] overflow-hidden flex shadow-inner">
+            <div className="flex h-2 w-full overflow-hidden rounded-full bg-muted">
               <div
-                className="bg-[#34C759] h-full transition-all duration-500"
+                className="h-full bg-emerald-600 transition-all duration-500 dark:bg-emerald-400"
                 style={{
                   width: `${
                     (filteredCounts.gainers /
@@ -554,7 +554,7 @@ export default function AdvancesDeclineTable(): ReactElement {
                 }}
               />
               <div
-                className="bg-slate-300 h-full transition-all duration-500"
+                className="h-full bg-muted-foreground/40 transition-all duration-500"
                 style={{
                   width: `${
                     ((filteredCounts.unchanged || 0) /
@@ -564,7 +564,7 @@ export default function AdvancesDeclineTable(): ReactElement {
                 }}
               />
               <div
-                className="bg-[#FF3B30] h-full transition-all duration-500"
+                className="h-full bg-rose-600 transition-all duration-500 dark:bg-rose-400"
                 style={{
                   width: `${
                     (filteredCounts.losers /
@@ -580,7 +580,7 @@ export default function AdvancesDeclineTable(): ReactElement {
         {errorMessage ? (
           <div
             role="alert"
-            className="mb-6 rounded-2xl border border-[#FF3B30]/25 bg-[#FF3B30]/10 px-4 py-3 text-xs font-semibold text-[#FF3B30]"
+            className="mb-4 rounded-[10px] border border-destructive/30 bg-destructive/10 px-4 py-3 text-xs font-medium text-destructive"
           >
             {errorMessage}
           </div>
@@ -699,11 +699,11 @@ export default function AdvancesDeclineTable(): ReactElement {
           id="advance-decline-table"
           role="tabpanel"
           aria-labelledby={`${activeTab}-tab`}
-          className="overflow-hidden rounded-2xl border border-border/90 bg-card/95 backdrop-blur-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04),0_1px_3px_rgb(0,0,0,0.02)]"
+          className="overflow-hidden rounded-[10px] border border-border bg-card"
         >
-          <div className="overflow-x-auto scrollbar-thin">
-            <table className="w-full text-left border-collapse text-xs md:text-sm">
-              <thead className="bg-muted/90 backdrop-blur-xl border-b border-border/90 sticky top-0 z-10">
+          <div className="w-full overflow-x-auto">
+            <table className="w-full border-collapse text-left text-[13px]">
+              <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
                 <tr>
                   {tableColumns.map((column) => {
                     const alignmentClass =

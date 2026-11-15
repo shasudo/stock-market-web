@@ -6,7 +6,7 @@ import EarningsCalendarView from "./EarningsCalendarView";
 import CorporateCalendarView from "./CorporateCalendarView";
 import EconomicCalendarView from "./EconomicCalendarView";
 import IpoCalendarView from "./IpoCalendarView";
-import { PageHeader } from "@/components/common";
+import { PageHeader } from "@/components/ds";
 
 type TabType =
   | "Economic Calendar"
@@ -38,8 +38,8 @@ export default function ResultsCalendarPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background py-6 font-sans">
-      <div className="w-full px-4 lg:px-8">
+    <div>
+      <div className="w-full">
         <PageHeader
           title="Results & Corporate Event Calendar"
           description="Upcoming quarterly earnings with live prices, plus dividend, bonus, split, rights, and buyback dates from the latest NSE bhavcopy"

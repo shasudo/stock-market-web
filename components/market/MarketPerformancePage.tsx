@@ -1392,7 +1392,7 @@ const StockTable = ({
 
       <div className="overflow-x-auto max-h-[70vh] overflow-y-auto scrollbar-thin">
         <table className="w-full text-xs border-collapse text-left">
-          <thead className="sticky top-0 z-10 bg-muted/90 backdrop-blur-md border-b border-border">
+          <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
             <tr>
               {visibleBase.map((col) => (
                 <th
@@ -3093,14 +3093,8 @@ function MarketPageContent({
   );
 
   return (
-    <div
-      className={
-        vgs
-          ? "min-h-screen bg-background py-6"
-          : "min-h-screen bg-card dark:bg-background"
-      }
-    >
-      <div className={vgs ? "w-full px-4 lg:px-8" : "w-full px-4 py-4"}>
+    <div>
+      <div className="w-full">
         {vgs && (
           <PageHeader
             title="Total Market Performance"
@@ -4282,8 +4276,11 @@ function MarketPageContent({
 
 function MarketPageLoading() {
   return (
-    <div className="min-h-screen bg-card dark:bg-background flex items-center justify-center">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black dark:border-border"></div>
+    <div className="flex items-center justify-center px-4 py-16" role="status" aria-live="polite">
+      <div className="text-center">
+        <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+        <p className="text-[13px] text-muted-foreground">Loading market data…</p>
+      </div>
     </div>
   );
 }

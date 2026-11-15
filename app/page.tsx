@@ -7,52 +7,55 @@ import {
   Zap,
   TrendingUp,
   ArrowRight,
-  Check,
   LineChart,
   Layers,
   Sparkles,
 } from "lucide-react";
-import { motion } from "framer-motion";
 
 const features = [
   {
     icon: TrendingUp,
-    iconBg: "bg-success/10 text-emerald-600 border-success/30/80",
+    iconTone:
+      "border-emerald-600/25 bg-emerald-600/10 text-emerald-800 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-300",
     title: "Real-Time Market Terminal",
     description:
-      "Direct feed from NSE & BSE with institutional tick speed, advance-decline heatmaps, and multi-timeframe analytics.",
+      "Direct feed from NSE & BSE with institutional tick speed, advance-decline breadth, and multi-timeframe analytics.",
   },
   {
     icon: Layers,
-    iconBg: "bg-primary/10 text-primary border-primary/30/80",
-    title: "macOS Finder-Style Screeners",
+    iconTone: "border-primary/25 bg-primary/[0.08] text-primary",
+    title: "High-Density Screeners",
     description:
-      "Pixel-perfect high-density zebra striped tables with instant sorting, filters, sparklines, and level management.",
+      "Dense tabular screens with instant sorting, filters, sparklines, and level management.",
   },
   {
     icon: LineChart,
-    iconBg: "bg-purple-50 text-purple-600 border-purple-200/80",
+    iconTone:
+      "border-amber-600/25 bg-amber-500/10 text-amber-800 dark:border-amber-400/25 dark:bg-amber-400/10 dark:text-amber-300",
     title: "Strategy Builder & Backtesting",
     description:
       "Build custom multi-leg candlestick strategies and backtest against historical ticks with detailed trade logs.",
   },
   {
     icon: Shield,
-    iconBg: "bg-info/10 text-sky-600 border-info/30/80",
+    iconTone:
+      "border-sky-600/25 bg-sky-600/10 text-sky-800 dark:border-sky-400/25 dark:bg-sky-400/10 dark:text-sky-300",
     title: "Institutional Security",
     description:
       "Enterprise authentication and segregated paper & live execution sandboxes for total peace of mind.",
   },
   {
     icon: Zap,
-    iconBg: "bg-warning/10 text-amber-600 border-warning/30/80",
+    iconTone:
+      "border-amber-600/25 bg-amber-500/10 text-amber-800 dark:border-amber-400/25 dark:bg-amber-400/10 dark:text-amber-300",
     title: "F&O & Derivatives Chain",
     description:
       "Comprehensive option chain, open interest heatmaps, PCR analysis, and max pain calculation.",
   },
   {
     icon: Sparkles,
-    iconBg: "bg-error/10 text-error border-error/30/80",
+    iconTone:
+      "border-rose-600/25 bg-rose-600/10 text-rose-800 dark:border-rose-400/25 dark:bg-rose-400/10 dark:text-rose-300",
     title: "Super Investors & FII/DII",
     description:
       "Track institutional footprints, bulk & block deals, corporate actions, and super investor portfolios.",
@@ -61,208 +64,163 @@ const features = [
 
 const stats = [
   { value: "10K+", label: "Active Traders", tone: "text-primary" },
-  { value: "₹50Cr+", label: "Assets Tracked", tone: "text-emerald-600" },
-  { value: "99.9%", label: "System Uptime", tone: "text-sky-600" },
-  { value: "60+", label: "Market Screens", tone: "text-purple-600" },
+  {
+    value: "₹50Cr+",
+    label: "Assets Tracked",
+    tone: "text-emerald-800 dark:text-emerald-300",
+  },
+  {
+    value: "99.9%",
+    label: "System Uptime",
+    tone: "text-sky-800 dark:text-sky-300",
+  },
+  {
+    value: "60+",
+    label: "Market Screens",
+    tone: "text-amber-800 dark:text-amber-300",
+  },
 ];
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-    },
-  },
-};
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-muted/50">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-white via-indigo-50/20 to-slate-50/50 border-b border-border/80">
-        <div className="absolute inset-0 bg-[radial-gradient(#e0e7ff_1px,transparent_1px)] [background-size:24px_24px] opacity-40" />
+    <div className="bg-background">
+      {/* Hero */}
+      <section className="border-b border-border">
+        <div className="mx-auto w-full max-w-[1100px] px-4 pt-16 pb-14 text-center md:pt-20 md:pb-16 lg:px-6">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-md border border-emerald-600/25 bg-emerald-600/10 px-3 py-1.5 text-xs font-semibold text-emerald-800 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-300">
+            <span className="h-2 w-2 rounded-full bg-emerald-600 animate-pulse dark:bg-emerald-400" />
+            <span>Live NSE &amp; BSE Market Data Feed</span>
+          </div>
 
-        <div className="relative w-full px-4 lg:px-8 pt-16 pb-24 md:pt-24 md:pb-36">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            {/* Live Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center space-x-2 px-3.5 py-1.5 bg-card border border-success/30/80 rounded-full text-xs font-semibold text-emerald-800 mb-8 shadow-xs"
+          <h1 className="mx-auto max-w-3xl text-4xl font-semibold tracking-tight text-foreground md:text-5xl">
+            Institutional trading intelligence, engineered for clarity
+          </h1>
+
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
+            Market surveillance with dense tabular terminals, real-time F&amp;O
+            analytics, custom strategy backtests, and portfolio tracking.
+          </p>
+
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link
+              href="/gainers"
+              className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
             >
-              <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
-              <span>Live NSE &amp; BSE Market Data Feed</span>
-            </motion.div>
+              Launch Terminal
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
 
-            {/* Main Headline */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-foreground mb-6 tracking-tight">
-              Institutional Trading Intelligence
-              <br />
-              <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                Engineered for High-Velocity Alpha
-              </span>
-            </h1>
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center justify-center rounded-md border border-border bg-card px-6 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+            >
+              View Dashboard
+            </Link>
+          </div>
 
-            {/* Subtitle */}
-            <p className="text-base md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
-              Experience seamless market surveillance with macOS Finder zebra-striped terminals,
-              real-time F&amp;O analytics, custom strategy backtests, and portfolio tracking.
-            </p>
-
-            {/* Call to Actions */}
-            <div className="flex flex-col sm:flex-row gap-3.5 justify-center items-center">
-              <Link
-                href="/gainers"
-                className="group inline-flex items-center justify-center px-7 py-3.5 text-sm font-semibold text-primary-foreground bg-primary rounded-xl transition-all shadow-md shadow-primary/25 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30"
-              >
-                Launch Terminal
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-
-              <Link
-                href="/dashboard"
-                className="inline-flex items-center justify-center px-7 py-3.5 text-sm font-semibold text-muted-foreground bg-card border border-border/90 rounded-xl hover:bg-muted hover:text-foreground transition-all shadow-xs"
-              >
-                View Dashboard
-              </Link>
-            </div>
-
-            <p className="text-xs text-muted-foreground mt-6 font-medium">
-              Real-time synchronization • No account configuration needed
-            </p>
-          </motion.div>
+          <p className="mt-5 text-xs font-medium text-muted-foreground">
+            Real-time synchronization • No account configuration needed
+          </p>
         </div>
       </section>
 
-      {/* Metrics Banner */}
-      <section className="border-b border-black/[0.06] bg-muted/70 backdrop-blur-md">
-        <div className="w-full px-4 lg:px-8 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center p-5 rounded-3xl bg-card/80 border border-border"
+      {/* Metrics */}
+      <section className="border-b border-border bg-muted/40">
+        <div className="mx-auto w-full max-w-[1100px] px-4 py-10 lg:px-6">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            {stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-[10px] border border-border bg-card p-5 text-center"
               >
-                <p className={`text-3xl md:text-4xl font-extrabold ${stat.tone} mb-1 num-font font-mono tracking-tight`}>
+                <p
+                  className={`mb-1 font-mono text-3xl font-semibold tabular-nums tracking-tight md:text-4xl ${stat.tone}`}
+                >
                   {stat.value}
                 </p>
-                <p className="text-xs font-bold text-muted-foreground uppercase tracking-[0.06em]">{stat.label}</p>
-              </motion.div>
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  {stat.label}
+                </p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Feature Grid */}
-      <section className="py-20 md:py-28">
-        <div className="w-full px-4 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={containerVariants}
-          >
-            <div className="text-center mb-16 max-w-2xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-3 tracking-[-0.035em]">
-                Complete Pro Terminal Toolset
-              </h2>
-              <p className="text-sm md:text-base text-muted-foreground font-medium">
-                Engineered for speed, consistency, and analytical clarity.
-              </p>
-            </div>
+      {/* Feature grid */}
+      <section className="py-14 md:py-16">
+        <div className="mx-auto w-full max-w-[1100px] px-4 lg:px-6">
+          <div className="mx-auto mb-10 max-w-2xl text-center">
+            <h2 className="mb-2 text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+              Complete pro terminal toolset
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Engineered for speed, consistency, and analytical clarity.
+            </p>
+          </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  className="apple-glass-card apple-card-hover p-7 flex flex-col justify-between"
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {features.map((feature) => (
+              <div
+                key={feature.title}
+                className="rounded-[10px] border border-border bg-card p-5"
+              >
+                <div
+                  className={`mb-4 flex h-9 w-9 items-center justify-center rounded-md border ${feature.iconTone}`}
                 >
-                  <div>
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 ${feature.iconBg}`}>
-                      <feature.icon className="h-5 w-5" />
-                    </div>
-                    <h3 className="text-base font-bold text-foreground mb-2 tracking-tight">
-                      {feature.title}
-                    </h3>
-                    <p className="text-xs md:text-sm text-muted-foreground leading-relaxed font-medium">
-                      {feature.description}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+                  <feature.icon className="h-4 w-4" />
+                </div>
+                <h3 className="mb-1.5 text-sm font-semibold tracking-tight text-foreground">
+                  {feature.title}
+                </h3>
+                <p className="text-[13px] leading-relaxed text-muted-foreground">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Action CTA */}
-      <section className="pb-24">
-        <div className="w-full px-4 lg:px-8">
-          <div className="apple-glass-card p-10 md:p-14 text-center relative overflow-hidden bg-gradient-to-b from-white to-[#F5F5F7]">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-3 tracking-[-0.035em]">
-                Ready to elevate your trading edge?
-              </h2>
-              <p className="text-sm md:text-base text-muted-foreground max-w-xl mx-auto font-medium">
-                Explore real-time gainers, track institutional positions, and backtest your strategies.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <Link
-                href="/gainers"
-                className="inline-flex items-center justify-center px-8 py-3.5 text-sm font-semibold text-primary-foreground bg-primary rounded-2xl hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_4px_16px_rgba(0,122,255,0.28)]"
-              >
-                Explore Market Terminal
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </div>
+      {/* CTA */}
+      <section className="pb-16">
+        <div className="mx-auto w-full max-w-[1100px] px-4 lg:px-6">
+          <div className="rounded-[10px] border border-border bg-card p-8 text-center md:p-12">
+            <h2 className="mb-2 text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+              Ready to elevate your trading edge?
+            </h2>
+            <p className="mx-auto mb-6 max-w-xl text-sm text-muted-foreground">
+              Explore real-time gainers, track institutional positions, and
+              backtest your strategies.
+            </p>
+            <Link
+              href="/gainers"
+              className="inline-flex items-center justify-center rounded-md bg-primary px-7 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              Explore Market Terminal
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-black/[0.06] py-8 bg-muted/70 backdrop-blur-md">
-        <div className="w-full px-4 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-xs">
-                <BarChart3 className="h-4 w-4" />
-              </div>
-              <span className="text-sm font-bold text-foreground tracking-tight">
-                StockMarket Pro
-              </span>
+      <footer className="border-t border-border">
+        <div className="mx-auto flex w-full max-w-[1100px] flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row lg:px-6">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
+              <BarChart3 className="h-4 w-4" />
             </div>
-            <p className="text-xs text-muted-foreground font-medium">
-              Institutional-grade market data terminal &amp; quantitative analytics platform.
-            </p>
+            <span className="text-sm font-semibold tracking-tight text-foreground">
+              StockMarket Pro
+            </span>
           </div>
+          <p className="text-xs font-medium text-muted-foreground">
+            Institutional-grade market data terminal &amp; quantitative
+            analytics platform.
+          </p>
         </div>
       </footer>
     </div>
   );
 }
-

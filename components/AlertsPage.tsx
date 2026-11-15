@@ -3,15 +3,15 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Bell, Trash2 } from "lucide-react";
-import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import {
-  PageHeader,
   SearchInput,
   TabCount,
   LevelCell,
   matchesSearch,
 } from "@/components/common";
+import { PageHeader } from "@/components/ds";
+import { cn } from "@/lib/utils";
 import apiClient, {
   getApiResponseMessage,
   getAxiosErrorMessage,
@@ -297,32 +297,36 @@ function AlertsPageContent() {
     );
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
+    <div>
+      <div className="w-full">
         <PageHeader
           title="Price Alerts"
           description="Real-time notifications and conditional triggers across all active watchlists"
           icon={Bell}
         />
 
-        <div className="flex items-center gap-1 flex-wrap mb-4 overflow-x-auto w-full md:w-fit">
+        <div className="apple-segmented-group mb-4 w-full overflow-x-auto md:w-fit">
           {sourceTabs.map((tab) => {
             const isActive = sourceFilter === tab.id;
             return (
               <button
                 key={tab.id}
+                type="button"
                 onClick={() => setSourceFilter(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2 text-xs md:text-sm font-semibold transition-all whitespace-nowrap ${
-                  isActive ? "bg-primary text-primary-foreground shadow-xs shadow-primary/20" : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                }`}
+                aria-current={isActive ? "page" : undefined}
+                className={cn(
+                  "apple-segmented-item flex items-center gap-2 text-xs whitespace-nowrap",
+                  isActive && "apple-segmented-item-active",
+                )}
               >
                 <span>{tab.label}</span>
                 <span
-                  className={`px-1.5 py-0.2 rounded-md text-[10px] font-mono ${
+                  className={cn(
+                    "rounded-md px-1.5 py-0.5 font-mono text-[10px]",
                     isActive
-                      ? "bg-white/25 dark:bg-zinc-950/10 text-white dark:text-zinc-950"
-                      : "bg-muted text-muted-foreground"
-                  }`}
+                      ? "bg-primary/10 text-primary"
+                      : "bg-muted text-muted-foreground",
+                  )}
                 >
                   {countBySource(tab.id)}
                 </span>
@@ -331,24 +335,28 @@ function AlertsPageContent() {
           })}
         </div>
 
-        <div className="flex items-center gap-1 flex-wrap mb-6 overflow-x-auto w-full md:w-fit">
+        <div className="apple-segmented-group mb-4 w-full overflow-x-auto md:w-fit">
           {categoryTabs.map((tab) => {
             const isActive = categoryFilter === tab.id;
             return (
               <button
                 key={tab.id}
+                type="button"
                 onClick={() => setCategoryFilter(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2 text-xs md:text-sm font-semibold transition-all whitespace-nowrap ${
-                  isActive ? "bg-primary text-primary-foreground shadow-xs shadow-primary/20" : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                }`}
+                aria-current={isActive ? "page" : undefined}
+                className={cn(
+                  "apple-segmented-item flex items-center gap-2 text-xs whitespace-nowrap",
+                  isActive && "apple-segmented-item-active",
+                )}
               >
                 <span>{tab.label}</span>
                 <span
-                  className={`px-1.5 py-0.2 rounded-md text-[10px] font-mono ${
+                  className={cn(
+                    "rounded-md px-1.5 py-0.5 font-mono text-[10px]",
                     isActive
-                      ? "bg-white/25 dark:bg-zinc-950/10 text-white dark:text-zinc-950"
-                      : "bg-muted text-muted-foreground"
-                  }`}
+                      ? "bg-primary/10 text-primary"
+                      : "bg-muted text-muted-foreground",
+                  )}
                 >
                   {countByCategory(tab.id)}
                 </span>
@@ -467,12 +475,12 @@ function AlertsTable({
           {alerts.length}
         </span>
       </h2>
-      <div className="rounded-3xl border border-border bg-card/95 backdrop-blur-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04),0_1px_3px_rgb(0,0,0,0.02)] overflow-hidden">
-        <div className="overflow-x-auto scrollbar-thin">
-          <table className="w-full text-left border-collapse text-xs md:text-sm">
-            <thead className="bg-muted/90 backdrop-blur-md border-b border-border sticky top-0 z-10">
+      <div className="overflow-hidden rounded-[10px] border border-border bg-card">
+        <div className="w-full overflow-x-auto">
+          <table className="w-full border-collapse text-left text-[13px]">
+            <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
               <tr>
-                <th className="px-4 py-3.5 text-left text-[11px] font-bold text-muted-foreground uppercase tracking-[0.06em] select-none">
+                <th className="px-3.5 py-2.5 text-left align-middle text-[11px] font-semibold uppercase tracking-wider text-muted-foreground whitespace-nowrap select-none">
                   S No
                 </th>
                 <th className="px-4 py-3.5 text-left text-[11px] font-bold text-muted-foreground uppercase tracking-[0.06em] whitespace-nowrap select-none">
