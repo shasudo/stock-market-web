@@ -199,11 +199,9 @@ function NotesContent() {
     }
 
     try {
-      const body = editingNote ? { id: editingNote.id, ...formData } : formData;
-
       const response = editingNote
-        ? await apiClient.put<unknown>("/api/notes", body)
-        : await apiClient.post<unknown>("/api/notes", body);
+        ? await apiClient.patch<unknown>(`/api/notes/${editingNote.id}`, formData)
+        : await apiClient.post<unknown>("/api/notes", formData);
 
       if (isSuccessfulApiResponse(response.data)) {
         toast.success(editingNote ? "Note updated!" : "Note created!");
@@ -223,9 +221,7 @@ function NotesContent() {
     if (!confirm("Are you sure you want to delete this note?")) return;
 
     try {
-      const response = await apiClient.delete<unknown>("/api/notes", {
-        data: { id: noteId },
-      });
+      const response = await apiClient.delete<unknown>(`/api/notes/${noteId}`);
 
       if (isSuccessfulApiResponse(response.data)) {
         toast.success("Note deleted");
@@ -242,8 +238,7 @@ function NotesContent() {
 
   const handleTogglePin = async (note: Note) => {
     try {
-      const response = await apiClient.put<unknown>("/api/notes", {
-        id: note.id,
+      const response = await apiClient.patch<unknown>(`/api/notes/${note.id}`, {
         isPinned: !note.isPinned,
       });
 

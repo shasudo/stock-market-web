@@ -24,12 +24,6 @@ export default function CalendarHeader({
   return (
     <div className="mb-6">
       <div className="flex flex-col space-y-4">
-        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-          <span>Ready to Act on Market Events?</span>
-          <a href="#" className="text-blue-500 hover:underline">
-            Compare Brokers
-          </a>
-        </div>
 
         <div className="flex flex-wrap items-center gap-6 border-b border-border">
           {tabs.map((tab) => (

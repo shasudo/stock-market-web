@@ -73,7 +73,7 @@ export function MarketDataDropdown({ isActive }: MarketDataDropdownProps) {
           {}
           <div className="border-b border-border">
             <Link
-              href="#"
+              href="/market-data/fno"
               className="block px-4 py-1.5 text-sm text-foreground hover:bg-muted hover:outline hover:outline-1 hover:outline-border"
             >
               Futures Support & Resistance
@@ -111,8 +111,8 @@ export function MarketDataDropdown({ isActive }: MarketDataDropdownProps) {
               Filterings
             </div>
           </div>
-          <Link href="/market-data/dummy-table" className={linkClass}>
-            Dummy Table
+          <Link href="/market-data/stocks" className={linkClass}>
+            Stock Screener Table
           </Link>
         </div>
 
@@ -125,12 +125,6 @@ export function MarketDataDropdown({ isActive }: MarketDataDropdownProps) {
           </Link>
           <Link href="/market-data/fii-dii" className={linkClass}>
             FII & DII Activity
-          </Link>
-          <Link href="#" className={linkClass}>
-            Promoters Activity
-          </Link>
-          <Link href="#" className={linkClass}>
-            Mutual Funds Activity
           </Link>
           <Link href="/market-data/super-investors" className={linkClass}>
             Super Investors
@@ -169,11 +163,8 @@ export function MarketDataDropdown({ isActive }: MarketDataDropdownProps) {
             <Link href="/market-data/pe" className={linkClass}>
               PE
             </Link>
-            <Link href="#" className={linkClass}>
-              Downloads
-            </Link>
             <Link href="/market-data/historical-data" className={linkClass}>
-              Historical Data
+              Historical Data & Downloads
             </Link>
           </div>
         </div>

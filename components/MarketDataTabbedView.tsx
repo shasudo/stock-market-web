@@ -1064,9 +1064,6 @@ export default function MarketDataTabbedView({
       <div className="px-6 py-4 border-b border-border">
         <p className="text-sm text-foreground leading-relaxed">
           {description}
-          <a href="#" className="text-primary hover:underline ml-1">
-            Read more
-          </a>
         </p>
       </div>
 

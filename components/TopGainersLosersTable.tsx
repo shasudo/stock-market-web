@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { TopGainerLoserStock } from "@/lib/mockData";
+import type { TopGainerLoserStock } from "@/lib/mockData";
 import { DataFreshness } from "@/components/common/DataFreshness";
 import { StockActionsMenu } from "@/components/common/StockActionsMenu";
 import { SearchInput, matchesSearch } from "@/components/common/SearchInput";

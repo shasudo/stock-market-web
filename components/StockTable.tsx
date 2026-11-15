@@ -1,6 +1,6 @@
 "use client";
 
-import { Stock } from "@/lib/mockData";
+import type { Stock } from "@/lib/mockData";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { motion } from "framer-motion";
 

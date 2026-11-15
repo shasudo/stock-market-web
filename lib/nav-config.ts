@@ -119,16 +119,19 @@ export const marketDataLinks = {
       { href: "/market-data/sectors/bse", label: "BSE Sectors" },
     ],
     totalMarket: [
-      { href: "#", label: "Total Market" },
-      { href: "#", label: "Advances, Decline & Unchange" },
+      { href: "/market", label: "Total Market" },
+      {
+        href: "/market-data/advances-decline-unchanged",
+        label: "Advances, Decline & Unchange",
+      },
       { href: "/market", label: "Total Market Performance" },
     ],
     marketMood: [{ href: "/market-mood", label: "Market Mood" }],
-    futuresSupport: [{ href: "#", label: "Futures Support & Resistance" }],
+    futuresSupport: [{ href: "/market-data/fno", label: "Futures Support & Resistance" }],
     globalMarkets: [
       { href: "/market-data/global-markets", label: "Global Markets" },
     ],
-    filterings: [{ href: "#", label: "Filterings" }],
+    filterings: [{ href: "/market-data/stocks", label: "Filterings" }],
   },
   equity: [
     { href: "/market-data/indices-fno", label: "Indices in F&O" },
@@ -145,7 +148,7 @@ export const marketDataLinks = {
     { href: "/market-data/price-band-hitters", label: "Price Band Hitters" },
     { href: "/market-data/fno", label: "F&O Data" },
     { href: "/market-data/ipo", label: "IPO's" },
-    { href: "#", label: "All Statistics" },
+    { href: "/market-data", label: "All Statistics" },
     { href: "/gainers", label: "Top Gainers" },
     { href: "/losers", label: "Top Losers" },
     { href: "/only-buyers", label: "Only Buyers" },
@@ -163,19 +166,15 @@ export const marketDataLinks = {
   others: {
     general: [
       { href: "/market-data/results-calendar", label: "Calendar" },
-      { href: "#", label: "FII & DII Activity" },
-      { href: "#", label: "Promoters Activity" },
-      { href: "#", label: "Mutual Funds Activity" },
-      { href: "#", label: "Super Investors", highlight: true },
+      { href: "/market-data/fii-dii", label: "FII & DII Activity" },
+      { href: "/market-data/super-investors", label: "Super Investors", highlight: true },
       { href: "/market-data/corporate-action", label: "Corporate Action" },
     ],
     deals: [
-      { href: "#", label: "Deals" },
-      { href: "#", label: "Bulk Deals" },
-      { href: "#", label: "Block Deals" },
-      { href: "#", label: "Intraday Large Deals" },
+      { href: "/market-data/bulk-deals", label: "Bulk Deals" },
+      { href: "/market-data/block-deals", label: "Block Deals" },
+      { href: "/market-data/intraday-deals", label: "Intraday Large Deals" },
       { href: "/market-data/circuit-changes", label: "Circuit Changes" },
-      { href: "#", label: "Monthly" },
     ],
     nifty: [
       { href: "/market-data/nifty", label: "Nifty" },

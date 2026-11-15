@@ -3,9 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { X } from "lucide-react";
 import Link from "next/link";
-import { circuitChangesBSE } from "@/lib/mockData";
 import UnofficialSourceBadge from "@/components/common/UnofficialSourceBadge";
-import { SearchInput, matchesSearch } from "@/components/common/SearchInput";
 import {
   fetchScrapedEvents,
   getScrapedEventClientErrorMessage,
@@ -14,8 +12,6 @@ import {
 import type { CircuitHitDTO } from "@/lib/scrape/scraped-event-client";
 
 const REFRESH_INTERVAL_MS = 60_000;
-
-type ExchangeTab = "nse" | "bse";
 
 function NSECircuitChanges() {
   const [hits, setHits] = useState<CircuitHitDTO[]>([]);
@@ -162,7 +158,7 @@ function NSECircuitChanges() {
                 >
                   <td className="px-4 py-3">
                     <Link
-                      href="#"
+                      href={`/stock/${encodeURIComponent(row.symbol)}`}
                       className="text-info hover:underline font-medium"
                     >
                       {row.symbol}
@@ -190,164 +186,19 @@ function NSECircuitChanges() {
   );
 }
 
-function BSECircuitChanges() {
-  const [segmentName, setSegmentName] = useState("All");
-  const [search, setSearch] = useState("");
-
-  const segments = ["All", "Equity", "Debt", "Mutual Fund", "General"];
-
-  const rowsInSegment = useMemo(() => {
-    return circuitChangesBSE.filter(
-      (row) => segmentName === "All" || row.segmentName === segmentName,
-    );
-  }, [segmentName]);
-
-  const filteredData = useMemo(
-    () =>
-      rowsInSegment.filter((row) =>
-        matchesSearch(
-          search,
-          row.noticeNo,
-          row.subject,
-          row.categoryName,
-          row.department,
-        ),
-      ),
-    [rowsInSegment, search],
-  );
-
-  return (
-    <div>
-      <div className="px-6 py-4 border-b border-border">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-md border border-warning/30 bg-warning/10 px-3 py-2 text-xs text-amber-800">
-          <span aria-hidden="true">⚠</span>
-          <span>
-            Demo data — no verified unauthenticated BSE circulars source was
-            found for this build; not a live feed.
-          </span>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <label className="text-sm font-medium text-muted-foreground">
-            Segment Name:
-          </label>
-          <select
-            value={segmentName}
-            onChange={(e) => setSegmentName(e.target.value)}
-            className="px-3 py-2 border border-border rounded-md text-sm bg-card focus:outline-none focus:ring-1 focus:ring-ring"
-          >
-            {segments.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-          <SearchInput
-            value={search}
-            onChange={setSearch}
-            placeholder="Search notice, subject, department..."
-            className="relative w-full sm:w-80"
-            inputClassName="w-full rounded-md border border-border bg-card py-2 pl-8 pr-8 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-            matchCount={filteredData.length}
-            totalCount={rowsInSegment.length}
-          />
-        </div>
-      </div>
-
-      <div className="overflow-x-auto">
-        <table className="w-full text-[13px]">
-          <thead>
-            <tr className="bg-warning dark:text-zinc-950 text-white">
-              <th className="px-4 py-3 text-left font-semibold">Notice No</th>
-              <th className="px-4 py-3 text-left font-semibold">Subject</th>
-              <th className="px-4 py-3 text-left font-semibold">
-                Segment Name
-              </th>
-              <th className="px-4 py-3 text-left font-semibold">
-                Category Name
-              </th>
-              <th className="px-4 py-3 text-left font-semibold">Department</th>
-            </tr>
-          </thead>
-          <tbody className="bg-card">
-            {filteredData.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={5}
-                  className="px-4 py-8 text-center text-muted-foreground"
-                >
-                  {search.trim()
-                    ? `No records match "${search.trim()}".`
-                    : "No records found."}
-                </td>
-              </tr>
-            ) : (
-              filteredData.map((row) => (
-                <tr
-                  key={row.noticeNo}
-                  className="border-b border-border hover:bg-muted transition-colors"
-                >
-                  <td className="px-4 py-3 text-muted-foreground font-medium">
-                    {row.noticeNo}
-                  </td>
-                  <td className="px-4 py-3">
-                    <Link href="#" className="text-info hover:underline">
-                      {row.subject}
-                    </Link>
-                  </td>
-                  <td className="px-4 py-3 text-muted-foreground">
-                    {row.segmentName}
-                  </td>
-                  <td className="px-4 py-3 text-muted-foreground">
-                    {row.categoryName}
-                  </td>
-                  <td className="px-4 py-3 text-muted-foreground">
-                    {row.department}
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
-
 export default function CircuitChangesView() {
-  const [activeTab, setActiveTab] = useState<ExchangeTab>("nse");
-
   return (
     <div className="min-h-screen bg-background py-6">
       <div className="px-6 py-5 border-b border-border">
         <h1 className="text-xl font-bold text-foreground">Circuit Changes</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          NSE price-band hits from the live feed. BSE circulars have no
+          verified unauthenticated source in this build, so no BSE tab is
+          shown.
+        </p>
       </div>
 
-      <div className="px-6 border-b border-border">
-        <div className="flex space-x-1">
-          <button
-            onClick={() => setActiveTab("nse")}
-            className={`px-6 py-3 text-sm font-semibold border-b-2 transition-all ${
-              activeTab === "nse"
-                ? "border-indigo-700 text-primary"
-                : "border-transparent text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            NSE
-          </button>
-          <button
-            onClick={() => setActiveTab("bse")}
-            className={`px-6 py-3 text-sm font-semibold border-b-2 transition-all ${
-              activeTab === "bse"
-                ? "border-orange-500 text-orange-500"
-                : "border-transparent text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            BSE
-          </button>
-        </div>
-      </div>
-
-      {activeTab === "nse" ? <NSECircuitChanges /> : <BSECircuitChanges />}
+      <NSECircuitChanges />
     </div>
   );
 }

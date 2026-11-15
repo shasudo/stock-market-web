@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   TrendingUp,
@@ -37,770 +37,143 @@ const categories = [
   "NIFTY PRIVATE BANK",
 ];
 
-interface PreOpenStock {
-  symbol: string;
-  prevClose: number;
-  iep: number;
-  change: number;
-  changePercent: number;
-  finalPrice: number;
-  finalQuantity: number;
-  valueCrores: number;
-  ffmCapCrores: number;
-  nm52wH: number;
-  nm52wL: number;
-}
-
-const preOpenData: Record<string, PreOpenStock[]> = {
-  "NIFTY 50": [
-    {
-      symbol: "INFY",
-      prevClose: 1290.1,
-      iep: 1305.5,
-      change: 15.4,
-      changePercent: 1.19,
-      finalPrice: 1305.5,
-      finalQuantity: 135695,
-      valueCrores: 17.74,
-      ffmCapCrores: 456028.53,
-      nm52wH: 1778.45,
-      nm52wL: 1284.1,
-    },
-    {
-      symbol: "HCLTECH",
-      prevClose: 1378.2,
-      iep: 1391.0,
-      change: 12.8,
-      changePercent: 0.93,
-      finalPrice: 1391.0,
-      finalQuantity: 12934,
-      valueCrores: 1.8,
-      ffmCapCrores: 148364.12,
-      nm52wH: 1780.1,
-      nm52wL: 1302.75,
-    },
-    {
-      symbol: "WIPRO",
-      prevClose: 201.92,
-      iep: 203.71,
-      change: 1.79,
-      changePercent: 0.89,
-      finalPrice: 203.71,
-      finalQuantity: 55056,
-      valueCrores: 1.12,
-      ffmCapCrores: 58008.58,
-      nm52wH: 307.7,
-      nm52wL: 109.12,
-    },
-    {
-      symbol: "TCS",
-      prevClose: 2629.3,
-      iep: 2655.0,
-      change: 20.7,
-      changePercent: 0.79,
-      finalPrice: 2655.0,
-      finalQuantity: 5930,
-      valueCrores: 3.76,
-      ffmCapCrores: 228855.22,
-      nm52wH: 4592.25,
-      nm52wL: 2561.3,
-    },
-    {
-      symbol: "TATASTEEL",
-      prevClose: 214.64,
-      iep: 215.95,
-      change: 1.31,
-      changePercent: 0.61,
-      finalPrice: 215.95,
-      finalQuantity: 41241,
-      valueCrores: 0.89,
-      ffmCapCrores: 177998.14,
-      nm52wH: 184.9,
-      nm52wL: 1038.05,
-    },
-    {
-      symbol: "ADANIPORTS",
-      prevClose: 1528.7,
-      iep: 1537.0,
-      change: 8.3,
-      changePercent: 0.54,
-      finalPrice: 1537.0,
-      finalQuantity: 8045,
-      valueCrores: 1.24,
-      ffmCapCrores: 133115.6,
-      nm52wH: 1636.9,
-      nm52wL: 1036.05,
-    },
-    {
-      symbol: "INDIGO",
-      prevClose: 4947.4,
-      iep: 4975.0,
-      change: 27.6,
-      changePercent: 0.56,
-      finalPrice: 4975.0,
-      finalQuantity: 4008,
-      valueCrores: 1.99,
-      ffmCapCrores: 196526.75,
-      nm52wH: 6232.65,
-      nm52wL: 4194.8,
-    },
-    {
-      symbol: "ETERNAL",
-      prevClose: 250.2,
-      iep: 251.35,
-      change: 1.15,
-      changePercent: 0.46,
-      finalPrice: 251.85,
-      finalQuantity: 180873,
-      valueCrores: 4.55,
-      ffmCapCrores: 163828.25,
-      nm52wH: 282.33,
-      nm52wL: 194.8,
-    },
-    {
-      symbol: "MARUTI",
-      prevClose: 15070.0,
-      iep: 15145.0,
-      change: 75.0,
-      changePercent: 0.5,
-      finalPrice: 15145.0,
-      finalQuantity: 3042,
-      valueCrores: 4.61,
-      ffmCapCrores: 198180.34,
-      nm52wH: 17370.0,
-      nm52wL: 10569.45,
-    },
-    {
-      symbol: "CIPLA",
-      prevClose: 1346.1,
-      iep: 1352.8,
-      change: 6.7,
-      changePercent: 0.5,
-      finalPrice: 1352.8,
-      finalQuantity: 8001,
-      valueCrores: 1.08,
-      ffmCapCrores: 109291.55,
-      nm52wH: 1702.0,
-      nm52wL: 1281.7,
-    },
-    {
-      symbol: "BAJAJ-AUTO",
-      prevClose: 10097.0,
-      iep: 10146.5,
-      change: 49.5,
-      changePercent: 0.49,
-      finalPrice: 10146.5,
-      finalQuantity: 758,
-      valueCrores: 0.77,
-      ffmCapCrores: 112277.67,
-      nm52wH: 10897.0,
-      nm52wL: 8315.25,
-    },
-    {
-      symbol: "HINDALCO",
-      prevClose: 937.4,
-      iep: 942.0,
-      change: 4.6,
-      changePercent: 0.49,
-      finalPrice: 942.0,
-      finalQuantity: 10015,
-      valueCrores: 0.94,
-      ffmCapCrores: 135907.98,
-      nm52wH: 772.65,
-      nm52wL: 546.45,
-    },
-    {
-      symbol: "HDFCBANK",
-      prevClose: 907.8,
-      iep: 911.4,
-      change: 4.4,
-      changePercent: 0.48,
-      finalPrice: 912.0,
-      finalQuantity: 478351,
-      valueCrores: 43.63,
-      ffmCapCrores: 1013682.82,
-      nm52wH: 1880.0,
-      nm52wL: 1605.5,
-    },
-    {
-      symbol: "NESTLEIND",
-      prevClose: 1323.4,
-      iep: 1339.0,
-      change: 5.8,
-      changePercent: 0.44,
-      finalPrice: 1329.2,
-      finalQuantity: 2891,
-      valueCrores: 0.38,
-      ffmCapCrores: 95038.8,
-      nm52wH: 1340.0,
-      nm52wL: 1095.55,
-    },
-    {
-      symbol: "RELIANCE",
-      prevClose: 1243.8,
-      iep: 1248.5,
-      change: 4.7,
-      changePercent: 0.38,
-      finalPrice: 1248.5,
-      finalQuantity: 125643,
-      valueCrores: 15.69,
-      ffmCapCrores: 843762.5,
-      nm52wH: 1608.95,
-      nm52wL: 1156.0,
-    },
-    {
-      symbol: "SBIN",
-      prevClose: 788.55,
-      iep: 791.3,
-      change: 2.75,
-      changePercent: 0.35,
-      finalPrice: 791.3,
-      finalQuantity: 68421,
-      valueCrores: 5.41,
-      ffmCapCrores: 705231.45,
-      nm52wH: 912.1,
-      nm52wL: 680.2,
-    },
-    {
-      symbol: "ICICIBANK",
-      prevClose: 1285.4,
-      iep: 1289.8,
-      change: 4.4,
-      changePercent: 0.34,
-      finalPrice: 1289.8,
-      finalQuantity: 32156,
-      valueCrores: 4.15,
-      ffmCapCrores: 905432.18,
-      nm52wH: 1362.35,
-      nm52wL: 1049.5,
-    },
-    {
-      symbol: "LT",
-      prevClose: 3542.7,
-      iep: 3554.9,
-      change: 12.2,
-      changePercent: 0.34,
-      finalPrice: 3554.9,
-      finalQuantity: 4523,
-      valueCrores: 1.61,
-      ffmCapCrores: 487523.6,
-      nm52wH: 3963.5,
-      nm52wL: 3078.8,
-    },
-    {
-      symbol: "KOTAKBANK",
-      prevClose: 1956.3,
-      iep: 1962.5,
-      change: 6.2,
-      changePercent: 0.32,
-      finalPrice: 1962.5,
-      finalQuantity: 8745,
-      valueCrores: 1.72,
-      ffmCapCrores: 389456.72,
-      nm52wH: 2145.0,
-      nm52wL: 1660.0,
-    },
-    {
-      symbol: "AXISBANK",
-      prevClose: 1178.9,
-      iep: 1182.4,
-      change: 3.5,
-      changePercent: 0.3,
-      finalPrice: 1182.4,
-      finalQuantity: 15632,
-      valueCrores: 1.85,
-      ffmCapCrores: 365478.9,
-      nm52wH: 1340.0,
-      nm52wL: 995.4,
-    },
-    {
-      symbol: "BHARTIARTL",
-      prevClose: 1725.6,
-      iep: 1729.8,
-      change: 4.2,
-      changePercent: 0.24,
-      finalPrice: 1729.8,
-      finalQuantity: 22345,
-      valueCrores: 3.86,
-      ffmCapCrores: 1042563.8,
-      nm52wH: 1779.0,
-      nm52wL: 1265.5,
-    },
-    {
-      symbol: "TITAN",
-      prevClose: 3456.2,
-      iep: 3462.8,
-      change: 6.6,
-      changePercent: 0.19,
-      finalPrice: 3462.8,
-      finalQuantity: 3421,
-      valueCrores: 1.18,
-      ffmCapCrores: 307412.56,
-      nm52wH: 3887.0,
-      nm52wL: 3055.0,
-    },
-    {
-      symbol: "ULTRACEMCO",
-      prevClose: 11234.5,
-      iep: 11245.7,
-      change: 11.2,
-      changePercent: 0.1,
-      finalPrice: 11245.7,
-      finalQuantity: 1245,
-      valueCrores: 1.4,
-      ffmCapCrores: 324567.89,
-      nm52wH: 12098.0,
-      nm52wL: 9340.0,
-    },
-    {
-      symbol: "SUNPHARMA",
-      prevClose: 1856.4,
-      iep: 1857.9,
-      change: 1.5,
-      changePercent: 0.08,
-      finalPrice: 1857.9,
-      finalQuantity: 5632,
-      valueCrores: 1.05,
-      ffmCapCrores: 445678.3,
-      nm52wH: 1960.0,
-      nm52wL: 1478.0,
-    },
-    {
-      symbol: "ASIANPAINT",
-      prevClose: 2287.3,
-      iep: 2285.6,
-      change: -1.7,
-      changePercent: -0.07,
-      finalPrice: 2285.6,
-      finalQuantity: 4521,
-      valueCrores: 1.03,
-      ffmCapCrores: 219345.67,
-      nm52wH: 3395.0,
-      nm52wL: 2185.0,
-    },
-    {
-      symbol: "HINDUNILVR",
-      prevClose: 2345.8,
-      iep: 2342.1,
-      change: -3.7,
-      changePercent: -0.16,
-      finalPrice: 2342.1,
-      finalQuantity: 6234,
-      valueCrores: 1.46,
-      ffmCapCrores: 550234.56,
-      nm52wH: 2770.0,
-      nm52wL: 2172.05,
-    },
-    {
-      symbol: "TECHM",
-      prevClose: 1678.9,
-      iep: 1674.3,
-      change: -4.6,
-      changePercent: -0.27,
-      finalPrice: 1674.3,
-      finalQuantity: 7856,
-      valueCrores: 1.31,
-      ffmCapCrores: 163456.78,
-      nm52wH: 1808.0,
-      nm52wL: 1262.0,
-    },
-    {
-      symbol: "POWERGRID",
-      prevClose: 312.5,
-      iep: 311.4,
-      change: -1.1,
-      changePercent: -0.35,
-      finalPrice: 311.4,
-      finalQuantity: 34521,
-      valueCrores: 1.07,
-      ffmCapCrores: 217834.56,
-      nm52wH: 366.2,
-      nm52wL: 256.8,
-    },
-    {
-      symbol: "NTPC",
-      prevClose: 356.7,
-      iep: 355.2,
-      change: -1.5,
-      changePercent: -0.42,
-      finalPrice: 355.2,
-      finalQuantity: 45632,
-      valueCrores: 1.62,
-      ffmCapCrores: 345123.9,
-      nm52wH: 417.45,
-      nm52wL: 310.0,
-    },
-    {
-      symbol: "ONGC",
-      prevClose: 245.8,
-      iep: 244.3,
-      change: -1.5,
-      changePercent: -0.61,
-      finalPrice: 244.3,
-      finalQuantity: 52345,
-      valueCrores: 1.28,
-      ffmCapCrores: 308456.78,
-      nm52wH: 345.0,
-      nm52wL: 222.3,
-    },
-    {
-      symbol: "COALINDIA",
-      prevClose: 478.9,
-      iep: 475.6,
-      change: -3.3,
-      changePercent: -0.69,
-      finalPrice: 475.6,
-      finalQuantity: 23456,
-      valueCrores: 1.12,
-      ffmCapCrores: 293567.8,
-      nm52wH: 543.55,
-      nm52wL: 390.0,
-    },
-    {
-      symbol: "BPCL",
-      prevClose: 612.4,
-      iep: 607.1,
-      change: -5.3,
-      changePercent: -0.87,
-      finalPrice: 607.1,
-      finalQuantity: 18745,
-      valueCrores: 1.14,
-      ffmCapCrores: 132456.78,
-      nm52wH: 726.0,
-      nm52wL: 540.0,
-    },
-  ],
-  "NIFTY BANK": [
-    {
-      symbol: "HDFCBANK",
-      prevClose: 907.8,
-      iep: 911.4,
-      change: 4.4,
-      changePercent: 0.48,
-      finalPrice: 912.0,
-      finalQuantity: 478351,
-      valueCrores: 43.63,
-      ffmCapCrores: 1013682.82,
-      nm52wH: 1880.0,
-      nm52wL: 1605.5,
-    },
-    {
-      symbol: "ICICIBANK",
-      prevClose: 1285.4,
-      iep: 1289.8,
-      change: 4.4,
-      changePercent: 0.34,
-      finalPrice: 1289.8,
-      finalQuantity: 32156,
-      valueCrores: 4.15,
-      ffmCapCrores: 905432.18,
-      nm52wH: 1362.35,
-      nm52wL: 1049.5,
-    },
-    {
-      symbol: "KOTAKBANK",
-      prevClose: 1956.3,
-      iep: 1962.5,
-      change: 6.2,
-      changePercent: 0.32,
-      finalPrice: 1962.5,
-      finalQuantity: 8745,
-      valueCrores: 1.72,
-      ffmCapCrores: 389456.72,
-      nm52wH: 2145.0,
-      nm52wL: 1660.0,
-    },
-    {
-      symbol: "AXISBANK",
-      prevClose: 1178.9,
-      iep: 1182.4,
-      change: 3.5,
-      changePercent: 0.3,
-      finalPrice: 1182.4,
-      finalQuantity: 15632,
-      valueCrores: 1.85,
-      ffmCapCrores: 365478.9,
-      nm52wH: 1340.0,
-      nm52wL: 995.4,
-    },
-    {
-      symbol: "SBIN",
-      prevClose: 788.55,
-      iep: 791.3,
-      change: 2.75,
-      changePercent: 0.35,
-      finalPrice: 791.3,
-      finalQuantity: 68421,
-      valueCrores: 5.41,
-      ffmCapCrores: 705231.45,
-      nm52wH: 912.1,
-      nm52wL: 680.2,
-    },
-    {
-      symbol: "INDUSINDBK",
-      prevClose: 1423.6,
-      iep: 1428.9,
-      change: 5.3,
-      changePercent: 0.37,
-      finalPrice: 1428.9,
-      finalQuantity: 9876,
-      valueCrores: 1.41,
-      ffmCapCrores: 110234.56,
-      nm52wH: 1694.5,
-      nm52wL: 1180.0,
-    },
-    {
-      symbol: "BANDHANBNK",
-      prevClose: 198.4,
-      iep: 197.6,
-      change: -0.8,
-      changePercent: -0.4,
-      finalPrice: 197.6,
-      finalQuantity: 34521,
-      valueCrores: 0.68,
-      ffmCapCrores: 31978.45,
-      nm52wH: 263.1,
-      nm52wL: 167.35,
-    },
-    {
-      symbol: "FEDERALBNK",
-      prevClose: 162.3,
-      iep: 163.1,
-      change: 0.8,
-      changePercent: 0.49,
-      finalPrice: 163.1,
-      finalQuantity: 45231,
-      valueCrores: 0.74,
-      ffmCapCrores: 39856.78,
-      nm52wH: 178.55,
-      nm52wL: 138.6,
-    },
-    {
-      symbol: "IDFCFIRSTB",
-      prevClose: 78.9,
-      iep: 78.45,
-      change: -0.45,
-      changePercent: -0.57,
-      finalPrice: 78.45,
-      finalQuantity: 123456,
-      valueCrores: 0.97,
-      ffmCapCrores: 52345.67,
-      nm52wH: 98.0,
-      nm52wL: 62.5,
-    },
-    {
-      symbol: "PNB",
-      prevClose: 105.6,
-      iep: 106.2,
-      change: 0.6,
-      changePercent: 0.57,
-      finalPrice: 106.2,
-      finalQuantity: 87654,
-      valueCrores: 0.93,
-      ffmCapCrores: 116789.34,
-      nm52wH: 142.9,
-      nm52wL: 88.0,
-    },
-    {
-      symbol: "AUBANK",
-      prevClose: 645.8,
-      iep: 648.3,
-      change: 2.5,
-      changePercent: 0.39,
-      finalPrice: 648.3,
-      finalQuantity: 5432,
-      valueCrores: 0.35,
-      ffmCapCrores: 48234.56,
-      nm52wH: 782.0,
-      nm52wL: 540.0,
-    },
-    {
-      symbol: "BANKBARODA",
-      prevClose: 245.3,
-      iep: 246.8,
-      change: 1.5,
-      changePercent: 0.61,
-      finalPrice: 246.8,
-      finalQuantity: 56789,
-      valueCrores: 1.4,
-      ffmCapCrores: 127345.67,
-      nm52wH: 299.7,
-      nm52wL: 202.0,
-    },
-  ],
-  "NIFTY IT": [
-    {
-      symbol: "INFY",
-      prevClose: 1290.1,
-      iep: 1305.5,
-      change: 15.4,
-      changePercent: 1.19,
-      finalPrice: 1305.5,
-      finalQuantity: 135695,
-      valueCrores: 17.74,
-      ffmCapCrores: 456028.53,
-      nm52wH: 1778.45,
-      nm52wL: 1284.1,
-    },
-    {
-      symbol: "TCS",
-      prevClose: 2629.3,
-      iep: 2655.0,
-      change: 20.7,
-      changePercent: 0.79,
-      finalPrice: 2655.0,
-      finalQuantity: 5930,
-      valueCrores: 3.76,
-      ffmCapCrores: 228855.22,
-      nm52wH: 4592.25,
-      nm52wL: 2561.3,
-    },
-    {
-      symbol: "HCLTECH",
-      prevClose: 1378.2,
-      iep: 1391.0,
-      change: 12.8,
-      changePercent: 0.93,
-      finalPrice: 1391.0,
-      finalQuantity: 12934,
-      valueCrores: 1.8,
-      ffmCapCrores: 148364.12,
-      nm52wH: 1780.1,
-      nm52wL: 1302.75,
-    },
-    {
-      symbol: "WIPRO",
-      prevClose: 201.92,
-      iep: 203.71,
-      change: 1.79,
-      changePercent: 0.89,
-      finalPrice: 203.71,
-      finalQuantity: 55056,
-      valueCrores: 1.12,
-      ffmCapCrores: 58008.58,
-      nm52wH: 307.7,
-      nm52wL: 109.12,
-    },
-    {
-      symbol: "TECHM",
-      prevClose: 1678.9,
-      iep: 1674.3,
-      change: -4.6,
-      changePercent: -0.27,
-      finalPrice: 1674.3,
-      finalQuantity: 7856,
-      valueCrores: 1.31,
-      ffmCapCrores: 163456.78,
-      nm52wH: 1808.0,
-      nm52wL: 1262.0,
-    },
-    {
-      symbol: "LTIM",
-      prevClose: 5634.5,
-      iep: 5652.3,
-      change: 17.8,
-      changePercent: 0.32,
-      finalPrice: 5652.3,
-      finalQuantity: 2345,
-      valueCrores: 1.33,
-      ffmCapCrores: 167234.56,
-      nm52wH: 6430.0,
-      nm52wL: 4680.0,
-    },
-    {
-      symbol: "PERSISTENT",
-      prevClose: 5123.4,
-      iep: 5098.7,
-      change: -24.7,
-      changePercent: -0.48,
-      finalPrice: 5098.7,
-      finalQuantity: 1234,
-      valueCrores: 0.63,
-      ffmCapCrores: 39234.56,
-      nm52wH: 6250.0,
-      nm52wL: 3920.0,
-    },
-    {
-      symbol: "COFORGE",
-      prevClose: 5678.9,
-      iep: 5695.4,
-      change: 16.5,
-      changePercent: 0.29,
-      finalPrice: 5695.4,
-      finalQuantity: 876,
-      valueCrores: 0.5,
-      ffmCapCrores: 35456.78,
-      nm52wH: 7200.0,
-      nm52wL: 4580.0,
-    },
-    {
-      symbol: "MPHASIS",
-      prevClose: 2345.6,
-      iep: 2338.9,
-      change: -6.7,
-      changePercent: -0.29,
-      finalPrice: 2338.9,
-      finalQuantity: 2345,
-      valueCrores: 0.55,
-      ffmCapCrores: 44123.45,
-      nm52wH: 2910.0,
-      nm52wL: 2050.0,
-    },
-    {
-      symbol: "LTTS",
-      prevClose: 4890.3,
-      iep: 4905.6,
-      change: 15.3,
-      changePercent: 0.31,
-      finalPrice: 4905.6,
-      finalQuantity: 1567,
-      valueCrores: 0.77,
-      ffmCapCrores: 51678.9,
-      nm52wH: 5430.0,
-      nm52wL: 4120.0,
-    },
-  ],
-};
 
 type Denomination = "lakhs" | "crores" | "billions";
+
+interface PreOpenRow {
+  readonly symbol: string;
+  readonly prevClose: number | null;
+  readonly live: number | null;
+  readonly change: number | null;
+  readonly changePct: number | null;
+  readonly volume: number | null;
+  readonly valueCrores: number | null;
+  readonly mktCapCrores: number | null;
+  readonly high52: number | null;
+  readonly low52: number | null;
+}
+
+const REFRESH_INTERVAL_MS = 60_000;
 
 export default function PreOpenPage() {
   const [selectedCategory, setSelectedCategory] = useState("NIFTY 50");
   const [symbolSearch, setSymbolSearch] = useState("");
   const [denomination, setDenomination] = useState<Denomination>("crores");
+  const [rows, setRows] = useState<PreOpenRow[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [refreshVersion, setRefreshVersion] = useState(0);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    let isCurrentRequest = true;
+
+    const load = async (): Promise<void> => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          `/api/market-data/indices/nse/${encodeURIComponent(selectedCategory)}`,
+          { cache: "no-store", signal: controller.signal },
+        );
+        if (!response.ok) throw new Error(`request failed (${response.status})`);
+        const body: unknown = await response.json().catch(() => undefined);
+        const unwrapped =
+          body !== null &&
+          typeof body === "object" &&
+          "data" in body &&
+          body.data !== null &&
+          typeof body.data === "object" &&
+          "constituents" in body.data
+            ? (body.data as { constituents: unknown }).constituents
+            : (body as { constituents?: unknown })?.constituents;
+        if (!Array.isArray(unwrapped)) throw new Error("invalid response");
+        if (!isCurrentRequest) return;
+        setRows(
+          (unwrapped as Record<string, unknown>[]).map((row) => {
+            const num = (v: unknown): number | null =>
+              typeof v === "number" && Number.isFinite(v) ? v : null;
+            const value = num(row.value);
+            return {
+              symbol: typeof row.symbol === "string" ? row.symbol : "",
+              prevClose: num(row.prevClose),
+              live: num(row.price),
+              change: num(row.change),
+              changePct: num(row.changePct),
+              volume: num(row.volume),
+              valueCrores: value === null ? null : value / 1e7,
+              mktCapCrores: num(row.marketCapCr),
+              high52: num(row.high52),
+              low52: num(row.low52),
+            };
+          }),
+        );
+        setErrorMessage(null);
+      } catch (error: unknown) {
+        if (!isCurrentRequest) return;
+        if (error instanceof Error && error.name === "AbortError") return;
+        setErrorMessage(
+          "Live data is temporarily unavailable for this index. Please try again shortly.",
+        );
+      } finally {
+        if (isCurrentRequest) setIsLoading(false);
+      }
+    };
+
+    void load();
+    return () => {
+      isCurrentRequest = false;
+      controller.abort();
+    };
+  }, [selectedCategory, refreshVersion]);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setRefreshVersion((version) => version + 1);
+    }, REFRESH_INTERVAL_MS);
+    return () => window.clearInterval(timer);
+  }, []);
 
   const currentData = useMemo(() => {
-    const data = preOpenData[selectedCategory] || preOpenData["NIFTY 50"];
-    if (!symbolSearch.trim()) return data;
-    return data.filter((s) =>
-      s.symbol.toLowerCase().includes(symbolSearch.toLowerCase()),
-    );
-  }, [selectedCategory, symbolSearch]);
+    if (!symbolSearch.trim()) return rows;
+    const needle = symbolSearch.toLowerCase();
+    return rows.filter((s) => s.symbol.toLowerCase().includes(needle));
+  }, [rows, symbolSearch]);
 
-  const formatValue = (valueCrores: number): string => {
+  const formatMoney = (value: number | null): string => {
+    if (value === null) return "—";
     switch (denomination) {
       case "lakhs":
-        return (valueCrores * 100).toLocaleString("en-IN", {
+        return (value * 100).toLocaleString("en-IN", {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         });
       case "crores":
-        return valueCrores.toLocaleString("en-IN", {
+        return value.toLocaleString("en-IN", {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         });
       case "billions":
-        return (valueCrores / 100).toLocaleString("en-IN", {
+        return (value / 100).toLocaleString("en-IN", {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         });
       default:
-        return valueCrores.toLocaleString("en-IN", {
+        return value.toLocaleString("en-IN", {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         });
     }
   };
+
+  const formatPrice = (value: number | null): string =>
+    value === null
+      ? "—"
+      : value.toLocaleString("en-IN", { minimumFractionDigits: 2 });
+
+  const formatSigned = (value: number | null): string =>
+    value === null
+      ? "—"
+      : `${value >= 0 ? "+" : ""}${value.toFixed(2)}`;
 
   const denominationLabel =
     denomination === "lakhs"
@@ -810,31 +183,31 @@ export default function PreOpenPage() {
         : "Billions";
 
   const handleDownloadCSV = () => {
+    const plain = (value: number | null): string =>
+      value === null ? "" : String(value);
     const headers = [
       "Symbol",
       "Prev. Close",
-      "IEP",
+      "Live Price",
       "Chng",
       "%Chng",
-      "Final",
-      "Final Quantity",
+      "Volume",
       `Value (${denominationLabel})`,
-      `FFM Cap (${denominationLabel})`,
-      "NM 52W H",
-      "NM 52W L",
+      `Mkt Cap (${denominationLabel})`,
+      "52W H",
+      "52W L",
     ];
     const rows = currentData.map((s) => [
       s.symbol,
-      s.prevClose.toFixed(2),
-      s.iep.toFixed(2),
-      s.change.toFixed(2),
-      s.changePercent.toFixed(2),
-      s.finalPrice.toFixed(2),
-      s.finalQuantity.toString(),
-      formatValue(s.valueCrores),
-      formatValue(s.ffmCapCrores),
-      s.nm52wH.toFixed(2),
-      s.nm52wL.toFixed(2),
+      plain(s.prevClose),
+      plain(s.live),
+      plain(s.change),
+      plain(s.changePct),
+      s.volume === null ? "" : String(s.volume),
+      s.valueCrores === null ? "" : formatMoney(s.valueCrores),
+      s.mktCapCrores === null ? "" : formatMoney(s.mktCapCrores),
+      plain(s.high52),
+      plain(s.low52),
     ]);
     const csv = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
@@ -854,7 +227,7 @@ export default function PreOpenPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <UnofficialSourceBadge label="Demo data — not a live feed. Pre-open auction data (IEP) is only exposed live via NSE's protected API, which is blocked from this build's network." />
+          <UnofficialSourceBadge label="Live index constituents. Official pre-open auction equilibrium prices (IEP) are published by NSE only during the 9:00–9:15 IST session; outside that window live traded prices are shown." />
           {}
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 rounded-lg bg-gradient-to-br from-orange-500/20 to-amber-500/20 border border-orange-500/30">
@@ -865,10 +238,18 @@ export default function PreOpenPage() {
                 Pre Open Market
               </h1>
               <p className="text-sm text-muted-foreground">
-                Pre-market session data with indicative equilibrium prices
+                Live constituent quotes for each index — refreshes every minute
               </p>
             </div>
           </div>
+          {errorMessage ? (
+            <p
+              role="alert"
+              className="mb-4 rounded-md border border-error/30 bg-error/10 px-4 py-3 text-sm text-error"
+            >
+              {errorMessage}
+            </p>
+          ) : null}
 
           {}
           <div className="bg-background border border-border rounded-xl p-4 mb-4 shadow-luxury">
@@ -961,7 +342,7 @@ export default function PreOpenPage() {
                       Prev. Close
                     </th>
                     <th className="px-3 py-2.5 text-right text-xs font-semibold text-primary-foreground uppercase tracking-wider">
-                      IEP
+                      Live Price
                     </th>
                     <th className="px-3 py-2.5 text-right text-xs font-semibold text-primary-foreground uppercase tracking-wider">
                       Chng
@@ -969,101 +350,107 @@ export default function PreOpenPage() {
                     <th className="px-3 py-2.5 text-right text-xs font-semibold text-primary-foreground uppercase tracking-wider">
                       %Chng
                     </th>
-                    <th className="px-3 py-2.5 text-right text-xs font-semibold text-primary-foreground uppercase tracking-wider">
-                      Final
-                    </th>
                     <th className="px-3 py-2.5 text-right text-xs font-semibold text-primary-foreground uppercase tracking-wider whitespace-nowrap">
-                      Final Quantity
+                      Volume
                     </th>
                     <th className="px-3 py-2.5 text-right text-xs font-semibold text-primary-foreground uppercase tracking-wider whitespace-nowrap">
                       Value ({denominationLabel})
                     </th>
                     <th className="px-3 py-2.5 text-right text-xs font-semibold text-primary-foreground uppercase tracking-wider whitespace-nowrap">
-                      FFM Cap ({denominationLabel})
+                      Mkt Cap ({denominationLabel})
                     </th>
                     <th className="px-3 py-2.5 text-right text-xs font-semibold text-primary-foreground uppercase tracking-wider whitespace-nowrap">
-                      NM 52W H
+                      52W H
                     </th>
                     <th className="px-3 py-2.5 text-right text-xs font-semibold text-primary-foreground uppercase tracking-wider whitespace-nowrap">
-                      NM 52W L
+                      52W L
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
-                  {currentData.map((stock, i) => (
-                    <motion.tr
-                      key={stock.symbol}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.02 }}
-                      className="hover:bg-secondary/50 transition-colors group"
-                    >
-                      <td className="px-3 py-2">
-                        <span className="text-sm font-semibold text-primary group-hover:underline cursor-pointer">
-                          {stock.symbol}
-                        </span>
+                  {isLoading && currentData.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={10}
+                        className="px-4 py-8 text-center text-muted-foreground"
+                      >
+                        Loading live constituents for {selectedCategory}…
                       </td>
-                      <td className="px-3 py-2 text-xs text-muted-foreground text-right font-mono">
-                        {stock.prevClose.toLocaleString("en-IN", {
-                          minimumFractionDigits: 2,
-                        })}
+                    </tr>
+                  ) : currentData.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={10}
+                        className="px-4 py-8 text-center text-muted-foreground"
+                      >
+                        {symbolSearch.trim()
+                          ? `No constituents match "${symbolSearch.trim()}".`
+                          : "No constituents available for this index right now."}
                       </td>
-                      <td className="px-3 py-2 text-xs font-semibold text-foreground text-right font-mono">
-                        {stock.iep.toLocaleString("en-IN", {
-                          minimumFractionDigits: 2,
-                        })}
-                      </td>
-                      <td className="px-3 py-2 text-xs text-right font-mono">
-                        <span
-                          className={`font-semibold ${stock.change >= 0 ? "text-success" : "text-error"}`}
-                        >
-                          {stock.change >= 0 ? "+" : ""}
-                          {stock.change.toFixed(2)}
-                        </span>
-                      </td>
-                      <td className="px-3 py-2 text-right">
-                        <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold font-mono ${
-                            stock.changePercent >= 0
-                              ? "bg-success/10 text-success"
-                              : "bg-error/10 text-error"
-                          }`}
-                        >
-                          {stock.changePercent >= 0 ? (
-                            <TrendingUp className="w-3.5 h-3.5 mr-1" />
-                          ) : (
-                            <TrendingDown className="w-3.5 h-3.5 mr-1" />
-                          )}
-                          {stock.changePercent >= 0 ? "+" : ""}
-                          {stock.changePercent.toFixed(2)}
-                        </span>
-                      </td>
-                      <td className="px-3 py-2 text-xs font-semibold text-foreground text-right font-mono">
-                        {stock.finalPrice.toLocaleString("en-IN", {
-                          minimumFractionDigits: 2,
-                        })}
-                      </td>
-                      <td className="px-3 py-2 text-xs text-muted-foreground text-right font-mono">
-                        {stock.finalQuantity.toLocaleString("en-IN")}
-                      </td>
-                      <td className="px-3 py-2 text-xs text-muted-foreground text-right font-mono">
-                        {formatValue(stock.valueCrores)}
-                      </td>
-                      <td className="px-3 py-2 text-xs text-muted-foreground text-right font-mono">
-                        {formatValue(stock.ffmCapCrores)}
-                      </td>
-                      <td className="px-3 py-2 text-xs text-muted-foreground text-right font-mono">
-                        {stock.nm52wH.toLocaleString("en-IN", {
-                          minimumFractionDigits: 2,
-                        })}
-                      </td>
-                      <td className="px-3 py-2 text-xs text-muted-foreground text-right font-mono">
-                        {stock.nm52wL.toLocaleString("en-IN", {
-                          minimumFractionDigits: 2,
-                        })}
-                      </td>
-                    </motion.tr>
-                  ))}
+                    </tr>
+                  ) : (
+                    currentData.map((stock, i) => (
+                      <motion.tr
+                        key={stock.symbol}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: Math.min(i, 10) * 0.02 }}
+                        className="hover:bg-secondary/50 transition-colors group"
+                      >
+                        <td className="px-3 py-2">
+                          <span className="text-sm font-semibold text-primary group-hover:underline cursor-pointer">
+                            {stock.symbol}
+                          </span>
+                        </td>
+                        <td className="px-3 py-2 text-xs text-muted-foreground text-right font-mono">
+                          {formatPrice(stock.prevClose)}
+                        </td>
+                        <td className="px-3 py-2 text-xs font-semibold text-foreground text-right font-mono">
+                          {formatPrice(stock.live)}
+                        </td>
+                        <td className="px-3 py-2 text-xs text-right font-mono">
+                          <span
+                            className={`font-semibold ${(stock.change ?? 0) >= 0 ? "text-success" : "text-error"}`}
+                          >
+                            {formatSigned(stock.change)}
+                          </span>
+                        </td>
+                        <td className="px-3 py-2 text-right">
+                          <span
+                            className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold font-mono ${
+                              (stock.changePct ?? 0) >= 0
+                                ? "bg-success/10 text-success"
+                                : "bg-error/10 text-error"
+                            }`}
+                          >
+                            {(stock.changePct ?? 0) >= 0 ? (
+                              <TrendingUp className="w-3.5 h-3.5 mr-1" />
+                            ) : (
+                              <TrendingDown className="w-3.5 h-3.5 mr-1" />
+                            )}
+                            {formatSigned(stock.changePct)}
+                          </span>
+                        </td>
+                        <td className="px-3 py-2 text-xs text-muted-foreground text-right font-mono">
+                          {stock.volume === null
+                            ? "—"
+                            : stock.volume.toLocaleString("en-IN")}
+                        </td>
+                        <td className="px-3 py-2 text-xs text-muted-foreground text-right font-mono">
+                          {formatMoney(stock.valueCrores)}
+                        </td>
+                        <td className="px-3 py-2 text-xs text-muted-foreground text-right font-mono">
+                          {formatMoney(stock.mktCapCrores)}
+                        </td>
+                        <td className="px-3 py-2 text-xs text-muted-foreground text-right font-mono">
+                          {formatPrice(stock.high52)}
+                        </td>
+                        <td className="px-3 py-2 text-xs text-muted-foreground text-right font-mono">
+                          {formatPrice(stock.low52)}
+                        </td>
+                      </motion.tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
