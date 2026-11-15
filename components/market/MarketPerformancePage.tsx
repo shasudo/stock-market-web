@@ -22,7 +22,7 @@ import {
   ListFilter,
 } from "lucide-react";
 import { DayPicker, type DateRange } from "react-day-picker";
-import { PageHeader } from "@/components/common/PageHeader";
+import { PageHeader } from "@/components/ds";
 import { SearchInput } from "@/components/common/SearchInput";
 import { describeSyncFreshness } from "@/lib/utils";
 import FilterPanel, {
@@ -3100,7 +3100,6 @@ function MarketPageContent({
             title="Total Market Performance"
             description="Breadth, movers and performance across every listed stock"
             icon={Activity}
-            iconColor="text-primary"
           />
         )}
         {}

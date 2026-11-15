@@ -316,7 +316,7 @@ export function SummaryPriceChart({
             {r.id}
           </button>
         ))}
-        <span className="mx-1 h-4 w-px bg-slate-200" aria-hidden="true" />
+        <span className="mx-1 h-4 w-px bg-border" aria-hidden="true" />
         <button
           type="button"
           onClick={() => setMode("price")}

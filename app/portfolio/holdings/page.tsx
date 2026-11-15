@@ -6,11 +6,11 @@ import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import {
   AuthGuard,
-  PageHeader,
   StockActionsMenu,
   SearchInput,
   matchesSearch,
 } from "@/components/common";
+import { PageHeader } from "@/components/ds";
 import apiClient, {
   getApiResponseMessage,
   getAxiosErrorMessage,
@@ -116,25 +116,26 @@ function HoldingsContent() {
   );
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8 py-8 md:py-12">
+    <div>
+      <div className="w-full">
         <PageHeader
           title="Holdings"
           description="Stocks added from any stock's three-dot menu"
           icon={Briefcase}
-        >
-          <div className="text-right">
-            <p className="text-xs text-muted-foreground uppercase tracking-wide">
-              Invested
-            </p>
-            <p className="text-xl font-bold font-mono text-foreground">
-              ₹
-              {totalInvested.toLocaleString("en-IN", {
-                maximumFractionDigits: 2,
-              })}
-            </p>
-          </div>
-        </PageHeader>
+          actions={
+            <div className="text-right">
+              <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                Invested
+              </p>
+              <p className="font-mono text-xl font-semibold tabular-nums text-foreground">
+                ₹
+                {totalInvested.toLocaleString("en-IN", {
+                  maximumFractionDigits: 2,
+                })}
+              </p>
+            </div>
+          }
+        />
 
         <div className="mb-4 flex justify-end">
           <SearchInput

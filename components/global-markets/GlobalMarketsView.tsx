@@ -2,8 +2,8 @@
 
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { ArrowDown, ArrowUp, Globe2, RefreshCw, Search } from "lucide-react";
-import { PageShell } from "@/components/common/PageShell";
-import { PageHeader } from "@/components/common/PageHeader";
+
+import { PageHeader } from "@/components/ds";
 import type { GlobalSectionId } from "@/lib/global-markets/catalog";
 import type { Performance, TechnicalRating } from "@/lib/global-markets/compute";
 import type {
@@ -325,28 +325,29 @@ export default function GlobalMarketsView() {
 
   return (
     <div className="min-h-screen bg-background">
-      <PageShell className="py-6">
+      <div className="w-full">
         <PageHeader
           title="Global Markets"
           description="World indices, commodities, currencies, bond yields, Indian ADRs and US stocks — live"
           icon={Globe2}
-        >
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground">
-              <span className={`h-2 w-2 rounded-full ${error ? "bg-orange-500" : "bg-emerald-500 animate-pulse"}`} />
-              {data ? `Updated ${formatStamp(data.generatedAt)}` : loading ? "Loading…" : "Offline"}
-            </span>
-            <button
-              type="button"
-              onClick={refresh}
-              disabled={loading}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted disabled:opacity-60"
-            >
-              <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
-              Refresh
-            </button>
-          </div>
-        </PageHeader>
+          actions={
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+                <span className={`h-2 w-2 rounded-full ${error ? "bg-amber-500" : "bg-emerald-600 animate-pulse dark:bg-emerald-400"}`} />
+                {data ? `Updated ${formatStamp(data.generatedAt)}` : loading ? "Loading…" : "Offline"}
+              </span>
+              <button
+                type="button"
+                onClick={refresh}
+                disabled={loading}
+                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted disabled:opacity-60"
+              >
+                <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+                Refresh
+              </button>
+            </div>
+          }
+        />
 
         <div className="mb-4 flex flex-wrap gap-2" role="tablist" aria-label="Market">
           {(data?.sections ?? []).map((item) => {
@@ -511,7 +512,7 @@ export default function GlobalMarketsView() {
             investment advice.
           </p>
         </div>
-      </PageShell>
+      </div>
     </div>
   );
 }

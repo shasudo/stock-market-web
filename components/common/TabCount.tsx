@@ -12,10 +12,10 @@ export function TabCount({
 }) {
   return (
     <span
-      className={`rounded-full px-2 py-0.5 text-[10px] font-bold leading-none transition-colors ${
+      className={`rounded-md px-2 py-0.5 font-mono text-[10px] font-semibold tabular-nums leading-none transition-colors ${
         active
-          ? "bg-white/25 dark:bg-zinc-950/10 text-white dark:text-zinc-950"
-          : "bg-slate-200/80 text-muted-foreground"
+          ? "bg-primary/10 text-primary"
+          : "bg-muted text-muted-foreground"
       }`}
     >
       {count}

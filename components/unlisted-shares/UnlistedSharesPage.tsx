@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Building, ChevronDown, ChevronUp, ExternalLink, RefreshCw, Search } from "lucide-react";
-import { PageShell } from "@/components/common/PageShell";
-import { PageHeader } from "@/components/common/PageHeader";
+
+import { PageHeader } from "@/components/ds";
 import { SortableTh } from "@/components/super-investors/SortableTh";
 import { partners, preferredPartner, unlistedSharesFAQs } from "@/lib/unlisted-shares-data";
 import type { IpoBoardResponse } from "@/lib/ipo/service";
@@ -241,31 +241,33 @@ export default function UnlistedSharesPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <PageShell className="py-6">
-        <PageHeader title="Unlisted Shares" description="Pre-IPO companies: indicative dealer prices and the live pipeline of companies heading to the exchanges" icon={Building}>
-          <div className="flex items-center gap-2">
-            <label className="relative">
-              <span className="sr-only">Search companies</span>
-              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-              <input
-                type="search"
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search company"
-                className="w-52 rounded-full border border-border bg-card py-1.5 pl-8 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none"
-              />
-            </label>
-            <button
-              type="button"
-              onClick={refresh}
-              disabled={loading}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted disabled:opacity-60"
-            >
-              <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
-              Refresh
-            </button>
-          </div>
-        </PageHeader>
+      <div className="w-full">
+        <PageHeader title="Unlisted Shares" description="Pre-IPO companies: indicative dealer prices and the live pipeline of companies heading to the exchanges" icon={Building}
+          actions={
+            <div className="flex items-center gap-2">
+              <label className="relative">
+                <span className="sr-only">Search companies</span>
+                <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search company"
+                  className="w-52 rounded-md border border-border bg-card py-1.5 pl-8 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                />
+              </label>
+              <button
+                type="button"
+                onClick={refresh}
+                disabled={loading}
+                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted disabled:opacity-60"
+              >
+                <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+                Refresh
+              </button>
+            </div>
+          }
+        />
 
         <section className="mb-6 overflow-hidden rounded-2xl border border-border/80 bg-card shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
           <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-border px-4 py-3">
@@ -396,12 +398,12 @@ export default function UnlistedSharesPage() {
                 </div>
               </div>
             </div>
-            <div className="rounded-2xl border border-border/90 bg-card p-5 shadow-xs">
-              <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-foreground">Secondary Market Partners</h3>
+            <div className="rounded-[10px] border border-border bg-card p-4">
+              <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Secondary Market Partners</h3>
               <div className="flex flex-wrap gap-3">
                 {partners.map((partner) => (
-                  <div key={partner.id} className="flex items-center gap-2 rounded-xl border border-border bg-muted px-3 py-2">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-200 text-xs font-bold text-muted-foreground">
+                  <div key={partner.id} className="flex items-center gap-2 rounded-md border border-border bg-muted px-3 py-2">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-md bg-background text-xs font-bold text-muted-foreground">
                       {partner.name.substring(0, 2).toUpperCase()}
                     </div>
                     <span className="text-xs font-bold text-foreground">{partner.name}</span>
@@ -441,7 +443,7 @@ export default function UnlistedSharesPage() {
           Unlisted shares do not trade on an exchange; prices are indicative dealer quotes and can differ between dealers. The
           pipeline comes from SEBI&apos;s draft offer document filings and NSE&apos;s issue boards. Not investment advice.
         </p>
-      </PageShell>
+      </div>
     </div>
   );
 }

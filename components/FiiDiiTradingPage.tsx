@@ -165,7 +165,7 @@ export default function FiiDiiTradingPage() {
           </div>
           <button
             onClick={() => setRefreshVersion((version) => version + 1)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-muted text-muted-foreground hover:bg-slate-200 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-xs font-bold bg-muted text-muted-foreground hover:bg-muted/60 hover:text-foreground transition-colors"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             Refresh
@@ -390,7 +390,7 @@ export default function FiiDiiTradingPage() {
                     setToMonth("December");
                     setToYear("2026");
                   }}
-                  className="px-4 py-1.5 bg-muted text-muted-foreground text-xs font-bold rounded-xl hover:bg-slate-200 transition-colors ml-auto"
+                  className="px-4 py-1.5 bg-muted text-muted-foreground text-xs font-bold rounded-md hover:bg-muted/60 hover:text-foreground transition-colors ml-auto"
                 >
                   Reset Range
                 </button>

@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { CalendarClock, ExternalLink, FileText, RefreshCw, Rocket, Search } from "lucide-react";
-import { PageShell } from "@/components/common/PageShell";
-import { PageHeader } from "@/components/common/PageHeader";
+
+import { PageHeader } from "@/components/ds";
 import { SortableTh } from "@/components/super-investors/SortableTh";
 import type { IpoIssue, IpoSubscription } from "@/lib/ipo/parse";
 import type { IpoBoardResponse } from "@/lib/ipo/service";
@@ -537,24 +537,26 @@ export default function IPOPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <PageShell className="py-6">
-        <PageHeader title="IPO" description="Live IPO dashboard — open, upcoming, closed and listed issues on NSE, with subscription, timelines and listing gains" icon={Rocket}>
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground">
-              <span className={`h-2 w-2 rounded-full ${error ? "bg-orange-500" : "bg-emerald-500 animate-pulse"}`} />
-              {data ? `Updated ${new Date(data.generatedAt).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })} IST` : loading ? "Loading…" : "Offline"}
-            </span>
-            <button
-              type="button"
-              onClick={refresh}
-              disabled={loading}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted disabled:opacity-60"
-            >
-              <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
-              Refresh
-            </button>
-          </div>
-        </PageHeader>
+      <div className="w-full">
+        <PageHeader title="IPO" description="Live IPO dashboard — open, upcoming, closed and listed issues on NSE, with subscription, timelines and listing gains" icon={Rocket}
+          actions={
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+                <span className={`h-2 w-2 rounded-full ${error ? "bg-amber-500" : "bg-emerald-600 animate-pulse dark:bg-emerald-400"}`} />
+                {data ? `Updated ${new Date(data.generatedAt).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })} IST` : loading ? "Loading…" : "Offline"}
+              </span>
+              <button
+                type="button"
+                onClick={refresh}
+                disabled={loading}
+                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted disabled:opacity-60"
+              >
+                <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+                Refresh
+              </button>
+            </div>
+          }
+        />
 
         <div className="mb-4 flex flex-wrap gap-2" role="tablist">
           {TABS.map((item) => (
@@ -655,7 +657,7 @@ export default function IPOPage() {
           T+3 timeline counted in trading days and are marked tentative until NSE publishes the listing. Listing gain compares the
           listing-day open with the issue price. Not investment advice.
         </p>
-      </PageShell>
+      </div>
     </div>
   );
 }

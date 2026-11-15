@@ -218,7 +218,7 @@ function StockDetailContent({ symbol }: { symbol: string }) {
         <button
           type="button"
           onClick={handleBack}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors mb-6 bg-card/80 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-black/[0.06] shadow-xs cursor-pointer"
+          className="mb-6 inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           Back

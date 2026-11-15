@@ -52,14 +52,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+
 import toast from "react-hot-toast";
 import {
-  PageHeader,
   SearchInput,
   TabCount,
   matchesSearch,
 } from "@/components/common";
+import { PageHeader } from "@/components/ds";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -316,9 +316,9 @@ const EMPTY_MARKET_FILTER_OPTIONS: MarketFilterOptions = {
 };
 
 const formLabelClass =
-  "block text-[11px] font-bold text-slate-500 uppercase tracking-wide mb-1";
+  "block text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1";
 const formInputClass =
-  "w-full rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-500";
+  "w-full rounded-md border border-border bg-card px-2.5 py-1.5 text-xs font-semibold text-foreground focus:outline-none focus:border-primary";
 
 type CuratedEntryFormState = Omit<CuratedEntry, "id" | "addedAt">;
 
@@ -456,7 +456,7 @@ function FilterTriggerButton({
         className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 border whitespace-nowrap ${
           isActive
             ? activeClass
-            : "border-slate-200 text-slate-600 bg-white hover:bg-slate-50"
+            : "border-border text-muted-foreground bg-card hover:bg-muted"
         }`}
       >
         <Icon className="w-3.5 h-3.5" />
@@ -813,10 +813,10 @@ function toggleSetValue(
 function BooleanBadge({ value }: { value: boolean }) {
   return (
     <span
-      className={`inline-flex px-2 py-0.5 text-xs font-mono font-bold rounded-full border num-font ${
+      className={`inline-flex px-2 py-0.5 text-xs font-mono font-semibold rounded-md border tabular-nums ${
         value
-          ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-          : "bg-slate-100 text-slate-500 border-slate-200"
+          ? "bg-emerald-600/10 text-emerald-800 border-emerald-600/25 dark:bg-emerald-400/10 dark:text-emerald-300 dark:border-emerald-400/25"
+          : "bg-muted text-muted-foreground border-border"
       }`}
     >
       {value ? "Triggered" : "Pending"}
@@ -1285,7 +1285,7 @@ function watchlistCellClass(columnKey: string): string {
   )
     ? "max-w-[220px] whitespace-normal"
     : "whitespace-nowrap";
-  return `px-3 py-2.5 text-slate-700 font-medium ${alignClass} ${wrapClass}`;
+  return `px-3 py-2.5 text-foreground font-medium ${alignClass} ${wrapClass}`;
 }
 
 /**
@@ -1317,7 +1317,7 @@ function RowActionsMenu({ row }: { row: JoinedRow }) {
           type="button"
           onClick={(event) => event.stopPropagation()}
           aria-label={`Actions for ${row.tradingSymbol}`}
-          className="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors"
+          className="p-1 hover:bg-muted rounded text-muted-foreground hover:text-foreground transition-colors"
         >
           <MoreVertical className="w-3.5 h-3.5" />
         </button>
@@ -1354,7 +1354,7 @@ function renderWatchlistCell(
   switch (columnKey) {
     case "sNo":
       return (
-        <span className="font-mono font-bold text-slate-600 num-font">
+        <span className="font-mono font-semibold tabular-nums text-muted-foreground">
           {rowNumber}
         </span>
       );
@@ -1394,7 +1394,7 @@ function renderWatchlistCell(
     case "tradingSymbol":
       return (
         <div className="flex items-center justify-between gap-2">
-          <span className="font-bold text-slate-900">
+          <span className="font-bold text-foreground">
             {row.tradingSymbol}
             {row.liveMissing && (
               <span
@@ -1410,7 +1410,7 @@ function renderWatchlistCell(
                 <button
                   onClick={() => handlers.onEdit(row)}
                   aria-label={`Edit ${row.tradingSymbol}`}
-                  className="p-1 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md transition-all"
+                  className="p-1 text-muted-foreground hover:text-primary hover:bg-primary/[0.08] rounded-md transition-all"
                   title="Edit"
                 >
                   <Pencil className="w-3.5 h-3.5" />
@@ -1418,7 +1418,7 @@ function renderWatchlistCell(
                 <button
                   onClick={() => handlers.onRemove(meta.id)}
                   aria-label={`Remove ${row.tradingSymbol}`}
-                  className="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-md transition-all"
+                  className="p-1 text-muted-foreground hover:text-rose-700 hover:bg-rose-600/10 rounded-md transition-all dark:hover:text-rose-300"
                   title="Remove"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -1442,7 +1442,7 @@ function renderWatchlistCell(
       return `₹${row.cmp.toFixed(2)}`;
     case "ltp":
       return (
-        <span className="font-mono font-bold text-slate-900 num-font">
+        <span className="font-mono font-semibold tabular-nums text-foreground">
           ₹{row.cmp.toFixed(2)}
         </span>
       );
@@ -1477,8 +1477,8 @@ function renderWatchlistCell(
             meta.trend === "Bullish"
               ? "bg-emerald-50 text-emerald-700 border-emerald-200"
               : meta.trend === "Bearish"
-                ? "bg-rose-50 text-rose-700 border-rose-200"
-                : "bg-slate-100 text-slate-600 border-slate-200"
+                ? "bg-rose-600/10 text-rose-800 border-rose-600/25 dark:bg-rose-400/10 dark:text-rose-300 dark:border-rose-400/25"
+                : "bg-muted text-muted-foreground border-border"
           }`}
         >
           {meta.trend}
@@ -1509,7 +1509,7 @@ function renderWatchlistCell(
               e.target.value = "";
             }
           }}
-          className="rounded-md border border-slate-200 px-1.5 py-1 text-[11px] font-semibold text-slate-600 focus:outline-none focus:border-indigo-500"
+          className="rounded-md border border-border bg-card px-1.5 py-1 text-[11px] font-semibold text-foreground focus:outline-none focus:border-primary"
         >
           <option value="">
             {meta ? "Move to…" : "Add to…"}
@@ -1766,8 +1766,8 @@ function WatchlistStyleTable({
 
   return (
     <table className="w-full text-left border-collapse text-xs md:text-sm">
-      <thead className="bg-slate-50/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-10">
-        <tr className="group/head text-slate-500 text-[11px] font-bold uppercase tracking-wider select-none">
+      <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
+        <tr className="group/head text-[11px] font-semibold uppercase tracking-wider text-muted-foreground select-none">
           {columnOrder.map((columnKey) => {
             const def = WATCHLIST_COLUMN_DEFS[columnKey];
             if (!def) return null;
@@ -2008,7 +2008,7 @@ function QuickScanMenu({
                 >
                   <span
                     className={`block truncate text-xs font-bold ${
-                      isActive ? "text-sky-800" : "text-slate-700"
+                      isActive ? "text-primary" : "text-muted-foreground"
                     }`}
                   >
                     {scan.name}
@@ -2073,7 +2073,7 @@ function ColumnVisibilityDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 border whitespace-nowrap border-slate-200 text-slate-600 bg-white hover:bg-slate-50">
+        <button className="flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-xs font-bold transition-colors border whitespace-nowrap border-border text-muted-foreground bg-card hover:bg-muted">
           <Columns3 className="w-3.5 h-3.5" />
           <span>Columns</span>
           {hiddenCount > 0 && (
@@ -2109,7 +2109,7 @@ function ColumnVisibilityDropdown({
             return (
               <label
                 key={columnKey}
-                className="flex items-center justify-between gap-2 px-3 py-1.5 text-xs font-semibold text-slate-600 cursor-pointer hover:bg-slate-50"
+                className="flex items-center justify-between gap-2 px-3 py-1.5 text-xs font-semibold text-muted-foreground cursor-pointer hover:bg-muted"
               >
                 <span className="truncate">{def.label}</span>
                 <input
@@ -2175,7 +2175,7 @@ const SOURCE_NAV_ITEMS: readonly SourceNavItem[] = [
 const SOURCE_NAV_ACTIVE_CLASS =
   "bg-indigo-600 text-white shadow-indigo-500/20 shadow-xs";
 const SOURCE_NAV_INACTIVE_CLASS =
-  "text-slate-500 hover:bg-slate-100 hover:text-slate-700";
+  "text-muted-foreground hover:bg-muted hover:text-foreground";
 // Give the pointer a moment to travel from the trigger button into the
 // (portaled, so not a DOM descendant) menu before treating it as "left" —
 // without this, crossing the small gap between them closes the menu.
@@ -3502,23 +3502,24 @@ export default function VgsReddyStrategiesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/40 py-6">
-      <div className="w-full px-4 lg:px-8">
+    <div>
+      <div className="w-full">
         <PageHeader
           title="VGS Reddy Screener"
           description="Institutional candlestick breakout setups and multi-timeframe pattern recognition scanner"
           icon={CandlestickChart}
-        >
+          actions={
             <SourceNav
               activeSource={activeSource}
               onSelect={setActiveSource}
               countBySource={countBySource}
             />
-        </PageHeader>
+          }
+        />
 
         {/* Controls row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-          <div className="grid grid-cols-2 divide-x divide-slate-200 rounded-xl border border-slate-200 bg-white shadow-xs overflow-hidden">
+          <div className="grid grid-cols-2 divide-x divide-border rounded-[10px] border border-border bg-card overflow-hidden">
             <button
               onClick={() => setActiveTrendDirection("up")}
               className={`flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs font-bold transition-colors ${
@@ -3557,7 +3558,7 @@ export default function VgsReddyStrategiesPage() {
               disabled={isManualRefreshing}
               aria-label="Refresh live data"
               title="Refresh live data"
-              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-bold border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-colors disabled:opacity-60 shrink-0"
+              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-md text-xs font-bold border border-border bg-card text-muted-foreground hover:bg-muted transition-colors disabled:opacity-60 shrink-0"
             >
               <RefreshCw
                 className={`w-3.5 h-3.5 ${isManualRefreshing ? "animate-spin" : ""}`}
@@ -3783,15 +3784,13 @@ export default function VgsReddyStrategiesPage() {
           </div>
         </div>
 
-        {/* macOS Finder Striped Table Card */}
-        <motion.div
+        {/* Striped table card */}
+        <div
           key={boardKey}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="rounded-2xl border border-slate-200/90 bg-white shadow-xs overflow-hidden"
+          className="rounded-[10px] border border-border bg-card overflow-hidden"
         >
-          <div className="px-5 py-3.5 border-b border-slate-200 bg-slate-50/80 flex items-center justify-between gap-3 flex-wrap">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2">
+          <div className="px-4 py-3 border-b border-border bg-muted/60 flex items-center justify-between gap-3 flex-wrap">
+            <h2 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
               {sourceTabs.find((t) => t.id === activeSource)?.label}
               {selectedTimeframes.size > 0 && (
                 <>
@@ -3893,7 +3892,7 @@ export default function VgsReddyStrategiesPage() {
           </div>
 
           {activeSource === "screening" && screeningPagination && (
-            <div className="px-5 py-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-semibold text-slate-500">
+            <div className="px-4 py-3 border-t border-border flex items-center justify-between text-[11px] font-semibold text-muted-foreground">
               <span>
                 Page {screeningPagination.page} of{" "}
                 {Math.max(1, screeningPagination.totalPages)} ·{" "}
@@ -4007,7 +4006,7 @@ export default function VgsReddyStrategiesPage() {
               </div>
             </div>
           )}
-        </motion.div>
+        </div>
       </div>
 
       <Dialog
@@ -4430,7 +4429,7 @@ export default function VgsReddyStrategiesPage() {
             </div>
 
             <div className="flex flex-wrap items-center gap-4 pt-1">
-              <label className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+              <label className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
                 <input
                   type="checkbox"
                   checked={strategyForm.entrySignal}
@@ -4446,7 +4445,7 @@ export default function VgsReddyStrategiesPage() {
               <button
                 type="button"
                 onClick={() => setIsStrategyDialogOpen(false)}
-                className="px-4 py-2 rounded-xl text-xs font-bold border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
+                className="px-4 py-2 rounded-md text-xs font-bold border border-border text-muted-foreground hover:bg-muted transition-colors"
               >
                 Cancel
               </button>

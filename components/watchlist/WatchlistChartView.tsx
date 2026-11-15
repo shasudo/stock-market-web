@@ -179,11 +179,11 @@ export default function WatchlistChartView({
               </span>
               {selectedChanges && (
                 <span
-                  className={`inline-flex items-center text-xs font-mono font-bold ${
+                  className={`inline-flex items-center font-mono text-xs font-semibold tabular-nums ${
                     selectedChanges.isPositive
-                      ? "text-[#34C759]"
+                      ? "text-emerald-800 dark:text-emerald-300"
                       : selectedChanges.isNegative
-                        ? "text-[#FF3B30]"
+                        ? "text-rose-800 dark:text-rose-300"
                         : "text-muted-foreground"
                   }`}
                 >
@@ -390,10 +390,10 @@ export default function WatchlistChartView({
                         <span
                           className={`w-1.5 h-1.5 rounded-full shrink-0 ${
                             isPositive
-                              ? "bg-[#34C759]"
+                              ? "bg-emerald-600 dark:bg-emerald-400"
                               : isNegative
-                                ? "bg-[#FF3B30]"
-                                : "bg-gray-300"
+                                ? "bg-rose-600 dark:bg-rose-400"
+                                : "bg-muted-foreground/40"
                           }`}
                         />
                         <span
@@ -415,11 +415,11 @@ export default function WatchlistChartView({
 
                       {/* Net Change */}
                       <div
-                        className={`col-span-2 text-right font-mono text-[11px] font-semibold ${
+                        className={`col-span-2 text-right font-mono text-[11px] font-semibold tabular-nums ${
                           isPositive
-                            ? "text-[#34C759]"
+                            ? "text-emerald-800 dark:text-emerald-300"
                             : isNegative
-                              ? "text-[#FF3B30]"
+                              ? "text-rose-800 dark:text-rose-300"
                               : "text-muted-foreground"
                         }`}
                       >
@@ -429,11 +429,11 @@ export default function WatchlistChartView({
 
                       {/* Pct Change */}
                       <div
-                        className={`col-span-2 text-right font-mono text-[11px] font-semibold ${
+                        className={`col-span-2 text-right font-mono text-[11px] font-semibold tabular-nums ${
                           isPositive
-                            ? "text-[#34C759]"
+                            ? "text-emerald-800 dark:text-emerald-300"
                             : isNegative
-                              ? "text-[#FF3B30]"
+                              ? "text-rose-800 dark:text-rose-300"
                               : "text-muted-foreground"
                         }`}
                       >
@@ -448,7 +448,7 @@ export default function WatchlistChartView({
 
             {/* Sidebar Bottom: Active Stock Details Panel */}
             {activeStock && (
-              <div className="border-t border-border/90 bg-[#F5F5F7]/60 p-3 shrink-0">
+              <div className="border-t border-border bg-muted/60 p-3 shrink-0">
                 <div className="flex items-center justify-between mb-2">
                   <div>
                     <div className="flex items-center gap-1.5">
@@ -474,7 +474,7 @@ export default function WatchlistChartView({
                           e.stopPropagation();
                           void onRemoveStock(activeStock.id);
                         }}
-                        className="p-1 rounded-md text-muted-foreground hover:text-[#FF3B30] hover:bg-[#FF3B30]/10 transition-colors"
+                        className="p-1 rounded-md text-muted-foreground hover:text-rose-700 hover:bg-rose-600/10 transition-colors dark:hover:text-rose-300"
                         title="Remove from watchlist"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
@@ -511,20 +511,20 @@ export default function WatchlistChartView({
                     )}
                     {activeStock.stopLoss > 0 && (
                       <div className="bg-card rounded-md p-1 border border-border text-center">
-                        <span className="text-[#FF3B30] block text-[9px] uppercase font-bold">
+                        <span className="block text-[9px] uppercase font-bold text-rose-800 dark:text-rose-300">
                           SL
                         </span>
-                        <span className="font-bold text-[#FF3B30]">
+                        <span className="font-bold text-rose-800 dark:text-rose-300">
                           ₹{activeStock.stopLoss.toFixed(2)}
                         </span>
                       </div>
                     )}
                     {activeStock.target1 > 0 && (
                       <div className="bg-card rounded-md p-1 border border-border text-center">
-                        <span className="text-[#34C759] block text-[9px] uppercase font-bold">
+                        <span className="block text-[9px] uppercase font-bold text-emerald-800 dark:text-emerald-300">
                           TGT 1
                         </span>
-                        <span className="font-bold text-[#34C759]">
+                        <span className="font-bold text-emerald-800 dark:text-emerald-300">
                           ₹{activeStock.target1.toFixed(2)}
                         </span>
                       </div>

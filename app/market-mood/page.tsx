@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Gauge, Info, RefreshCw } from "lucide-react";
 import MarketMoodGauge from "@/components/MarketMoodGauge";
-import { PageShell } from "@/components/common/PageShell";
-import { PageHeader } from "@/components/common/PageHeader";
+
+import { PageHeader } from "@/components/ds";
 import {
   MOOD_ZONES,
   moodZoneFor,
@@ -229,28 +229,29 @@ export default function MarketMoodPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <PageShell className="py-6">
+      <div className="w-full">
         <PageHeader
           title="Market Mood Index"
           description="Live sentiment on the street — breadth, new highs, momentum, volatility, options and FII flows in one 0–100 reading"
           icon={Gauge}
-        >
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground">
-              <span className={`h-2 w-2 rounded-full ${errorMessage ? "bg-orange-500" : "bg-emerald-500 animate-pulse"}`} />
-              {snapshot ? `Updated ${formatTime(snapshot.generatedAt)}` : loading ? "Loading…" : "Offline"}
-            </span>
-            <button
-              type="button"
-              onClick={refresh}
-              disabled={loading}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted disabled:opacity-60"
-            >
-              <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
-              Refresh
-            </button>
-          </div>
-        </PageHeader>
+          actions={
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+                <span className={`h-2 w-2 rounded-full ${errorMessage ? "bg-amber-500" : "bg-emerald-600 animate-pulse dark:bg-emerald-400"}`} />
+                {snapshot ? `Updated ${formatTime(snapshot.generatedAt)}` : loading ? "Loading…" : "Offline"}
+              </span>
+              <button
+                type="button"
+                onClick={refresh}
+                disabled={loading}
+                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted disabled:opacity-60"
+              >
+                <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+                Refresh
+              </button>
+            </div>
+          }
+        />
 
         {errorMessage ? (
           <p role="alert" className="mb-4 rounded-xl border border-orange-500/30 bg-orange-500/10 px-4 py-3 text-sm text-orange-700 dark:text-orange-300">
@@ -402,7 +403,7 @@ export default function MarketMoodPage() {
             </section>
           </>
         ) : null}
-      </PageShell>
+      </div>
     </div>
   );
 }
