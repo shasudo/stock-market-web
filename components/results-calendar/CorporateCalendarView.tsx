@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Calendar, ChevronDown, Search } from "lucide-react";
+import { Calendar, CalendarClock, ChevronDown, History, LayoutGrid, Search } from "lucide-react";
 import UnofficialSourceBadge from "@/components/common/UnofficialSourceBadge";
 import {
   fetchScrapedEvents,
@@ -21,6 +21,12 @@ type ScopeTab = "Upcoming" | "Past" | "All";
 type EventFilter = "All" | CorporateCategory;
 
 const SCOPE_TABS: readonly ScopeTab[] = ["Upcoming", "Past", "All"];
+
+const scopeIcons = {
+  Upcoming: CalendarClock,
+  Past: History,
+  All: LayoutGrid,
+} as const;
 
 function formatDate(iso: string): string {
   const date = new Date(iso);
@@ -119,19 +125,26 @@ export default function CorporateCalendarView() {
       <div className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-border">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            {SCOPE_TABS.map((tab) => (
+            {SCOPE_TABS.map((tab) => {
+              const TabIcon = scopeIcons[tab];
+              const isActive = scope === tab;
+              return (
               <button
                 key={tab}
+                type="button"
                 onClick={() => setScope(tab)}
-                className={`px-3.5 py-1.5 text-xs font-bold rounded-xl transition-colors ${
-                  scope === tab
+                aria-current={isActive ? "page" : undefined}
+                className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl transition-colors ${
+                  isActive
                     ? "bg-primary text-primary-foreground shadow-primary/20 shadow-xs"
                     : "bg-card border border-border text-muted-foreground hover:bg-muted"
                 }`}
               >
+                <TabIcon className="h-3.5 w-3.5" aria-hidden="true" />
                 {tab}
               </button>
-            ))}
+              );
+            })}
           </div>
           <div className="relative">
             <button

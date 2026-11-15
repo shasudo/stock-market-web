@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Building2, Loader2, Search, X } from "lucide-react";
+import { EmptyState } from "@/components/ds";
 import {
   Dialog,
   DialogContent,
@@ -218,11 +219,14 @@ export default function PatternCompaniesDialog({
 
             <div className="min-h-0 flex-1 overflow-y-auto rounded-xl border border-border">
               {visible.length === 0 ? (
-                <p className="p-8 text-center text-xs text-muted-foreground">
-                  {status.matchCount === 0
-                    ? `No listed company is currently forming ${title}.`
-                    : "No matching companies found"}
-                </p>
+                <EmptyState
+                  className="py-8"
+                  title={
+                    status.matchCount === 0
+                      ? `No listed company is currently forming ${title}.`
+                      : "No matching companies found"
+                  }
+                />
               ) : (
                 <table className="w-full text-xs">
                   <thead className="sticky top-0 bg-muted">

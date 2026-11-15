@@ -1,7 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarRange } from "lucide-react";
+import {
+  Building2,
+  CalendarRange,
+  Landmark,
+  Newspaper,
+  Rocket,
+  type LucideIcon,
+} from "lucide-react";
 import EarningsCalendarView from "./EarningsCalendarView";
 import CorporateCalendarView from "./CorporateCalendarView";
 import EconomicCalendarView from "./EconomicCalendarView";
@@ -20,6 +27,13 @@ const tabs: TabType[] = [
   "IPO Calendar",
   "Economic Calendar",
 ];
+
+const tabIcons: Record<TabType, LucideIcon> = {
+  "Earnings Calendar": Newspaper,
+  "Corporate Calendar": Building2,
+  "IPO Calendar": Rocket,
+  "Economic Calendar": Landmark,
+};
 
 export default function ResultsCalendarPage() {
   const [activeTab, setActiveTab] = useState<TabType>("Earnings Calendar");
@@ -48,23 +62,27 @@ export default function ResultsCalendarPage() {
 
         {/* Tab Selection */}
         <div className="flex flex-wrap gap-2 mb-6 pb-2 border-b border-border">
-          {tabs.map((tab) => (
+          {tabs.map((tab) => {
+            const TabIcon = tabIcons[tab];
+            return (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
+              className={`inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl transition-all ${
                 activeTab === tab
                   ? "bg-primary text-primary-foreground shadow-primary/20 shadow-xs"
                   : "bg-card border border-border text-muted-foreground hover:bg-muted"
               }`}
             >
+              <TabIcon className="h-3.5 w-3.5" aria-hidden="true" />
               {tab}
             </button>
-          ))}
+            );
+          })}
         </div>
 
         {/* Calendar View Container */}
-        <div className="rounded-2xl border border-border/90 bg-card shadow-xs overflow-hidden min-h-[500px]">
+        <div className="overflow-hidden rounded-lg border border-border bg-card shadow-[var(--card-shadow)] min-h-[500px]">
           {renderContent()}
         </div>
       </div>

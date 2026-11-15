@@ -11,15 +11,26 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Activity,
-  Download,
-  RefreshCw,
-  Search,
+  Award,
+  Calendar,
+  CalendarCheck,
+  CalendarDays,
+  CalendarRange,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  CalendarDays,
+  Clock,
+  Download,
+  History,
+  Leaf,
   ListFilter,
+  RefreshCw,
+  Search,
+  Settings2,
+  TrendingUp,
+  Trophy,
+  type LucideIcon,
 } from "lucide-react";
 import { DayPicker, type DateRange } from "react-day-picker";
 import { PageHeader } from "@/components/ds";
@@ -2036,18 +2047,18 @@ function MarketPageContent({
 
   const exchanges = EXCHANGE_OPTIONS;
 
-  const allTabs: { id: string; label: string }[] = [
-    { id: "today", label: "Today Markets" },
-    { id: "intraday", label: "Intraday Wise" },
-    { id: "days", label: "Days Wise" },
-    { id: "weeks", label: "Weeks Wise" },
-    { id: "months", label: "Months Wise" },
-    { id: "years", label: "Years Wise" },
-    { id: "custom", label: "Customize Date" },
-    { id: "seasonality", label: "Seasonality" },
-    { id: "ytd", label: "Year to Date" },
-    { id: "52weeks", label: "52 Weeks Gainers & Losers" },
-    { id: "all_time", label: "All Time Gainers & Losers" },
+  const allTabs: { id: string; label: string; icon: LucideIcon }[] = [
+    { id: "today", label: "Today Markets", icon: CalendarCheck },
+    { id: "intraday", label: "Intraday Wise", icon: Clock },
+    { id: "days", label: "Days Wise", icon: CalendarDays },
+    { id: "weeks", label: "Weeks Wise", icon: CalendarRange },
+    { id: "months", label: "Months Wise", icon: Calendar },
+    { id: "years", label: "Years Wise", icon: History },
+    { id: "custom", label: "Customize Date", icon: Settings2 },
+    { id: "seasonality", label: "Seasonality", icon: Leaf },
+    { id: "ytd", label: "Year to Date", icon: TrendingUp },
+    { id: "52weeks", label: "52 Weeks Gainers & Losers", icon: Trophy },
+    { id: "all_time", label: "All Time Gainers & Losers", icon: Award },
   ];
 
   useEffect(() => {
@@ -3111,7 +3122,9 @@ function MarketPageContent({
                 : "flex border-b-2 border-black dark:border-border overflow-x-auto"
             }
           >
-            {allTabs.map((tab) => (
+            {allTabs.map((tab) => {
+              const TabIcon = tab.icon;
+              return (
               <button
                 key={tab.id}
                 ref={tab.id === "custom" ? customDateTabRef : undefined}
@@ -3123,16 +3136,18 @@ function MarketPageContent({
                           ? "bg-primary text-primary-foreground shadow-primary/20 shadow-xs"
                           : "text-muted-foreground hover:bg-muted hover:text-foreground"
                       }`
-                    : `px-4 py-2 text-sm font-medium border-t border-l last:border-r border-black dark:border-border -mb-[2px] whitespace-nowrap ${
+                    : `inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border-t border-l last:border-r border-black dark:border-border -mb-[2px] whitespace-nowrap ${
                         activeTab === tab.id
                           ? "bg-card border-b-2 border-b-white dark:border-b-card text-foreground"
                           : "bg-muted text-foreground hover:bg-muted"
                       }`
                 }
               >
+                <TabIcon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                 {tab.label}
               </button>
-            ))}
+              );
+            })}
           </div>
 
           {}

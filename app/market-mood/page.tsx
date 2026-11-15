@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Gauge, Info, RefreshCw } from "lucide-react";
+import { Gauge, Info, LayoutGrid, ListTree, RefreshCw, TrendingDown, TrendingUp } from "lucide-react";
 import MarketMoodGauge from "@/components/MarketMoodGauge";
 
 import { PageHeader } from "@/components/ds";
@@ -307,7 +307,12 @@ export default function MarketMoodPage() {
                             </span>
                             {delta !== null ? (
                               <span className={`text-xs font-semibold tabular-nums ${delta >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}`}>
-                                {delta >= 0 ? "▲" : "▼"} {Math.abs(delta).toFixed(1)}
+                                {delta >= 0 ? (
+                      <TrendingUp className="h-3 w-3" aria-hidden="true" />
+                    ) : (
+                      <TrendingDown className="h-3 w-3" aria-hidden="true" />
+                    )}{" "}
+                    {Math.abs(delta).toFixed(1)}
                               </span>
                             ) : null}
                           </div>
@@ -322,7 +327,7 @@ export default function MarketMoodPage() {
 
               <section className={`${CARD} p-5 sm:p-6 lg:col-span-3`}>
                 <div className="mb-4 flex items-center justify-between gap-2">
-                  <h2 className="text-base font-extrabold text-foreground">What&apos;s driving the mood</h2>
+                  <h2 className="flex items-center gap-2 text-base font-extrabold text-foreground"><ListTree className="h-4 w-4 text-muted-foreground" aria-hidden="true" />What&apos;s driving the mood</h2>
                   <span className="hidden text-xs text-muted-foreground sm:inline">0 = extreme fear · 100 = extreme greed</span>
                 </div>
                 <ul className="divide-y divide-border">
@@ -335,7 +340,7 @@ export default function MarketMoodPage() {
 
             <section className={`${CARD} mt-6 p-5 sm:p-6`}>
               <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                <h2 className="text-base font-extrabold text-foreground">Mood trend</h2>
+                <h2 className="flex items-center gap-2 text-base font-extrabold text-foreground"><TrendingUp className="h-4 w-4 text-muted-foreground" aria-hidden="true" />Mood trend</h2>
                 <span className="text-xs text-muted-foreground">One reading per trading day</span>
               </div>
               {snapshot.history.length > 1 ? (
@@ -350,7 +355,7 @@ export default function MarketMoodPage() {
             </section>
 
             <section className="mt-6">
-              <h2 className="mb-3 text-base font-extrabold text-foreground">Zones</h2>
+              <h2 className="mb-3 text-base font-extrabold text-foreground"><LayoutGrid className="mr-2 inline h-4 w-4 text-muted-foreground" aria-hidden="true" /><LayoutGrid className="mr-2 inline h-4 w-4 text-muted-foreground" aria-hidden="true" />Zones</h2>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
                 {MOOD_ZONES.map((item) => {
                   const active = zone?.key === item.key;

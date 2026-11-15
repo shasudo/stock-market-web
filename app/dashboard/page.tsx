@@ -9,6 +9,7 @@ import {
   type DashboardStats,
 } from "@/lib/dashboard/stats-guard";
 import {
+  CloudOff,
   TrendingUp,
   TrendingDown,
   Eye,
@@ -16,6 +17,8 @@ import {
   Activity,
   ArrowUpRight,
   ArrowDownRight,
+  LayoutDashboard,
+  Terminal,
 } from "lucide-react";
 import Link from "next/link";
 import { AuthGuard, LoadingSpinner } from "@/components/common";
@@ -101,6 +104,9 @@ function DashboardContent() {
     return (
       <div className="flex items-center justify-center px-4 py-16">
         <div className="max-w-md text-center">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg border border-border bg-card shadow-[var(--card-shadow)]">
+            <CloudOff className="h-6 w-6 text-muted-foreground" aria-hidden="true" />
+          </div>
           <p className="text-lg font-semibold text-foreground">
             Market data hasn&apos;t synced yet
           </p>
@@ -158,6 +164,7 @@ function DashboardContent() {
       <PageHeader
         title={`Welcome back, ${user?.firstName || user?.username || ""}`}
         description="Real-time market surveillance and portfolio overview"
+        icon={LayoutDashboard}
         meta={
           lastSyncedLabel ? (
             <div
@@ -334,7 +341,8 @@ function DashboardContent() {
 
       {/* Quick Action Navigation Grid */}
       <div>
-        <h2 className="mb-3 text-[15px] font-semibold tracking-tight text-foreground">
+        <h2 className="mb-3 flex items-center gap-2 text-[15px] font-semibold tracking-tight text-foreground">
+          <Terminal className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
           Terminal Shortcuts
         </h2>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">

@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Building, ChevronDown, ChevronUp, ExternalLink, RefreshCw, Search } from "lucide-react";
+import { Building, ChevronDown, ChevronUp, ExternalLink, RefreshCw, Rocket, Search, Tag } from "lucide-react";
 
-import { PageHeader } from "@/components/ds";
+import { EmptyState, ErrorState, LoadingState, PageHeader } from "@/components/ds";
 import { SortableTh } from "@/components/super-investors/SortableTh";
 import { partners, preferredPartner, unlistedSharesFAQs } from "@/lib/unlisted-shares-data";
 import type { IpoBoardResponse } from "@/lib/ipo/service";
@@ -269,30 +269,35 @@ export default function UnlistedSharesPage() {
           }
         />
 
-        <section className="mb-6 overflow-hidden rounded-2xl border border-border/80 bg-card shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+        <section className="mb-6 overflow-hidden rounded-lg border border-border bg-card shadow-[var(--card-shadow)]">
           <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-border px-4 py-3">
-            <h2 className="text-sm font-extrabold text-foreground">Unlisted share prices</h2>
+            <h2 className="text-sm font-extrabold text-foreground"><Tag className="mr-2 inline h-4 w-4 text-muted-foreground" aria-hidden="true" />Unlisted share prices</h2>
             <span className="text-[11px] text-muted-foreground">
               Indicative dealer quotes · click a row for its price history
             </span>
           </div>
           {failed.prices && !prices ? (
-            <p className="px-4 py-10 text-center text-xs text-error">Prices are temporarily unavailable.</p>
+            <ErrorState title="Prices are temporarily unavailable." />
           ) : !prices ? (
-            <p className="px-4 py-10 text-center text-xs text-muted-foreground">Loading prices…</p>
+            <LoadingState message="Loading prices…" />
           ) : priced.length === 0 ? (
-            <p className="px-4 py-10 text-center text-xs text-muted-foreground">
-              {needle ? "No priced company matches your search." : "Dealer price quotes will appear here as they are published."}
-            </p>
+            <EmptyState
+              className="py-10"
+              title={
+                needle
+                  ? "No priced company matches your search."
+                  : "Dealer price quotes will appear here as they are published."
+              }
+            />
           ) : (
             <PriceTable companies={priced} />
           )}
         </section>
 
-        <section className="mb-6 overflow-hidden rounded-2xl border border-border/80 bg-card shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+        <section className="mb-6 overflow-hidden rounded-lg border border-border bg-card shadow-[var(--card-shadow)]">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
             <div>
-              <h2 className="text-sm font-extrabold text-foreground">Pre-IPO pipeline</h2>
+              <h2 className="text-sm font-extrabold text-foreground"><Rocket className="mr-2 inline h-4 w-4 text-muted-foreground" aria-hidden="true" />Pre-IPO pipeline</h2>
               <p className="text-[11px] text-muted-foreground">Unlisted companies moving to listing — live from SEBI and NSE</p>
             </div>
             <div className="inline-flex rounded-lg border border-border bg-muted/40 p-0.5">

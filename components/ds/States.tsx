@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AlertTriangle, Inbox } from "lucide-react";
+import { AlertTriangle, Inbox, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function LoadingState({ message = "Loading…", className }: { message?: string; className?: string }) {
@@ -80,8 +80,9 @@ export function ErrorState({
         <button
           type="button"
           onClick={onRetry}
-          className="mt-4 rounded-md border border-border bg-card px-3 py-1.5 text-[13px] font-medium text-foreground hover:bg-muted"
+          className="mt-4 inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-[13px] font-medium text-foreground hover:bg-muted"
         >
+          <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
           Try again
         </button>
       )}

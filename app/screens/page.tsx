@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Search } from "lucide-react";
+import { AlertTriangle, ArrowRight, LayoutGrid, Search, SearchX } from "lucide-react";
 import { AuthGuard } from "@/components/common";
+import { PageHeader } from "@/components/ds";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { ScreenerSummarySection } from "@/components/screens/ScreenerSummary";
 import apiClient, { isRecord, isSuccessfulApiResponse } from "@/lib/api-client";
@@ -83,11 +84,11 @@ function ScreensContent() {
   return (
     <div>
       <div className="w-full">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">Screens</h1>
-        <p className="mt-1 text-xs font-medium text-muted-foreground">
-          Screener-style full summary with chart, peers, statements, pros and
-          cons. The stock page keeps the classic summary.
-        </p>
+        <PageHeader
+          title="Screens"
+          description="Screener-style full summary with chart, peers, statements, pros and cons. The stock page keeps the classic summary."
+          icon={LayoutGrid}
+        />
 
         <form
           className="mt-4 flex gap-2"
@@ -112,9 +113,10 @@ function ScreensContent() {
           </div>
           <button
             type="submit"
-            className="h-10 shrink-0 rounded-xl bg-primary px-4 text-xs font-bold uppercase tracking-wider text-primary-foreground hover:bg-primary/90 shadow-xs"
+            className="flex h-10 shrink-0 items-center gap-1.5 rounded-md bg-primary px-4 text-xs font-bold uppercase tracking-wider text-primary-foreground hover:bg-primary/90"
           >
             Show
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
           </button>
         </form>
 
@@ -137,9 +139,16 @@ function ScreensContent() {
           ) : (
             <div
               role="alert"
-              className="rounded-2xl border border-border bg-card px-4 py-10 text-center text-xs font-semibold text-muted-foreground shadow-xs"
+              className="flex flex-col items-center gap-2 rounded-lg border border-border bg-card px-4 py-10 text-center shadow-[var(--card-shadow)]"
             >
-              {errorMessage ?? `No data for "${symbol}" yet.`}
+              {errorMessage ? (
+                <AlertTriangle className="h-5 w-5 text-destructive" aria-hidden="true" />
+              ) : (
+                <SearchX className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
+              )}
+              <p className="text-xs font-semibold text-muted-foreground">
+                {errorMessage ?? `No data for "${symbol}" yet.`}
+              </p>
             </div>
           )}
         </div>

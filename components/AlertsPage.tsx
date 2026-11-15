@@ -2,7 +2,21 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Bell, Trash2 } from "lucide-react";
+import {
+  Activity,
+  Bell,
+  Briefcase,
+  CandlestickChart,
+  Clock,
+  Crosshair,
+  Eye,
+  FileText,
+  LayoutGrid,
+  Repeat,
+  Rocket,
+  Trash2,
+  type LucideIcon,
+} from "lucide-react";
 import toast from "react-hot-toast";
 import {
   SearchInput,
@@ -10,7 +24,7 @@ import {
   LevelCell,
   matchesSearch,
 } from "@/components/common";
-import { PageHeader } from "@/components/ds";
+import { EmptyState, LoadingState, PageHeader } from "@/components/ds";
 import { cn } from "@/lib/utils";
 import apiClient, {
   getApiResponseMessage,
@@ -78,13 +92,13 @@ async function requestAlerts(): Promise<Alert[] | null> {
 
 type SourceFilter = "all" | AlertSource;
 
-const sourceTabs: { id: SourceFilter; label: string }[] = [
-  { id: "all", label: "All Sources" },
-  { id: "watchlist", label: "Watchlist" },
-  { id: "preposition", label: "Preposition Watchlist" },
-  { id: "paper", label: "Paper Trading" },
-  { id: "live", label: "Live Trading" },
-  { id: "others", label: "Others" },
+const sourceTabs: { id: SourceFilter; label: string; icon: LucideIcon }[] = [
+  { id: "all", label: "All Sources", icon: LayoutGrid },
+  { id: "watchlist", label: "Watchlist", icon: Eye },
+  { id: "preposition", label: "Preposition Watchlist", icon: Crosshair },
+  { id: "paper", label: "Paper Trading", icon: FileText },
+  { id: "live", label: "Live Trading", icon: Activity },
+  { id: "others", label: "Others", icon: Bell },
 ];
 
 const validSourceFilters: readonly SourceFilter[] = sourceTabs.map(
@@ -99,13 +113,13 @@ function isSourceFilter(value: string | null): value is SourceFilter {
 
 type CategoryFilter = "all" | WatchlistCategory;
 
-const categoryTabs: { id: CategoryFilter; label: string }[] = [
-  { id: "all", label: "All Types" },
-  { id: "intraday", label: "Intraday Trading" },
-  { id: "fno", label: "F&O Trading" },
-  { id: "swing", label: "Swing Trading" },
-  { id: "positional", label: "Positional Trading" },
-  { id: "multibagger", label: "Multi Bagger Stocks" },
+const categoryTabs: { id: CategoryFilter; label: string; icon: LucideIcon }[] = [
+  { id: "all", label: "All Types", icon: LayoutGrid },
+  { id: "intraday", label: "Intraday Trading", icon: Clock },
+  { id: "fno", label: "F&O Trading", icon: CandlestickChart },
+  { id: "swing", label: "Swing Trading", icon: Repeat },
+  { id: "positional", label: "Positional Trading", icon: Briefcase },
+  { id: "multibagger", label: "Multi Bagger Stocks", icon: Rocket },
 ];
 
 export default function AlertsPage() {
@@ -308,6 +322,7 @@ function AlertsPageContent() {
         <div className="apple-segmented-group mb-4 w-full overflow-x-auto md:w-fit">
           {sourceTabs.map((tab) => {
             const isActive = sourceFilter === tab.id;
+            const TabIcon = tab.icon;
             return (
               <button
                 key={tab.id}
@@ -319,6 +334,7 @@ function AlertsPageContent() {
                   isActive && "apple-segmented-item-active",
                 )}
               >
+                <TabIcon className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>{tab.label}</span>
                 <span
                   className={cn(
@@ -338,6 +354,7 @@ function AlertsPageContent() {
         <div className="apple-segmented-group mb-4 w-full overflow-x-auto md:w-fit">
           {categoryTabs.map((tab) => {
             const isActive = categoryFilter === tab.id;
+            const TabIcon = tab.icon;
             return (
               <button
                 key={tab.id}
@@ -349,6 +366,7 @@ function AlertsPageContent() {
                   isActive && "apple-segmented-item-active",
                 )}
               >
+                <TabIcon className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>{tab.label}</span>
                 <span
                   className={cn(
@@ -366,7 +384,7 @@ function AlertsPageContent() {
         </div>
 
         {/* Filter bar */}
-        <div className="rounded-2xl border border-border bg-card shadow-xs p-4 mb-8 flex flex-wrap items-end gap-3">
+        <div className="overflow-hidden rounded-lg border border-border bg-card p-4 mb-4 shadow-[var(--card-shadow)] flex flex-wrap items-end gap-3">
           <div>
             <label
               htmlFor="dateFrom"
@@ -529,11 +547,8 @@ function AlertsTable({
             <tbody className="divide-y divide-border">
               {loading ? (
                 <tr>
-                  <td
-                    colSpan={columnCount}
-                    className="px-6 py-20 text-center text-xs text-muted-foreground font-medium"
-                  >
-                    Loading live alerts…
+                  <td colSpan={columnCount}>
+                    <LoadingState message="Loading live alerts…" />
                   </td>
                 </tr>
               ) : null}
@@ -624,11 +639,8 @@ function AlertsTable({
                 ))}
               {!loading && alerts.length === 0 && (
                 <tr>
-                  <td
-                    colSpan={columnCount}
-                    className="px-6 py-20 text-center text-xs text-muted-foreground font-medium"
-                  >
-                    No alerts in this view.
+                  <td colSpan={columnCount}>
+                    <EmptyState className="py-10" title="No alerts in this view." />
                   </td>
                 </tr>
               )}

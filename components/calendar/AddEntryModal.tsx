@@ -1,5 +1,6 @@
 "use client";
 
+import { X } from "lucide-react";
 import {
   useEffect,
   useId,
@@ -364,20 +365,7 @@ export default function AddEntryModal({
             aria-label="Close dialog"
             className="text-primary-foreground/80 transition-colors hover:text-primary-foreground focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary"
           >
-            <svg
-              aria-hidden="true"
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+            <X className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
 

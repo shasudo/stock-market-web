@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { ChevronDown, ExternalLink, RefreshCw, Search, X } from "lucide-react";
+import { AlertTriangle, CandlestickChart, ChevronDown, ExternalLink, Inbox, Loader2, RefreshCw, Search, X } from "lucide-react";
 import { SortableTh } from "@/components/super-investors/SortableTh";
 import { nextSort, sortRows, type SortState } from "@/lib/super-investors/sorting";
 import type { ActiveOption, Buildup, ExpirySeries, FutureRow, OptionChainRow, OptionLeg } from "@/lib/fno-snapshot/parse";
@@ -178,8 +178,27 @@ function MoreButton({ expanded, onClick, total, shown }: { expanded: boolean; on
   );
 }
 
-function Empty({ children }: { children: React.ReactNode }) {
-  return <p className="px-4 py-6 text-center text-xs text-muted-foreground">{children}</p>;
+function Empty({
+  children,
+  tone = "muted",
+}: {
+  children: React.ReactNode;
+  tone?: "muted" | "error";
+}) {
+  const message = typeof children === "string" ? children : null;
+  const loading = message !== null && message.startsWith("Loading");
+  const Icon = tone === "error" ? AlertTriangle : loading ? Loader2 : Inbox;
+  return (
+    <div
+      className={`flex flex-col items-center gap-2 px-4 py-8 text-center text-xs ${tone === "error" ? "text-error" : "text-muted-foreground"}`}
+    >
+      <Icon
+        className={`h-5 w-5 ${loading ? "animate-spin" : ""}`}
+        aria-hidden="true"
+      />
+      <p>{children}</p>
+    </div>
+  );
 }
 
 function StockLink({ symbol, isIndex }: { symbol: string; isIndex: boolean }) {
@@ -660,7 +679,7 @@ function OptionChainCard({
           ))}
         </div>
       ) : null}
-      {error && !chain ? <Empty>{error}</Empty> : null}
+      {error && !chain ? <Empty tone="error">{error}</Empty> : null}
       {!chain && !error ? <Empty>{loading ? "Loading option chain…" : "No option chain."}</Empty> : null}
       {chain ? (
         <div className={`overflow-x-auto ${detailed ? "max-h-[640px] overflow-y-auto" : ""}`}>
@@ -1527,12 +1546,17 @@ export default function FnoSnapshotPage() {
     <div>
       <div className="w-full">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <div>
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-border bg-card">
+              <CandlestickChart className="h-4 w-4 text-primary" aria-hidden="true" />
+            </div>
+            <div>
             <h1 className="text-xl font-extrabold tracking-tight text-foreground md:text-2xl">F&amp;O Market Snapshot</h1>
             <p className="text-xs text-muted-foreground">
               Every NSE futures contract, live option chains, open interest analytics and arbitrage — free
               {data?.session.referenceDate ? ` · OI and volume change vs ${dayLabel(data.session.referenceDate)}` : ""}
             </p>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground">
@@ -1551,7 +1575,7 @@ export default function FnoSnapshotPage() {
         </div>
 
         {error && !data ? (
-          <div className="rounded-2xl border border-border bg-card p-6 text-sm text-muted-foreground">{error}</div>
+          <div className="rounded-lg border border-border bg-card p-6 text-sm text-muted-foreground shadow-[var(--card-shadow)]">{error}</div>
         ) : null}
         {data && data.degraded.length > 0 ? (
           <p className="mb-3 rounded-lg border border-orange-500/30 bg-orange-500/10 px-3 py-2 text-xs text-orange-700 dark:text-orange-300">

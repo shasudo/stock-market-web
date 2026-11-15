@@ -9,11 +9,16 @@ import {
   type ReactElement,
 } from "react";
 import {
+  Activity,
   ArrowUpDown,
   ChevronDown,
   ChevronUp,
   Download,
+  Minus,
   RefreshCw,
+  TrendingDown,
+  TrendingUp,
+  type LucideIcon,
 } from "lucide-react";
 import {
   fetchLiveMarketData,
@@ -30,6 +35,7 @@ import type {
   MarketStockData,
 } from "@/lib/market/client-contract";
 import { StockActionsMenu } from "@/components/common";
+import { EmptyState, LoadingState } from "@/components/ds";
 
 interface Stock {
   readonly id: string;
@@ -97,6 +103,12 @@ const tabs: readonly TabDefinition[] = [
   { id: "decline", label: "Decline" },
   { id: "unchanged", label: "Unchanged" },
 ];
+
+const tabIcons: Record<TabDefinition["id"], LucideIcon> = {
+  advance: TrendingUp,
+  decline: TrendingDown,
+  unchanged: Minus,
+};
 
 const tableColumns: readonly TableColumn[] = [
   { field: "symbol", label: "SYMBOL" },
@@ -514,13 +526,18 @@ export default function AdvancesDeclineTable(): ReactElement {
         {/* Breadth summary card */}
         <div className="rounded-lg border border-border bg-card p-4 mb-4 shadow-[var(--card-shadow)]">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-            <div>
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-border bg-card">
+                <Activity className="h-4 w-4 text-primary" aria-hidden="true" />
+              </div>
+              <div>
               <h1 className="text-xl font-semibold tracking-tight text-foreground">
                 Advances & Declines
               </h1>
               <p className="mt-0.5 text-[13px] text-muted-foreground">
                 Market breadth ratio, directional distribution, and net liquidity across NSE equities
               </p>
+              </div>
             </div>
 
             {/* Breadth badges */}
@@ -595,6 +612,7 @@ export default function AdvancesDeclineTable(): ReactElement {
           >
             {tabs.map((tab) => {
               const isActive = activeTab === tab.id;
+              const TabIcon = tabIcons[tab.id];
               const count =
                 tab.id === "advance"
                   ? filteredCounts?.gainers
@@ -612,16 +630,17 @@ export default function AdvancesDeclineTable(): ReactElement {
                   aria-controls="advance-decline-table"
                   onClick={() => selectTab(tab.id)}
                   className={`flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold transition-all ${
-                    isActive ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:bg-muted hover:text-muted-foreground"
+                    isActive ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   }`}
                 >
+                  <TabIcon className="h-3.5 w-3.5" aria-hidden="true" />
                   <span>{tab.label}</span>
                   {count !== undefined && (
                     <span
                       className={`px-1.5 py-0.2 rounded-md text-[10px] font-mono ${
                         isActive
-                          ? "bg-black/[0.08] text-foreground"
-                          : "bg-black/[0.04] text-muted-foreground"
+                          ? "bg-white/20 text-primary-foreground"
+                          : "bg-muted text-muted-foreground"
                       }`}
                     >
                       {count}
@@ -756,16 +775,15 @@ export default function AdvancesDeclineTable(): ReactElement {
                   })}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-black/[0.04]">
+              <tbody className="divide-y divide-border">
                 {stocks.length === 0 ? (
                   <tr>
-                    <td
-                      colSpan={tableColumns.length}
-                      className="px-4 py-20 text-center text-xs text-muted-foreground font-medium"
-                    >
-                      {showLoadingState
-                        ? "Loading live market data…"
-                        : "No matching records found."}
+                    <td colSpan={tableColumns.length}>
+                      {showLoadingState ? (
+                        <LoadingState message="Loading live market data…" />
+                      ) : (
+                        <EmptyState className="py-10" title="No matching records found." />
+                      )}
                     </td>
                   </tr>
                 ) : (

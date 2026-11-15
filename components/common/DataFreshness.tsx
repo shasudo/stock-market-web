@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import { TriangleAlert } from "lucide-react";
 import { cn, describeSyncFreshness } from "@/lib/utils";
 
 interface DataFreshnessProps {
@@ -37,7 +38,9 @@ export function DataFreshness({
       )}
       title={isStale ? `This data has not refreshed since ${label}` : undefined}
     >
-      {isStale ? "⚠ " : ""}
+      {isStale ? (
+        <TriangleAlert className="mr-1 inline h-3 w-3" aria-hidden="true" />
+      ) : null}
       {`${prefix} ${label}`}
     </span>
   );

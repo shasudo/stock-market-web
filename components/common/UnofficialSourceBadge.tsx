@@ -1,3 +1,5 @@
+import { TriangleAlert } from "lucide-react";
+
 interface UnofficialSourceBadgeProps {
   readonly lastSyncAt?: string | null;
   readonly label?: string;
@@ -24,7 +26,7 @@ export default function UnofficialSourceBadge({
 
   return (
     <div className="mb-4 inline-flex items-center gap-2 rounded-md border border-warning/30 bg-warning/10 px-3 py-2 text-xs text-amber-800">
-      <span aria-hidden="true">⚠</span>
+      <TriangleAlert className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
       <span>
         {label}
         {syncedLabel ? ` · Last synced ${syncedLabel} IST` : ""}

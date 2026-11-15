@@ -2,6 +2,22 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import {
+  Activity,
+  BookOpen,
+  CalendarDays,
+  CandlestickChart,
+  Factory,
+  Landmark,
+  Layers,
+  LayoutDashboard,
+  LayoutGrid,
+  List,
+  Percent,
+  PieChart,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
 import IndicesDataTable, {
   type IndexData,
 } from "@/components/IndicesDataTable";
@@ -329,13 +345,13 @@ const categoryInfo: Record<TabType, { title: string; description: string }> = {
   },
 };
 
-const subTabs: readonly { readonly id: SubTabId; readonly label: string }[] = [
-  { id: "overview", label: "Overview" },
-  { id: "fundamental", label: "Fundamental" },
-  { id: "returns", label: "Returns" },
-  { id: "financials", label: "Financials" },
-  { id: "technicals", label: "Technicals" },
-  { id: "seasonality", label: "Seasonality Analysis for Dec" },
+const subTabs: readonly { readonly id: SubTabId; readonly label: string; readonly icon: LucideIcon }[] = [
+  { id: "overview", label: "Overview", icon: LayoutDashboard },
+  { id: "fundamental", label: "Fundamental", icon: BookOpen },
+  { id: "returns", label: "Returns", icon: Percent },
+  { id: "financials", label: "Financials", icon: Landmark },
+  { id: "technicals", label: "Technicals", icon: Activity },
+  { id: "seasonality", label: "Seasonality Analysis for Dec", icon: CalendarDays },
 ];
 
 export default function MarketDataTabbedView({
@@ -627,14 +643,14 @@ export default function MarketDataTabbedView({
     return () => window.clearInterval(refreshTimer);
   }, []);
 
-  const categoryTabs = [
-    { id: "indicesFno", label: "Indices in F&O" },
-    { id: "broadMarket", label: "Broad Market Indices" },
-    { id: "sectoralIndices", label: "Sectoral Indices" },
-    { id: "stocks", label: "Stocks" },
-    { id: "sectors", label: "Sectors" },
-    { id: "industry", label: "Industry" },
-    { id: "fnoStocks", label: "F&O Stocks" },
+  const categoryTabs: readonly { id: string; label: string; icon: LucideIcon }[] = [
+    { id: "indicesFno", label: "Indices in F&O", icon: CandlestickChart },
+    { id: "broadMarket", label: "Broad Market Indices", icon: Layers },
+    { id: "sectoralIndices", label: "Sectoral Indices", icon: PieChart },
+    { id: "stocks", label: "Stocks", icon: List },
+    { id: "sectors", label: "Sectors", icon: LayoutGrid },
+    { id: "industry", label: "Industry", icon: Factory },
+    { id: "fnoStocks", label: "F&O Stocks", icon: Zap },
   ];
 
   const allRows: MarketRow[] = liveStocks.map(fromMarketStock);
@@ -1006,10 +1022,11 @@ export default function MarketDataTabbedView({
                 onClick={() => setActiveCategory(tab.id as TabType)}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "apple-segmented-item text-xs whitespace-nowrap",
+                  "apple-segmented-item inline-flex items-center gap-1.5 text-xs whitespace-nowrap",
                   isActive && "apple-segmented-item-active",
                 )}
               >
+                <tab.icon className="h-3.5 w-3.5" aria-hidden="true" />
                 {tab.label}
               </button>
             );
@@ -1079,12 +1096,13 @@ export default function MarketDataTabbedView({
                 onClick={() => setActiveSubTab(tab.id)}
                 aria-current={activeSubTab === tab.id ? "page" : undefined}
                 className={cn(
-                  "border-b-2 px-4 py-2.5 text-[13px] font-medium whitespace-nowrap transition-colors",
+                  "inline-flex items-center gap-1.5 border-b-2 px-4 py-2.5 text-[13px] font-medium whitespace-nowrap transition-colors",
                   activeSubTab === tab.id
                     ? "border-primary text-primary"
                     : "border-transparent text-muted-foreground hover:text-foreground",
                 )}
               >
+                <tab.icon className="h-3.5 w-3.5" aria-hidden="true" />
                 {tab.label}
               </button>
             ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X } from "lucide-react";
+import { Pencil, X } from "lucide-react";
 import {
   DRAWING_COLORS,
   DRAWING_VISIBILITY_SCOPES,
@@ -120,7 +120,8 @@ export default function DrawingSettingsDialog({
         className="flex max-h-[84vh] w-full max-w-xl flex-col overflow-hidden rounded-xl bg-card shadow-2xl"
       >
         <div className="flex items-center justify-between border-b border-border px-5 py-3">
-          <h2 className="text-[16px] font-bold text-foreground">
+          <h2 className="flex items-center gap-2 text-[16px] font-bold text-foreground">
+            <Pencil className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
             {getToolDefinition(drawing.type).label}
           </h2>
           <button

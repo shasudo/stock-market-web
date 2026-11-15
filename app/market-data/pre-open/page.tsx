@@ -230,8 +230,8 @@ export default function PreOpenPage() {
           <UnofficialSourceBadge label="Live index constituents. Official pre-open auction equilibrium prices (IEP) are published by NSE only during the 9:00–9:15 IST session; outside that window live traded prices are shown." />
           {}
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-orange-500/20 to-amber-500/20 border border-orange-500/30">
-              <Clock className="h-6 w-6 text-orange-400" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-md border border-amber-600/25 bg-amber-500/10 dark:border-amber-400/25 dark:bg-amber-400/10">
+              <Clock className="h-4 w-4 text-amber-800 dark:text-amber-300" aria-hidden="true" />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-foreground">

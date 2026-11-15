@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { AlertTriangle, ArrowLeft, SearchX, StickyNote } from "lucide-react";
+import { EmptyState } from "@/components/ds";
 import { AuthGuard } from "@/components/common";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { StockSummarySection } from "@/components/stock/QuickRatios";
@@ -227,14 +228,18 @@ function StockDetailContent({ symbol }: { symbol: string }) {
         {errorMessage ? (
           <div
             role="alert"
-            className="mb-4 rounded-[10px] border border-destructive/30 bg-destructive/10 px-4 py-3 text-xs font-medium text-destructive"
+            className="mb-4 flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-xs font-medium text-destructive"
           >
-            {errorMessage}
+            <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span>{errorMessage}</span>
           </div>
         ) : null}
 
         {notFound ? (
-          <div className="rounded-2xl border border-border/90 bg-card shadow-xs p-8 text-center">
+          <div className="rounded-lg border border-border bg-card p-8 text-center shadow-[var(--card-shadow)]">
+            <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-md border border-border bg-muted">
+              <SearchX className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
+            </div>
             <p className="text-foreground font-bold mb-1">
               No synced market data for &quot;{symbol}&quot; yet.
             </p>
@@ -262,14 +267,17 @@ function StockDetailContent({ symbol }: { symbol: string }) {
         ) : null}
 
         {/* Notes Card */}
-        <div className="rounded-2xl border border-border/90 bg-card shadow-xs p-6">
-          <h2 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">
+        <div className="rounded-lg border border-border bg-card p-6 shadow-[var(--card-shadow)]">
+          <h2 className="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-foreground">
+            <StickyNote className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
             Research Notes
           </h2>
           {notes.length === 0 ? (
-            <p className="text-xs text-muted-foreground py-4 text-center">
-              No notes yet — use the ⋮ menu above to add one.
-            </p>
+            <EmptyState
+              className="py-8"
+              title="No notes yet"
+              description="Use the three-dot menu above to add one."
+            />
           ) : (
             <div className="space-y-3">
               {notes.map((note) => (

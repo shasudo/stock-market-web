@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { BarChart3, RefreshCw, Search } from "lucide-react";
+import { EmptyState, ErrorState, LoadingState } from "@/components/ds";
 import { SortableTh } from "@/components/super-investors/SortableTh";
 import type { IndexRow, IndexTab } from "@/lib/indices/catalog";
 import type { ConstituentRow, IndexDetailResponse, IndexListResponse } from "@/lib/indices/service";
@@ -507,13 +508,14 @@ export default function NSEIndicesTerminal() {
             </div>
 
             {detailError && !current ? (
-              <p className="px-4 py-12 text-center text-xs text-error">Could not load {selected} right now. Retrying shortly.</p>
+              <ErrorState title={`Could not load ${selected} right now. Retrying shortly.`} />
             ) : !current ? (
-              <p className="px-4 py-12 text-center text-xs text-muted-foreground">Loading {selected} constituents…</p>
+              <LoadingState message={`Loading ${selected} constituents…`} />
             ) : current.noConstituents ? (
-              <p className="px-4 py-12 text-center text-xs text-muted-foreground">
-                {selected} has no published constituent list{selected === "INDIA VIX" ? " — it is a volatility index computed from NIFTY option prices." : "."}
-              </p>
+              <EmptyState
+                className="py-10"
+                title={`${selected} has no published constituent list${selected === "INDIA VIX" ? " — it is a volatility index computed from NIFTY option prices." : "."}`}
+              />
             ) : (
               <>
                 <div className="overflow-x-auto">

@@ -5,6 +5,7 @@ import {
   BellPlus,
   Braces,
   ChartLine,
+  Check,
   ChevronRight,
   Copy,
   Eye,
@@ -163,14 +164,7 @@ export default function IndicatorMenu({
               )}
             >
               {instance.visibility[unit].enabled && (
-                <svg viewBox="0 0 10 8" className="h-2.5 w-2.5" fill="none">
-                  <path
-                    d="M1 4l2.5 2.5L9 1"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                  />
-                </svg>
+                <Check className="h-2.5 w-2.5" aria-hidden="true" />
               )}
             </span>
             {UNIT_LABELS[unit]}

@@ -69,7 +69,11 @@ export default function ChartIndicatorsPreviewPage() {
 
   return (
     <main className="w-full px-4 lg:px-8 py-8">
-      <header className="mb-6">
+      <header className="mb-6 flex items-center gap-3">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-border bg-card">
+          <FunctionSquare className="h-4 w-4 text-primary" aria-hidden="true" />
+        </div>
+        <div>
         <h1 className="text-xl font-semibold text-foreground">
           Indicator settings preview
         </h1>
@@ -77,6 +81,7 @@ export default function ChartIndicatorsPreviewPage() {
           Every indicator declares its own inputs, plots, levels and fills. Open
           the settings of any row to see the properties it exposes.
         </p>
+        </div>
       </header>
 
       <div className="mb-4 flex items-center gap-3">

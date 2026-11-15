@@ -1,6 +1,6 @@
 "use client";
 
-import { X } from "lucide-react";
+import { Table, X } from "lucide-react";
 import type { ChartCandle } from "@/lib/market/chart-candles";
 import { formatNumber } from "./ui";
 
@@ -37,7 +37,8 @@ export default function DataWindowDialog({
         className="flex max-h-[84vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl bg-card shadow-2xl"
       >
         <div className="flex items-center justify-between border-b border-border px-5 py-3">
-          <h2 className="text-[16px] font-bold text-foreground">
+          <h2 className="flex items-center gap-2 text-[16px] font-bold text-foreground">
+            <Table className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
             {symbol} · Table view
           </h2>
           <button

@@ -1,5 +1,16 @@
 "use client";
 
+import {
+  CalendarCheck,
+  CalendarClock,
+  CalendarPlus,
+  CalendarRange,
+  ChevronDown,
+  Clock,
+  History,
+  type LucideIcon,
+} from "lucide-react";
+
 interface CalendarFiltersProps {
   activeFilter: string;
   onFilterChange: (filter: string) => void;
@@ -9,75 +20,56 @@ export default function CalendarFilters({
   activeFilter,
   onFilterChange,
 }: CalendarFiltersProps) {
-  const filters = ["Yesterday", "Today", "Tomorrow", "This Week", "Next Week"];
+  const filters: readonly string[] = ["Yesterday", "Today", "Tomorrow", "This Week", "Next Week"];
+  const filterIcons: Record<string, LucideIcon> = {
+    Yesterday: History,
+    Today: CalendarCheck,
+    Tomorrow: CalendarClock,
+    "This Week": CalendarRange,
+    "Next Week": CalendarPlus,
+  };
 
   return (
     <div className="mb-4">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-2">
-          {filters.map((filter) => (
-            <button
-              key={filter}
-              onClick={() => onFilterChange(filter)}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors border ${
-                activeFilter === filter
-                  ? "bg-card border-primary text-primary"
-                  : "bg-muted border-transparent text-foreground hover:bg-muted"
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
+          {filters.map((filter) => {
+            const FilterIcon = filterIcons[filter];
+            return (
+              <button
+                key={filter}
+                type="button"
+                onClick={() => onFilterChange(filter)}
+                aria-current={activeFilter === filter ? "page" : undefined}
+                className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium transition-colors border ${
+                  activeFilter === filter
+                    ? "bg-card border-primary text-primary"
+                    : "bg-muted border-transparent text-foreground hover:bg-muted"
+                }`}
+              >
+                {FilterIcon ? <FilterIcon className="h-3.5 w-3.5" aria-hidden="true" /> : null}
+                {filter}
+              </button>
+            );
+          })}
         </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-4 mt-6 text-xs text-muted-foreground">
         <div className="flex items-center gap-1">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="text-muted-foreground"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <polyline points="12 6 12 12 16 14" />
-          </svg>
+          <Clock className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
           <span>
             Current Time:{" "}
             <span className="font-bold text-foreground">10:23</span> (GMT+5:30)
           </span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="10"
-            height="10"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="ml-1 text-muted-foreground"
-          >
-            <path d="m6 9 6 6 6-6" />
-          </svg>
+          <ChevronDown className="ml-1 h-3 w-3 text-muted-foreground" aria-hidden="true" />
         </div>
         <div className="border-l border-border h-3 mx-1"></div>
         <div className="flex items-center gap-1">
           <span>
             Display Time: <span className="text-foreground">remaining</span>
           </span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="10"
-            height="10"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="ml-1 text-muted-foreground"
-          >
-            <path d="m6 9 6 6 6-6" />
-          </svg>
+          <ChevronDown className="ml-1 h-3 w-3 text-muted-foreground" aria-hidden="true" />
         </div>
         <div className="ml-auto">
           All data are streaming and updated automatically.

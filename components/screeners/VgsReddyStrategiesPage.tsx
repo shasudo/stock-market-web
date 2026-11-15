@@ -28,6 +28,10 @@ import {
   X,
   Clock,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
   Landmark,
   BarChart2,
   Gauge,
@@ -36,14 +40,22 @@ import {
   IndianRupee,
   Radar,
   Star,
+  Search,
   ScanSearch,
   Pencil,
   GripVertical,
   Columns3,
+  Save,
+  Table,
+  Briefcase,
+  FlaskConical,
+  Crosshair,
+  Files,
   Check,
   Download,
   ArrowUp,
   ArrowDown,
+  ArrowRight,
   ArrowUpDown,
   Loader2,
   RefreshCw,
@@ -59,7 +71,7 @@ import {
   TabCount,
   matchesSearch,
 } from "@/components/common";
-import { PageHeader } from "@/components/ds";
+import { EmptyState, PageHeader } from "@/components/ds";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -447,8 +459,8 @@ function FilterTriggerButton({
   const isActive = highlightActive ?? count > 0;
   const activeClass =
     activeVariant === "dark"
-      ? "border-indigo-600 bg-indigo-600 text-white shadow-indigo-500/20 shadow-xs"
-      : "border-indigo-500 text-indigo-700 bg-indigo-50";
+      ? "border-primary bg-primary text-primary-foreground shadow-xs"
+      : "border-primary/30 bg-primary/[0.06] text-primary";
 
   return (
     <DropdownMenuTrigger asChild>
@@ -463,10 +475,10 @@ function FilterTriggerButton({
         <span>{valueLabel ? `${label}: ${valueLabel}` : label}</span>
         {!valueLabel && count > 0 && (
           <span
-            className={`inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[10px] font-bold leading-none ${
+            className={`inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[10px] font-mono font-bold leading-none tabular-nums ${
               activeVariant === "dark"
-                ? "bg-white/25 text-white dark:bg-zinc-950/10 dark:text-zinc-950"
-                : "bg-indigo-600 text-white"
+                ? "bg-white/20 text-primary-foreground"
+                : "bg-primary/15 text-primary"
             }`}
           >
             {count}
@@ -546,7 +558,7 @@ function CheckboxFilterDropdown({
     return (
       <div
         key={option}
-        className="flex items-center justify-between gap-1 group/item hover:bg-slate-50"
+        className="flex items-center justify-between gap-1 group/item hover:bg-muted"
       >
         {canStar && (
           <button
@@ -559,7 +571,7 @@ function CheckboxFilterDropdown({
             className={`p-1 ml-1 shrink-0 transition-colors ${
               isStarred
                 ? "text-amber-400 hover:text-amber-500"
-                : "text-slate-300 hover:text-amber-400"
+                : "text-muted-foreground/40 hover:text-amber-500"
             }`}
           >
             <Star
@@ -568,21 +580,21 @@ function CheckboxFilterDropdown({
             />
           </button>
         )}
-        <label className="flex flex-1 items-center justify-between gap-2 px-3 py-1.5 text-xs font-semibold text-slate-600 cursor-pointer">
+        <label className="flex flex-1 items-center justify-between gap-2 px-3 py-1.5 text-xs font-semibold text-foreground cursor-pointer">
           <span className="truncate">{option}</span>
           <input
             type={single ? "radio" : "checkbox"}
             name={single ? label : undefined}
             checked={checked}
             onChange={() => onToggle(option)}
-            className="h-3.5 w-3.5 accent-indigo-600 cursor-pointer shrink-0"
+            className="h-3.5 w-3.5 accent-primary cursor-pointer shrink-0"
           />
         </label>
         {isRemovable && onRemoveOption && (
           <button
             onClick={() => onRemoveOption(option)}
             aria-label={`Remove custom ${option} ${label}`}
-            className="p-0.5 mr-2 text-slate-300 hover:text-rose-600 opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"
+            className="p-0.5 mr-2 text-muted-foreground/40 hover:text-destructive opacity-0 group-hover/item:opacity-100 transition-opacity shrink-0"
           >
             <X className="w-3 h-3" />
           </button>
@@ -603,10 +615,10 @@ function CheckboxFilterDropdown({
       />
       <DropdownMenuContent
         align="start"
-        className="w-64 p-0 rounded-xl border border-slate-200/90 shadow-lg overflow-hidden"
+        className="w-64 p-0 rounded-xl border border-border bg-card text-card-foreground shadow-lg overflow-hidden"
       >
-        <div className="px-3 pt-2.5 pb-2 flex items-center justify-between border-b border-slate-100">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+        <div className="px-3 pt-2.5 pb-2 flex items-center justify-between border-b border-border">
+          <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
             {label}
           </span>
           <div className="flex items-center gap-2">
@@ -615,16 +627,18 @@ function CheckboxFilterDropdown({
               filteredOptions.length > 0 &&
               filteredOptions.some((option) => !selected.has(option)) && (
                 <button
+                  type="button"
                   onClick={() => onSelectAll(filteredOptions)}
-                  className="text-xs font-bold text-indigo-600 hover:text-indigo-800"
+                  className="text-xs font-bold text-primary hover:text-primary/80"
                 >
                   Select All
                 </button>
               )}
             {count > 0 && (
               <button
+                type="button"
                 onClick={onClear}
-                className="text-xs font-bold text-indigo-600 hover:text-indigo-800"
+                className="text-xs font-bold text-primary hover:text-primary/80"
               >
                 Clear ({count})
               </button>
@@ -632,19 +646,20 @@ function CheckboxFilterDropdown({
           </div>
         </div>
         {searchable && (
-          <div className="px-2.5 py-2 border-b border-slate-100">
-            <input
+          <div className="px-2.5 py-2 border-b border-border">
+            <SearchInput
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder={`Search ${label.toLowerCase()}...`}
-              className="w-full rounded-lg border border-slate-200 px-2 py-1 text-xs focus:outline-none focus:border-indigo-500"
+              onChange={setSearch}
+              placeholder={`Search ${label.toLowerCase()}…`}
+              className="relative w-full"
             />
           </div>
         )}
         <div className="max-h-56 overflow-y-auto scrollbar-thin py-1">
           {filteredOptions.length === 0 ? (
-            <div className="px-3 py-6 text-center text-xs text-slate-400">
-              No matches
+            <div className="flex flex-col items-center gap-1.5 px-3 py-6 text-center">
+              <Search className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+              <p className="text-xs text-muted-foreground">No matches</p>
             </div>
           ) : (
             <>
@@ -654,7 +669,7 @@ function CheckboxFilterDropdown({
                     Starred
                   </div>
                   {starredOptions.map(renderOption)}
-                  <div className="my-1 border-t border-slate-100" />
+                  <div className="my-1 border-t border-border" />
                 </>
               )}
               {restOptions.map(renderOption)}
@@ -662,7 +677,7 @@ function CheckboxFilterDropdown({
           )}
         </div>
         {customAdd && (
-          <div className="flex items-center gap-1 p-2 border-t border-slate-100">
+          <div className="flex items-center gap-1 p-2 border-t border-border">
             <input
               value={customAdd.value}
               onChange={(e) => customAdd.onChange(e.target.value)}
@@ -670,12 +685,13 @@ function CheckboxFilterDropdown({
                 if (e.key === "Enter") customAdd.onAdd();
               }}
               placeholder="Custom"
-              className="w-full rounded-lg border border-slate-200 px-2 py-1 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-500"
+              className="w-full rounded-lg border border-border bg-card px-2 py-1 text-xs font-semibold text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-ring"
             />
             <button
+              type="button"
               onClick={customAdd.onAdd}
               aria-label={`Add custom ${label} value`}
-              className="shrink-0 p-1 rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors"
+              className="shrink-0 p-1 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
             >
               <Plus className="w-3.5 h-3.5" />
             </button>
@@ -726,36 +742,38 @@ function RangeFilterDropdown({
       />
       <DropdownMenuContent
         align="start"
-        className="w-56 p-0 rounded-xl border border-slate-200/90 shadow-lg overflow-hidden"
+        className="w-56 p-0 rounded-xl border border-border bg-card text-card-foreground shadow-lg overflow-hidden"
       >
-        <div className="px-3 pt-2.5 pb-2 flex items-center justify-between border-b border-slate-100">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+        <div className="px-3 pt-2.5 pb-2 flex items-center justify-between border-b border-border">
+          <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
             {label}
           </span>
           {active && (
             <button
+              type="button"
               onClick={onClear}
-              className="text-xs font-bold text-indigo-600 hover:text-indigo-800"
+              className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:text-primary/80"
             >
+              <X className="h-3 w-3" aria-hidden="true" />
               Clear
             </button>
           )}
         </div>
         {bucketOptions && selectedBuckets && onToggleBucket && (
-          <div className="px-3 py-2 space-y-1.5 border-b border-slate-100">
+          <div className="px-3 py-2 space-y-1.5 border-b border-border">
             {bucketOptions.map((option) => {
               const checked = selectedBuckets.has(option);
               return (
                 <label
                   key={option}
-                  className="flex items-center justify-between gap-2 text-xs font-semibold text-slate-600 cursor-pointer"
+                  className="flex items-center justify-between gap-2 text-xs font-semibold text-foreground cursor-pointer"
                 >
                   <span>{option}</span>
                   <input
                     type="checkbox"
                     checked={checked}
                     onChange={() => onToggleBucket(option)}
-                    className="h-3.5 w-3.5 accent-indigo-600 cursor-pointer"
+                    className="h-3.5 w-3.5 accent-primary cursor-pointer"
                   />
                 </label>
               );
@@ -764,7 +782,7 @@ function RangeFilterDropdown({
         )}
         <div className="p-3 space-y-2.5">
           <div>
-            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+            <label className="block text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1">
               Min
             </label>
             <input
@@ -772,12 +790,12 @@ function RangeFilterDropdown({
               value={min}
               onChange={(e) => onMinChange(e.target.value)}
               placeholder="Min"
-              className="w-full rounded-lg border border-slate-200 px-2 py-1 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-500"
+              className="w-full rounded-md border border-border bg-card px-2 py-1 text-xs font-semibold text-foreground focus:outline-none focus:border-primary"
             />
           </div>
           {showMax && (
             <div>
-              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              <label className="block text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1">
                 Max
               </label>
               <input
@@ -785,7 +803,7 @@ function RangeFilterDropdown({
                 value={max}
                 onChange={(e) => onMaxChange(e.target.value)}
                 placeholder="Max"
-                className="w-full rounded-lg border border-slate-200 px-2 py-1 text-xs font-semibold text-slate-900 focus:outline-none focus:border-indigo-500"
+                className="w-full rounded-md border border-border bg-card px-2 py-1 text-xs font-semibold text-foreground focus:outline-none focus:border-primary"
               />
             </div>
           )}
@@ -1371,8 +1389,8 @@ function renderWatchlistCell(
         <span
           className={`inline-flex px-2 py-0.5 text-xs font-bold rounded-md border ${
             row.exchange === "NSE"
-              ? "bg-indigo-50 text-indigo-700 border-indigo-200"
-              : "bg-purple-50 text-purple-700 border-purple-200"
+              ? "bg-primary/[0.08] text-primary border-primary/25"
+              : "bg-muted text-muted-foreground border-border"
           }`}
         >
           {row.exchange}
@@ -1809,9 +1827,9 @@ function WatchlistStyleTable({
                 }
                 className={`px-3 py-3 whitespace-nowrap transition-colors ${alignClass} ${
                   sortable
-                    ? "cursor-pointer hover:text-indigo-600 hover:bg-indigo-50/60"
+                    ? "cursor-pointer hover:text-primary hover:bg-primary/5"
                     : "cursor-grab active:cursor-grabbing"
-                } ${activeSort ? "text-indigo-700 bg-indigo-50/70" : ""} ${
+                } ${activeSort ? "text-primary bg-primary/[0.07]" : ""} ${
                   draggedKey === columnKey ? "opacity-40" : ""
                 }`}
               >
@@ -1857,11 +1875,8 @@ function WatchlistStyleTable({
         ))}
         {rows.length === 0 && (
           <tr>
-            <td
-              colSpan={columnOrder.length}
-              className="px-6 py-16 text-center text-muted-foreground text-xs"
-            >
-              {emptyMessage}
+            <td colSpan={columnOrder.length}>
+              <EmptyState className="py-10" title={emptyMessage} />
             </td>
           </tr>
         )}
@@ -1913,11 +1928,11 @@ function QuickScanMenu({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-colors border border-sky-300 bg-sky-100 text-sky-800 hover:bg-sky-200 whitespace-nowrap">
+        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-colors border border-primary/30 bg-primary/10 text-primary hover:bg-primary/15 whitespace-nowrap">
           <Radar className="w-3.5 h-3.5" />
           <span>Quick Scan</span>
           {scans.length > 0 && (
-            <span className="inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[10px] font-bold leading-none bg-sky-600 text-white num-font">
+            <span className="inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[10px] font-bold leading-none bg-primary text-primary-foreground num-font">
               {scans.length}
             </span>
           )}
@@ -1926,10 +1941,10 @@ function QuickScanMenu({
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="w-80 p-0 rounded-xl border border-slate-200/90 shadow-lg overflow-hidden"
+        className="w-80 p-0 rounded-xl border border-border bg-card text-card-foreground shadow-lg overflow-hidden"
       >
-        <div className="px-3 pt-2.5 pb-2 border-b border-slate-100">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+        <div className="px-3 pt-2.5 pb-2 border-b border-border">
+          <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
             Save this setup
           </span>
           <form onSubmit={submitNew} className="mt-2 flex items-center gap-1.5">
@@ -1938,17 +1953,18 @@ function QuickScanMenu({
               onChange={(event) => setNameInput(event.target.value)}
               maxLength={MAX_QUICK_SCAN_NAME_LENGTH}
               placeholder="Name this scan…"
-              className="flex-1 rounded-lg border border-slate-200 px-2 py-1 text-xs font-semibold text-slate-900 focus:outline-none focus:border-sky-500"
+              className="flex-1 rounded-md border border-border bg-card px-2 py-1 text-xs font-semibold text-foreground focus:outline-none focus:border-primary"
             />
             <button
               type="submit"
               disabled={nameInput.trim() === ""}
-              className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-sky-600 text-white disabled:opacity-40 hover:bg-sky-700 transition-colors"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold bg-primary text-primary-foreground disabled:opacity-40 hover:bg-primary/90 transition-colors"
             >
+              <Save className="h-3 w-3" aria-hidden="true" />
               Save
             </button>
           </form>
-          <p className="mt-1.5 text-[10px] font-semibold text-slate-400">
+          <p className="mt-1.5 text-[10px] font-semibold text-muted-foreground">
             {activeCount === 0
               ? "No filters set — this would save an empty scan."
               : `Captures ${activeCount} active filter${activeCount === 1 ? "" : "s"}, the trend toggle, and the sort.`}
@@ -1957,9 +1973,12 @@ function QuickScanMenu({
 
         <div className="max-h-72 overflow-y-auto p-1.5">
           {scans.length === 0 && (
-            <p className="px-2 py-6 text-center text-[11px] font-semibold text-slate-400">
-              No saved scans yet.
-            </p>
+            <div className="flex flex-col items-center gap-1.5 px-2 py-6 text-center">
+              <Save className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+              <p className="text-[11px] font-semibold text-muted-foreground">
+                No saved scans yet.
+              </p>
+            </div>
           )}
           {scans.map((scan) => {
             const isActive = scan.id === activeScanId;
@@ -1975,18 +1994,20 @@ function QuickScanMenu({
                     value={renameInput}
                     onChange={(event) => setRenameInput(event.target.value)}
                     maxLength={MAX_QUICK_SCAN_NAME_LENGTH}
-                    className="flex-1 rounded-lg border border-slate-200 px-2 py-1 text-xs font-semibold text-slate-900 focus:outline-none focus:border-sky-500"
+                    className="flex-1 rounded-lg border border-border bg-card px-2 py-1 text-xs font-semibold text-foreground focus:outline-none focus:border-ring"
                   />
                   <button
                     type="submit"
-                    className="px-2 py-1 rounded-lg text-[11px] font-bold bg-sky-600 text-white hover:bg-sky-700"
+                    aria-label="Confirm rename"
+                    className="px-2 py-1 rounded-lg text-[11px] font-bold bg-primary text-primary-foreground hover:bg-primary/90"
                   >
                     <Check className="w-3 h-3" />
                   </button>
                   <button
                     type="button"
                     onClick={() => setRenamingId(null)}
-                    className="px-2 py-1 rounded-lg text-[11px] font-bold border border-slate-200 hover:bg-slate-50"
+                    aria-label="Cancel rename"
+                    className="px-2 py-1 rounded-lg text-[11px] font-bold border border-border text-muted-foreground hover:bg-muted"
                   >
                     <X className="w-3 h-3" />
                   </button>
@@ -1997,7 +2018,7 @@ function QuickScanMenu({
               <div
                 key={scan.id}
                 className={`group flex items-center gap-1 rounded-lg px-1.5 py-1 ${
-                  isActive ? "bg-sky-50" : "hover:bg-slate-50"
+                  isActive ? "bg-primary/[0.07]" : "hover:bg-muted"
                 }`}
               >
                 <button
@@ -2013,7 +2034,7 @@ function QuickScanMenu({
                   >
                     {scan.name}
                   </span>
-                  <span className="block text-[10px] font-semibold text-slate-400">
+                  <span className="block text-[10px] font-semibold text-muted-foreground">
                     {countQuickScanFilters(scan.filters)} filters ·{" "}
                     {formatAddedDate(scan.savedAt)}
                   </span>
@@ -2023,7 +2044,7 @@ function QuickScanMenu({
                   onClick={() => onOverwrite(scan)}
                   title="Update this scan to the filters on screen"
                   aria-label={`Update ${scan.name}`}
-                  className="p-1 text-slate-400 hover:text-sky-700 hover:bg-sky-100 rounded-md"
+                  className="p-1 text-muted-foreground/60 hover:text-primary hover:bg-primary/10 rounded-md"
                 >
                   <Check className="w-3.5 h-3.5" />
                 </button>
@@ -2035,7 +2056,7 @@ function QuickScanMenu({
                   }}
                   title="Rename"
                   aria-label={`Rename ${scan.name}`}
-                  className="p-1 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md"
+                  className="p-1 text-muted-foreground/60 hover:text-primary hover:bg-primary/10 rounded-md"
                 >
                   <Pencil className="w-3.5 h-3.5" />
                 </button>
@@ -2044,7 +2065,7 @@ function QuickScanMenu({
                   onClick={() => onDelete(scan)}
                   title="Delete"
                   aria-label={`Delete ${scan.name}`}
-                  className="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-md"
+                  className="p-1 text-muted-foreground/60 hover:text-destructive hover:bg-destructive/10 rounded-md"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -2077,7 +2098,7 @@ function ColumnVisibilityDropdown({
           <Columns3 className="w-3.5 h-3.5" />
           <span>Columns</span>
           {hiddenCount > 0 && (
-            <span className="inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[10px] font-bold leading-none bg-indigo-600 text-white">
+            <span className="inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[10px] font-bold leading-none bg-primary text-primary-foreground">
               {hiddenCount} hidden
             </span>
           )}
@@ -2086,16 +2107,17 @@ function ColumnVisibilityDropdown({
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="w-64 p-0 rounded-xl border border-slate-200/90 shadow-lg overflow-hidden"
+        className="w-64 p-0 rounded-xl border border-border bg-card text-card-foreground shadow-lg overflow-hidden"
       >
-        <div className="px-3 pt-2.5 pb-2 flex items-center justify-between border-b border-slate-100">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+        <div className="px-3 pt-2.5 pb-2 flex items-center justify-between border-b border-border">
+          <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
             Show / Hide Columns
           </span>
           {hiddenCount > 0 && (
             <button
+              type="button"
               onClick={onReset}
-              className="text-xs font-bold text-indigo-600 hover:text-indigo-800"
+              className="text-xs font-bold text-primary hover:text-primary/80"
             >
               Show All
             </button>
@@ -2116,7 +2138,7 @@ function ColumnVisibilityDropdown({
                   type="checkbox"
                   checked={checked}
                   onChange={() => onToggleColumn(columnKey)}
-                  className="h-3.5 w-3.5 accent-indigo-600 cursor-pointer shrink-0"
+                  className="h-3.5 w-3.5 accent-primary cursor-pointer shrink-0"
                 />
               </label>
             );
@@ -2135,45 +2157,50 @@ function ColumnVisibilityDropdown({
 interface SourceNavItem {
   label: string;
   tab?: SourceTab;
-  children?: { label: string; tab: SourceTab }[];
+  icon?: LucideIcon;
+  children?: { label: string; tab: SourceTab; icon?: LucideIcon }[];
 }
 
 const SOURCE_NAV_ITEMS: readonly SourceNavItem[] = [
-  { label: "Screening Table", tab: "screening" },
+  { label: "Screening Table", tab: "screening", icon: Table },
   {
     label: "Watchlist",
+    icon: Eye,
     children: [
-      { label: "Watchlist", tab: "watchlist" },
-      { label: "Preposition Watchlist", tab: "preposition" },
+      { label: "Watchlist", tab: "watchlist", icon: Eye },
+      { label: "Preposition Watchlist", tab: "preposition", icon: Crosshair },
     ],
   },
   {
     label: "Portfolio",
+    icon: Briefcase,
     children: [
-      { label: "Paper Trading", tab: "paper-trading" },
-      { label: "Live Trading", tab: "live-trading" },
+      { label: "Paper Trading", tab: "paper-trading", icon: FileText },
+      { label: "Live Trading", tab: "live-trading", icon: Activity },
     ],
   },
   {
     label: "Alerts",
+    icon: Bell,
     children: [
-      { label: "Watchlist", tab: "alerts-watchlist" },
-      { label: "Preposition Watchlist", tab: "alerts-preposition" },
-      { label: "Paper Trading", tab: "alerts-paper-trading" },
-      { label: "Live Trading", tab: "alerts-live-trading" },
+      { label: "Watchlist", tab: "alerts-watchlist", icon: Eye },
+      { label: "Preposition Watchlist", tab: "alerts-preposition", icon: Crosshair },
+      { label: "Paper Trading", tab: "alerts-paper-trading", icon: FileText },
+      { label: "Live Trading", tab: "alerts-live-trading", icon: Activity },
     ],
   },
   {
     label: "Back Test",
+    icon: FlaskConical,
     children: [
-      { label: "Strategy Back Test", tab: "back-test" },
-      { label: "Strategy Back Test Group", tab: "back-test-group" },
+      { label: "Strategy Back Test", tab: "back-test", icon: FlaskConical },
+      { label: "Strategy Back Test Group", tab: "back-test-group", icon: Files },
     ],
   },
 ];
 
 const SOURCE_NAV_ACTIVE_CLASS =
-  "bg-indigo-600 text-white shadow-indigo-500/20 shadow-xs";
+  "bg-primary text-primary-foreground shadow-xs";
 const SOURCE_NAV_INACTIVE_CLASS =
   "text-muted-foreground hover:bg-muted hover:text-foreground";
 // Give the pointer a moment to travel from the trigger button into the
@@ -2246,6 +2273,9 @@ function SourceNavGroup({
               isActiveGroup ? SOURCE_NAV_ACTIVE_CLASS : SOURCE_NAV_INACTIVE_CLASS
             }`}
           >
+            {item.icon ? (
+              <item.icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            ) : null}
             {item.label}
             <TabCount count={groupCount} active={isActiveGroup} />
             <ChevronDown className="w-3 h-3 opacity-60" />
@@ -2255,10 +2285,11 @@ function SourceNavGroup({
           align="start"
           onMouseEnter={handleEnter}
           onMouseLeave={handleLeave}
-          className="min-w-[12rem] rounded-xl border border-slate-200/90 p-1 shadow-lg"
+          className="min-w-[12rem] rounded-xl border border-border bg-card p-1 shadow-lg"
         >
           {item.children.map((child) => {
             const isActiveChild = child.tab === activeSource;
+            const ChildIcon = child.icon;
             return (
               <DropdownMenuItem
                 key={child.tab}
@@ -2267,9 +2298,12 @@ function SourceNavGroup({
                   setOpen(false);
                 }}
                 className={
-                  isActiveChild ? "bg-indigo-50 text-indigo-700 font-bold" : ""
+                  isActiveChild ? "bg-primary/[0.08] font-bold text-primary" : ""
                 }
               >
+                {ChildIcon ? (
+                  <ChildIcon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                ) : null}
                 <span className="flex-1">{child.label}</span>
                 <TabCount count={countBySource(child.tab)} active={isActiveChild} />
               </DropdownMenuItem>
@@ -2316,6 +2350,9 @@ function SourceNav({
               isActive ? SOURCE_NAV_ACTIVE_CLASS : SOURCE_NAV_INACTIVE_CLASS
             }`}
           >
+            {item.icon ? (
+              <item.icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            ) : null}
             {item.label}
             <TabCount count={countBySource(tab)} active={isActive} />
           </button>
@@ -3569,12 +3606,12 @@ export default function VgsReddyStrategiesPage() {
         </div>
 
         {/* Timeframes */}
-        <div className="mb-4 flex flex-wrap items-center gap-3 p-3 rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 via-orange-50/60 to-white shadow-xs">
-          <span className="flex items-center gap-1.5 text-[11px] font-bold text-amber-700 uppercase tracking-wider shrink-0">
+        <div className="mb-4 flex flex-wrap items-center gap-3 p-3 rounded-lg border border-border bg-card shadow-[var(--card-shadow)]">
+          <span className="flex items-center gap-1.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider shrink-0">
             <Clock className="w-3.5 h-3.5" />
             Timeframes
             {selectedTimeframes.size > 0 && (
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-amber-500 text-white text-[10px] leading-none num-font">
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] leading-none num-font">
                 {selectedTimeframes.size}
               </span>
             )}
@@ -3626,12 +3663,12 @@ export default function VgsReddyStrategiesPage() {
         </div>
 
         {/* Advanced Filters */}
-        <div className="mb-4 flex flex-wrap items-center gap-2 p-3 rounded-2xl border border-violet-200 bg-gradient-to-r from-violet-50 via-fuchsia-50/50 to-white shadow-xs">
-          <span className="flex items-center gap-1.5 text-[11px] font-bold text-violet-700 uppercase tracking-wider mr-1">
+        <div className="mb-4 flex flex-wrap items-center gap-2 p-3 rounded-lg border border-border bg-card shadow-[var(--card-shadow)]">
+          <span className="flex items-center gap-1.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider mr-1">
             <Radar className="w-3.5 h-3.5" />
             Advanced Filters
             {activeAdvancedFilterCount > 0 && (
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-violet-600 text-white text-[10px] leading-none num-font">
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] leading-none num-font">
                 {activeAdvancedFilterCount}
               </span>
             )}
@@ -3800,13 +3837,13 @@ export default function VgsReddyStrategiesPage() {
                 </>
               )}
               {activeSource === "screening" && screeningLoading && (
-                <Loader2 className="w-3.5 h-3.5 animate-spin text-slate-400" />
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground" />
               )}
             </h2>
             <div className="flex items-center gap-2">
               {tableSort && (
                 <span
-                  className="inline-flex items-center gap-1 pl-2.5 pr-1 py-1 rounded-lg border border-indigo-200 bg-indigo-50 text-[11px] font-bold text-indigo-700"
+                  className="inline-flex items-center gap-1 pl-2.5 pr-1 py-1 rounded-lg border border-primary/25 bg-primary/[0.08] text-[11px] font-bold text-primary"
                   title={`Sorted by ${
                     WATCHLIST_COLUMN_DEFS[tableSort.columnKey]?.label ??
                     tableSort.columnKey
@@ -3826,7 +3863,7 @@ export default function VgsReddyStrategiesPage() {
                     type="button"
                     onClick={() => setTableSort(null)}
                     aria-label="Clear sort"
-                    className="p-0.5 rounded hover:bg-indigo-100"
+                    className="p-0.5 rounded hover:bg-primary/15"
                   >
                     <X className="w-3 h-3" />
                   </button>
@@ -3847,12 +3884,13 @@ export default function VgsReddyStrategiesPage() {
                     ? `Download the ${filteredRows.length} rows on this page as CSV`
                     : "Download these rows as CSV"
                 }
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-[11px] font-bold shadow-emerald-500/25 shadow-xs hover:bg-emerald-700 disabled:opacity-40 disabled:hover:bg-emerald-600 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-[11px] font-bold shadow-xs hover:bg-primary/90 disabled:opacity-40 transition-colors"
               >
                 <Download className="w-3.5 h-3.5" />
                 Export CSV
               </button>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+              <span className="inline-flex items-center gap-1 rounded-md border border-primary/25 bg-primary/[0.08] px-2 py-0.5 text-xs font-semibold text-primary">
+                <Activity className="h-3 w-3" aria-hidden="true" />
                 {filteredRows.length} signals active
               </span>
             </div>
@@ -3904,17 +3942,22 @@ export default function VgsReddyStrategiesPage() {
                   disabled={screeningPagination.page <= 1}
                   onClick={() => void fetchScreeningStocks(1)}
                   title="First page"
-                  className="px-2.5 py-1 rounded-lg border border-slate-200 disabled:opacity-40 hover:bg-slate-50"
+                  aria-label="First page"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md border border-border text-xs font-semibold text-muted-foreground disabled:opacity-40 hover:bg-muted hover:text-foreground"
                 >
-                  « First
+                  <ChevronsLeft className="h-3.5 w-3.5" aria-hidden="true" />
+                  First
                 </button>
                 <button
                   disabled={screeningPagination.page <= 1}
                   onClick={() =>
                     void fetchScreeningStocks(screeningPagination.page - 1)
                   }
-                  className="px-2.5 py-1 rounded-lg border border-slate-200 disabled:opacity-40 hover:bg-slate-50"
+                  title="Previous page"
+                  aria-label="Previous page"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md border border-border text-xs font-semibold text-muted-foreground disabled:opacity-40 hover:bg-muted hover:text-foreground"
                 >
+                  <ChevronLeft className="h-3.5 w-3.5" aria-hidden="true" />
                   Prev
                 </button>
 
@@ -3926,7 +3969,7 @@ export default function VgsReddyStrategiesPage() {
                     <span
                       key={`gap-${slot}`}
                       aria-hidden="true"
-                      className="px-1 text-slate-400"
+                      className="px-1 text-muted-foreground"
                     >
                       …
                     </span>
@@ -3939,10 +3982,10 @@ export default function VgsReddyStrategiesPage() {
                           ? "page"
                           : undefined
                       }
-                      className={`min-w-[26px] px-2 py-1 rounded-lg border transition-colors ${
+                      className={`min-w-[26px] px-2 py-1 rounded-md border text-xs font-semibold transition-colors ${
                         pageNumber === screeningPagination.page
-                          ? "border-indigo-600 bg-indigo-600 text-white"
-                          : "border-slate-200 hover:bg-slate-50"
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border text-muted-foreground hover:bg-muted hover:text-foreground"
                       }`}
                     >
                       {pageNumber}
@@ -3957,9 +4000,12 @@ export default function VgsReddyStrategiesPage() {
                   onClick={() =>
                     void fetchScreeningStocks(screeningPagination.page + 1)
                   }
-                  className="px-2.5 py-1 rounded-lg border border-slate-200 disabled:opacity-40 hover:bg-slate-50"
+                  title="Next page"
+                  aria-label="Next page"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md border border-border text-xs font-semibold text-muted-foreground disabled:opacity-40 hover:bg-muted hover:text-foreground"
                 >
                   Next
+                  <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
                 </button>
                 <button
                   disabled={
@@ -3971,9 +4017,11 @@ export default function VgsReddyStrategiesPage() {
                     )
                   }
                   title="Last page"
-                  className="px-2.5 py-1 rounded-lg border border-slate-200 disabled:opacity-40 hover:bg-slate-50"
+                  aria-label="Last page"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md border border-border text-xs font-semibold text-muted-foreground disabled:opacity-40 hover:bg-muted hover:text-foreground"
                 >
-                  Last »
+                  Last
+                  <ChevronsRight className="h-3.5 w-3.5" aria-hidden="true" />
                 </button>
 
                 {/* Straight to a page, for when the strip's window doesn't
@@ -3993,13 +4041,14 @@ export default function VgsReddyStrategiesPage() {
                     value={pageJumpInput}
                     onChange={(event) => setPageJumpInput(event.target.value)}
                     placeholder="Page"
-                    className="w-16 rounded-lg border border-slate-200 px-2 py-1 text-[11px] font-semibold text-slate-900 focus:outline-none focus:border-indigo-500"
+                    className="w-16 rounded-lg border border-border bg-card px-2 py-1 text-[11px] font-semibold text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-ring"
                   />
                   <button
                     type="submit"
                     disabled={pageJumpInput.trim() === ""}
-                    className="px-2.5 py-1 rounded-lg border border-slate-200 disabled:opacity-40 hover:bg-slate-50"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-border text-[11px] font-bold text-muted-foreground disabled:opacity-40 hover:bg-muted"
                   >
+                    <ArrowRight className="h-3 w-3" aria-hidden="true" />
                     Go
                   </button>
                 </form>
@@ -4044,7 +4093,9 @@ export default function VgsReddyStrategiesPage() {
                 />
                 <p className="mt-1 text-[11px] font-semibold">
                   {symbolLookup.status === "loading" && (
-                    <span className="text-slate-400">Checking…</span>
+                    <span className="text-muted-foreground inline-flex items-center gap-1">
+                      <Loader2 className="w-3 h-3 animate-spin" /> Checking…
+                    </span>
                   )}
                   {symbolLookup.status === "found" && (
                     <span className="text-emerald-600 inline-flex items-center gap-1">
@@ -4451,8 +4502,9 @@ export default function VgsReddyStrategiesPage() {
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
               >
+                <Check className="h-3.5 w-3.5" aria-hidden="true" />
                 {editingEntryId ? "Save Changes" : "Add Strategy"}
               </button>
             </DialogFooter>

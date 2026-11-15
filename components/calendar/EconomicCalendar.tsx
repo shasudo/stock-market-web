@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, type ReactElement } from "react";
+import { Plus, Search, X } from "lucide-react";
 import AddEntryModal, { type CalendarTab } from "./AddEntryModal";
 import CalendarFilters from "./CalendarFilters";
 import CalendarHeader from "./CalendarHeader";
@@ -268,20 +269,10 @@ export default function EconomicCalendar(): ReactElement {
             onChange={(event) => setSearchQuery(event.target.value)}
             className="w-full rounded-lg border border-border py-2 pl-10 pr-10 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-ring/30"
           />
-          <svg
+          <Search
             aria-hidden="true"
             className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
+          />
           {searchQuery && (
             <button
               type="button"
@@ -289,20 +280,7 @@ export default function EconomicCalendar(): ReactElement {
               aria-label="Clear search"
               className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30"
             >
-              <svg
-                aria-hidden="true"
-                className="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <X aria-hidden="true" className="h-4 w-4" />
             </button>
           )}
         </div>
@@ -312,20 +290,7 @@ export default function EconomicCalendar(): ReactElement {
           onClick={() => setShowAddModal(true)}
           className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring/30 focus:ring-offset-2"
         >
-          <svg
-            aria-hidden="true"
-            className="h-4 w-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 4v16m8-8H4"
-            />
-          </svg>
+          <Plus aria-hidden="true" className="h-4 w-4" />
           {getAddButtonLabel()}
         </button>
       </div>

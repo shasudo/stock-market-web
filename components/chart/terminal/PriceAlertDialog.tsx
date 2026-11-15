@@ -1159,7 +1159,8 @@ export default function PriceAlertDialog({
         className="w-full max-w-xl overflow-hidden rounded-xl bg-card shadow-2xl"
       >
         <div className="flex items-center justify-between border-b border-border px-5 py-3">
-          <h2 className="text-[15px] font-bold text-foreground">
+          <h2 className="flex items-center gap-2 text-[15px] font-bold text-foreground">
+            <Bell className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
             {panel === "message"
               ? "Edit message"
               : panel === "notify"

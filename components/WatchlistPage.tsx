@@ -39,7 +39,7 @@ import {
   saveHiddenColumns,
   matchesSearch,
 } from "@/components/common";
-import { PageHeader } from "@/components/ds";
+import { EmptyState, LoadingState, PageHeader } from "@/components/ds";
 import { cn } from "@/lib/utils";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import type { LucideIcon } from "lucide-react";
@@ -1179,11 +1179,8 @@ export function WatchlistCategoryBoard({
             <tbody className="divide-y divide-border">
               {loading ? (
                 <tr>
-                  <td
-                    colSpan={visibleColumns.length}
-                    className="px-6 py-20 text-center text-xs text-muted-foreground font-medium"
-                  >
-                    Loading live watchlist data…
+                  <td colSpan={visibleColumns.length}>
+                    <LoadingState message="Loading live watchlist data…" />
                   </td>
                 </tr>
               ) : null}
@@ -1202,13 +1199,15 @@ export function WatchlistCategoryBoard({
                 ))}
               {!loading && stocks.length === 0 && (
                 <tr>
-                  <td
-                    colSpan={visibleColumns.length}
-                    className="px-6 py-20 text-center text-xs text-muted-foreground font-medium"
-                  >
-                    {search.trim()
-                      ? `No stocks match "${search.trim()}".`
-                      : "No stocks found in this watchlist."}
+                  <td colSpan={visibleColumns.length}>
+                    <EmptyState
+                      className="py-10"
+                      title={
+                        search.trim()
+                          ? `No stocks match "${search.trim()}".`
+                          : "No stocks found in this watchlist."
+                      }
+                    />
                   </td>
                 </tr>
               )}

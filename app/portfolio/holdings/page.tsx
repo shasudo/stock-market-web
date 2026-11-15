@@ -10,7 +10,7 @@ import {
   SearchInput,
   matchesSearch,
 } from "@/components/common";
-import { PageHeader } from "@/components/ds";
+import { EmptyState, LoadingState, PageHeader } from "@/components/ds";
 import apiClient, {
   getApiResponseMessage,
   getAxiosErrorMessage,
@@ -171,11 +171,8 @@ function HoldingsContent() {
               <tbody className="divide-y divide-border">
                 {loading ? (
                   <tr>
-                    <td
-                      colSpan={4}
-                      className="px-6 py-12 text-center text-muted-foreground"
-                    >
-                      Loading holdings...
+                    <td colSpan={4}>
+                      <LoadingState message="Loading holdings…" />
                     </td>
                   </tr>
                 ) : null}
@@ -231,13 +228,15 @@ function HoldingsContent() {
                   ))}
                 {!loading && visibleHoldings.length === 0 && (
                   <tr>
-                    <td
-                      colSpan={4}
-                      className="px-6 py-12 text-center text-muted-foreground"
-                    >
-                      {search.trim()
-                        ? `No holdings match "${search.trim()}".`
-                        : "No holdings yet - use the three-dot menu on any stock to add one."}
+                    <td colSpan={4}>
+                      <EmptyState
+                        className="py-10"
+                        title={
+                          search.trim()
+                            ? `No holdings match "${search.trim()}".`
+                            : "No holdings yet — use the three-dot menu on any stock to add one."
+                        }
+                      />
                     </td>
                   </tr>
                 )}

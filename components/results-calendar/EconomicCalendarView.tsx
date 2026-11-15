@@ -1,7 +1,19 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Calendar, RefreshCw, Search, Star } from "lucide-react";
+import {
+  Calendar,
+  CalendarCheck,
+  CalendarClock,
+  CalendarRange,
+  CalendarPlus,
+  History,
+  RefreshCw,
+  Search,
+  Settings2,
+  Star,
+  type LucideIcon,
+} from "lucide-react";
 import UnofficialSourceBadge from "@/components/common/UnofficialSourceBadge";
 import {
   fetchEconomicCalendar,
@@ -29,6 +41,15 @@ const RANGE_TABS: readonly RangeTab[] = [
   "Next Week",
   "Custom",
 ];
+
+const rangeIcons: Record<RangeTab, LucideIcon> = {
+  Yesterday: History,
+  Today: CalendarCheck,
+  Tomorrow: CalendarClock,
+  "This Week": CalendarRange,
+  "Next Week": CalendarPlus,
+  Custom: Settings2,
+};
 
 const IMPACT_FILTERS = ["All", "High", "Medium", "Low"] as const;
 type ImpactFilter = (typeof IMPACT_FILTERS)[number];
@@ -191,19 +212,26 @@ export default function EconomicCalendarView() {
 
       <div className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-border">
         <div className="flex items-center gap-2 flex-wrap">
-          {RANGE_TABS.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-3.5 py-1.5 text-xs font-bold rounded-xl transition-colors ${
-                activeTab === tab
-                  ? "bg-primary text-primary-foreground shadow-primary/20 shadow-xs"
-                  : "bg-card border border-border text-muted-foreground hover:bg-muted"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
+          {RANGE_TABS.map((tab) => {
+            const TabIcon = rangeIcons[tab];
+            const isActive = activeTab === tab;
+            return (
+              <button
+                key={tab}
+                type="button"
+                onClick={() => setActiveTab(tab)}
+                aria-current={isActive ? "page" : undefined}
+                className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl transition-colors ${
+                  isActive
+                    ? "bg-primary text-primary-foreground shadow-primary/20 shadow-xs"
+                    : "bg-card border border-border text-muted-foreground hover:bg-muted"
+                }`}
+              >
+                <TabIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                {tab}
+              </button>
+            );
+          })}
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <select

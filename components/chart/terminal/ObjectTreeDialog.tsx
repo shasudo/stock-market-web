@@ -4,6 +4,7 @@ import {
   Copy,
   Eye,
   EyeOff,
+  ListTree,
   Lock,
   LockOpen,
   Settings2,
@@ -204,7 +205,7 @@ export default function ObjectTreeDialog({
         className="flex max-h-[84vh] w-full max-w-md flex-col overflow-hidden rounded-xl bg-card shadow-2xl"
       >
         <div className="flex items-center justify-between border-b border-border px-5 py-3">
-          <h2 className="text-[16px] font-bold text-foreground">Object tree</h2>
+          <h2 className="flex items-center gap-2 text-[16px] font-bold text-foreground"><ListTree className="h-4 w-4 text-muted-foreground" aria-hidden="true" />Object tree</h2>
           <button
             type="button"
             aria-label="Close object tree"

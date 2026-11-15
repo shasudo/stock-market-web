@@ -3,6 +3,20 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { TopGainerLoserStock } from "@/lib/mockData";
+import {
+  Activity,
+  ArrowDownRight,
+  ArrowUpRight,
+  ChevronsDown,
+  ChevronsUp,
+  Flame,
+  History,
+  TrendingDown,
+  TrendingUp,
+  Trophy,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
 import { DataFreshness } from "@/components/common/DataFreshness";
 import { StockActionsMenu } from "@/components/common/StockActionsMenu";
 import { SearchInput, matchesSearch } from "@/components/common/SearchInput";
@@ -20,6 +34,7 @@ import {
   DsBadge,
   ChangePill,
   ChangeText,
+  EmptyState,
 } from "@/components/ds";
 import { cn } from "@/lib/utils";
 
@@ -187,18 +202,18 @@ const SparklineChart = ({
   );
 };
 
-const categoryTabs = [
-  { id: "gainers", label: "Top Gainers", href: "/gainers" },
-  { id: "losers", label: "Top Losers", href: "/losers" },
-  { id: "52wkHigh", label: "52W High", href: "/52-week-high" },
-  { id: "52wkLow", label: "52W Low", href: "/52-week-low" },
-  { id: "mostActiveByValue", label: "Most Active", href: "/most-active-by-value" },
-  { id: "volumeShockers", label: "Volume Shockers", href: "/volume-shockers" },
-  { id: "priceShockers", label: "Price Shockers", href: "/price-shockers" },
-  { id: "onlyBuyers", label: "Only Buyers", href: "/only-buyers" },
-  { id: "onlySellers", label: "Only Sellers", href: "/only-sellers" },
-  { id: "allTimeHigh", label: "All-Time High", href: "/all-time-high" },
-  { id: "allTimeLow", label: "All-Time Low", href: "/all-time-low" },
+const categoryTabs: readonly { id: string; label: string; href: string; icon: LucideIcon }[] = [
+  { id: "gainers", label: "Top Gainers", href: "/gainers", icon: TrendingUp },
+  { id: "losers", label: "Top Losers", href: "/losers", icon: TrendingDown },
+  { id: "52wkHigh", label: "52W High", href: "/52-week-high", icon: ChevronsUp },
+  { id: "52wkLow", label: "52W Low", href: "/52-week-low", icon: ChevronsDown },
+  { id: "mostActiveByValue", label: "Most Active", href: "/most-active-by-value", icon: Activity },
+  { id: "volumeShockers", label: "Volume Shockers", href: "/volume-shockers", icon: Flame },
+  { id: "priceShockers", label: "Price Shockers", href: "/price-shockers", icon: Zap },
+  { id: "onlyBuyers", label: "Only Buyers", href: "/only-buyers", icon: ArrowUpRight },
+  { id: "onlySellers", label: "Only Sellers", href: "/only-sellers", icon: ArrowDownRight },
+  { id: "allTimeHigh", label: "All-Time High", href: "/all-time-high", icon: Trophy },
+  { id: "allTimeLow", label: "All-Time Low", href: "/all-time-low", icon: History },
 ];
 
 export default function TopGainersLosersTable({
@@ -255,10 +270,11 @@ export default function TopGainersLosersTable({
                 onClick={() => router.push(tab.href)}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "apple-segmented-item text-xs whitespace-nowrap",
+                  "apple-segmented-item inline-flex items-center gap-1.5 text-xs whitespace-nowrap",
                   isActive && "apple-segmented-item-active",
                 )}
               >
+                <tab.icon className="h-3.5 w-3.5" aria-hidden="true" />
                 {tab.label}
               </button>
             );
@@ -340,10 +356,15 @@ export default function TopGainersLosersTable({
             <DsTableBody>
               {visibleData.length === 0 && !unavailableReason ? (
                 <DsRow>
-                  <DsCell colSpan={11} align="center" className="py-20 text-xs font-medium text-muted-foreground">
-                    {search.trim()
-                      ? `No equities match "${search.trim()}".`
-                      : "No equities currently qualify for this filter."}
+                  <DsCell colSpan={11} align="center">
+                    <EmptyState
+                      className="py-10"
+                      title={
+                        search.trim()
+                          ? `No equities match "${search.trim()}".`
+                          : "No equities currently qualify for this filter."
+                      }
+                    />
                   </DsCell>
                 </DsRow>
               ) : null}

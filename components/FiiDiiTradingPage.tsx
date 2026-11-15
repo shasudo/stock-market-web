@@ -146,10 +146,10 @@ export default function FiiDiiTradingPage() {
           label="Provisional NSE cash-market flows, published after market close. History builds daily from first sync."
         />
 
-        <div className="bg-card border border-border/80 rounded-2xl p-6 mb-6 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="bg-card border border-border rounded-lg p-4 mb-4 shadow-[var(--card-shadow)] flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-primary/20 shadow-lg">
-              <Building2 className="w-6 h-6" />
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-border bg-card">
+              <Building2 className="h-4 w-4 text-primary" aria-hidden="true" />
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-extrabold text-foreground tracking-tight">

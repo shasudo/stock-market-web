@@ -3,14 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import {
   CalendarDays,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  ChevronUp,
   Download,
   Search,
+  TriangleAlert,
   X,
 } from "lucide-react";
+import { EmptyState, LoadingState } from "@/components/ds";
 import { DayPicker, type DateRange } from "react-day-picker";
 import {
   NSE_SECTORS,
@@ -1136,7 +1140,7 @@ export default function HistoricalDataPage() {
                   )
                 }
                 disabled={rows.length === 0}
-                className="flex items-center gap-2 px-3 py-1.5 text-sm text-primary hover:text-blue-800 font-medium disabled:opacity-40"
+                className="flex items-center gap-2 px-3 py-1.5 text-sm text-primary hover:text-primary/80 font-medium disabled:opacity-40"
                 title="Download the rows on this page as CSV"
               >
                 <Download className="w-4 h-4" />
@@ -1342,7 +1346,7 @@ export default function HistoricalDataPage() {
 
         {selectedStock && !segmentHasHistory && (
           <div className="mb-4 inline-flex items-center gap-2 rounded-md border border-warning/30 bg-warning/10 px-3 py-2 text-xs text-amber-800">
-            <span aria-hidden="true">⚠</span>
+            <TriangleAlert className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
             <span>
               Daily history is stored for the Equity and F&amp;O Stocks (EQ)
               segments only — {segment} has no candle history yet.
@@ -1395,11 +1399,12 @@ export default function HistoricalDataPage() {
                         className="px-3 py-2.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-center whitespace-nowrap bg-muted/90 border-r border-border cursor-pointer hover:bg-muted transition-colors select-none"
                       >
                         {column.label}
-                        {sort === column.sort && (
-                          <span className="ml-1 text-[10px]">
-                            {order === "asc" ? "▲" : "▼"}
-                          </span>
-                        )}
+                        {sort === column.sort &&
+                          (order === "asc" ? (
+                            <ChevronUp className="ml-1 inline h-3 w-3" aria-hidden="true" />
+                          ) : (
+                            <ChevronDown className="ml-1 inline h-3 w-3" aria-hidden="true" />
+                          ))}
                       </th>
                     ))}
                   </tr>
@@ -1407,23 +1412,17 @@ export default function HistoricalDataPage() {
                 <tbody className="divide-y divide-border">
                   {showInitialSpinner ? (
                     <tr>
-                      <td
-                        colSpan={COLUMNS.length}
-                        className="px-4 py-16 text-center text-xs text-muted-foreground"
-                      >
-                        <div className="flex flex-col items-center gap-3">
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black"></div>
-                          Loading historical data...
-                        </div>
+                      <td colSpan={COLUMNS.length}>
+                        <LoadingState message="Loading historical data…" />
                       </td>
                     </tr>
                   ) : rows.length === 0 ? (
                     <tr>
-                      <td
-                        colSpan={COLUMNS.length}
-                        className="px-4 py-16 text-center text-xs text-muted-foreground"
-                      >
-                        No historical data for the current selection.
+                      <td colSpan={COLUMNS.length}>
+                        <EmptyState
+                          className="py-10"
+                          title="No historical data for the current selection."
+                        />
                       </td>
                     </tr>
                   ) : (
@@ -1449,7 +1448,7 @@ export default function HistoricalDataPage() {
             )}
           </div>
         ) : (
-          <div className="rounded-2xl border border-dashed border-border bg-muted/60 px-4 py-16 text-center">
+          <div className="rounded-lg border border-dashed border-border bg-muted/60 px-4 py-16 text-center shadow-[var(--card-shadow)]">
             <div className="mx-auto flex max-w-sm flex-col items-center gap-2">
               <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-card text-muted-foreground shadow-xs">
                 <Search className="h-5 w-5" />

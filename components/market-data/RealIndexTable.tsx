@@ -10,6 +10,7 @@ import {
 } from "@/lib/market/instrument-quote-client";
 import type { IndexQuoteDTO } from "@/lib/market/instrument-quote-client";
 import { DataFreshness } from "@/components/common/DataFreshness";
+import { EmptyState, LoadingState } from "@/components/ds";
 import { StockActionsMenu } from "@/components/common/StockActionsMenu";
 import { SearchInput, matchesSearch } from "@/components/common/SearchInput";
 
@@ -129,13 +130,11 @@ export default function RealIndexTable({
             </div>
           ) : null}
 
-          {/* macOS Finder Table */}
-          <div className="bg-card border border-border/90 rounded-2xl overflow-hidden shadow-xs">
-            <div className="overflow-x-auto scrollbar-thin">
+          {/* Terminal table */}
+          <div className="bg-card border border-border rounded-lg overflow-hidden shadow-[var(--card-shadow)]">
+            <div className="w-full overflow-x-auto">
               {isLoading && indices.length === 0 ? (
-                <div className="px-6 py-16 text-center text-xs text-muted-foreground">
-                  Loading index live quotes…
-                </div>
+                <LoadingState message="Loading index live quotes…" />
               ) : (
                 <table className="w-full text-left border-collapse text-xs md:text-sm">
                   <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
@@ -160,13 +159,15 @@ export default function RealIndexTable({
                   <tbody className="divide-y divide-border">
                     {visibleIndices.length === 0 ? (
                       <tr>
-                        <td
-                          colSpan={5}
-                          className="px-6 py-16 text-center text-xs text-muted-foreground"
-                        >
-                          {search.trim()
-                            ? `No indices match "${search.trim()}".`
-                            : `No ${exchange} index data available.`}
+                        <td colSpan={5}>
+                          <EmptyState
+                            className="py-10"
+                            title={
+                              search.trim()
+                                ? `No indices match "${search.trim()}".`
+                                : `No ${exchange} index data available.`
+                            }
+                          />
                         </td>
                       </tr>
                     ) : null}

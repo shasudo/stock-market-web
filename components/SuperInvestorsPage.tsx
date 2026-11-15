@@ -4,9 +4,12 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useDeferredValue, useEffect, useMemo, useState } from "react";
 import {
+  AlertTriangle,
   ChevronDown,
   ChevronRight,
   ChevronUp,
+  Inbox,
+  Loader2,
   Search,
   UserCheck,
 } from "lucide-react";
@@ -143,13 +146,22 @@ function StatusRow({
   children: React.ReactNode;
   tone?: "muted" | "error";
 }) {
+  const message = typeof children === "string" ? children : null;
+  const loading = message !== null && message.startsWith("Loading");
+  const Icon = tone === "error" ? AlertTriangle : loading ? Loader2 : Inbox;
   return (
     <tr>
       <td
         colSpan={colSpan}
-        className={`px-4 py-16 text-center text-xs ${tone === "error" ? "text-error" : "text-muted-foreground"}`}
+        className={`px-4 py-12 text-center text-xs ${tone === "error" ? "text-error" : "text-muted-foreground"}`}
       >
-        {children}
+        <span className="inline-flex flex-col items-center gap-2">
+          <Icon
+            className={`h-5 w-5 ${loading ? "animate-spin" : ""}`}
+            aria-hidden="true"
+          />
+          <span>{children}</span>
+        </span>
       </td>
     </tr>
   );

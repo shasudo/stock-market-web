@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { CalendarClock, ExternalLink, FileText, RefreshCw, Rocket, Search } from "lucide-react";
 
-import { PageHeader } from "@/components/ds";
+import { EmptyState, LoadingState, PageHeader } from "@/components/ds";
 import { SortableTh } from "@/components/super-investors/SortableTh";
 import type { IpoIssue, IpoSubscription } from "@/lib/ipo/parse";
 import type { IpoBoardResponse } from "@/lib/ipo/service";
@@ -620,16 +620,22 @@ export default function IPOPage() {
         ) : null}
 
         {!data ? (
-          <div className="rounded-2xl border border-border/80 bg-card px-4 py-16 text-center text-sm text-muted-foreground">
-            {loading ? "Loading live IPO board…" : "No data yet."}
-          </div>
+          loading ? (
+            <LoadingState message="Loading live IPO board…" />
+          ) : (
+            <EmptyState className="py-10" title="No data yet." />
+          )
         ) : activeTab === "open" || activeTab === "upcoming" ? (
           visible.length === 0 ? (
-            <div className="rounded-2xl border border-border/80 bg-card px-4 py-12 text-center text-sm text-muted-foreground">
-              {empty[activeTab]}
-              {activeTab === "open" && data.upcoming.length > 0 ? " See Upcoming IPO for the next issues." : ""}
-              {data.closed.length > 0 ? " Recently closed issues are under Closed IPO." : ""}
-            </div>
+            <EmptyState
+              className="py-10"
+              title={empty[activeTab]}
+              description={
+                `${activeTab === "open" && data.upcoming.length > 0 ? "See Upcoming IPO for the next issues." : ""}${
+                  data.closed.length > 0 ? " Recently closed issues are under Closed IPO." : ""
+                }`.trim() || undefined
+              }
+            />
           ) : (
             <div className="space-y-4">
               {visible.map((issue) => (
@@ -638,9 +644,9 @@ export default function IPOPage() {
             </div>
           )
         ) : (
-          <div className="overflow-hidden rounded-2xl border border-border/80 bg-card shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="overflow-hidden rounded-lg border border-border bg-card shadow-[var(--card-shadow)]">
             {(activeTab === "drafts" ? drafts.length : visible.length) === 0 ? (
-              <div className="px-4 py-12 text-center text-sm text-muted-foreground">{empty[activeTab]}</div>
+              <EmptyState className="py-10" title={empty[activeTab]} />
             ) : activeTab === "closed" ? (
               <ClosedTable issues={visible} />
             ) : activeTab === "listed" ? (

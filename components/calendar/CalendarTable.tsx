@@ -1,6 +1,7 @@
 "use client";
 
 import { Star, Trash2 } from "lucide-react";
+import { EmptyState } from "@/components/ds";
 
 interface CalendarEvent {
   id: string;
@@ -68,7 +69,7 @@ export default function CalendarTable({
   const hasCustom = customEventIds.length > 0;
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-border/90 bg-card shadow-xs scrollbar-thin">
+    <div className="w-full overflow-x-auto rounded-lg border border-border bg-card shadow-[var(--card-shadow)]">
       <table className="w-full text-left border-collapse text-xs md:text-sm">
         <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">
           <tr>
@@ -112,18 +113,15 @@ export default function CalendarTable({
 
           {events.length === 0 ? (
             <tr>
-              <td
-                colSpan={hasCustom ? 8 : 7}
-                className="py-16 text-center text-xs text-muted-foreground"
-              >
-                No economic events scheduled for this window.
+              <td colSpan={hasCustom ? 8 : 7}>
+                <EmptyState className="py-10" title="No economic events scheduled for this window." />
               </td>
             </tr>
           ) : (
             events.map((item) => (
               <tr
                 key={item.id}
-                className="finder-row transition-colors border-b border-border/80 hover:bg-primary/10 even:bg-card odd:bg-muted/50 group"
+                className="border-b border-border transition-colors last:border-b-0 even:bg-card odd:bg-muted/40 hover:bg-primary/[0.05] group"
               >
                 <td className="py-2.5 px-3.5 text-muted-foreground font-mono font-bold num-font whitespace-nowrap">
                   {item.time}

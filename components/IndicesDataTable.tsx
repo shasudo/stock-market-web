@@ -13,6 +13,7 @@ import {
   DsCell,
   DsNumCell,
   ChangePill,
+  EmptyState,
 } from "@/components/ds";
 
 export interface IndexData {
@@ -158,10 +159,15 @@ export default function IndicesDataTable({
           <DsTableBody>
             {visibleData.length === 0 && (
               <DsRow>
-                <DsCell colSpan={13} align="center" className="py-20 text-xs font-medium text-muted-foreground">
-                  {search.trim()
-                    ? `No indices match "${search.trim()}".`
-                    : "No index data available."}
+                <DsCell colSpan={13} align="center">
+                  <EmptyState
+                    className="py-10"
+                    title={
+                      search.trim()
+                        ? `No indices match "${search.trim()}".`
+                        : "No index data available."
+                    }
+                  />
                 </DsCell>
               </DsRow>
             )}

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { BarChart3, RefreshCw, Search } from "lucide-react";
+import { EmptyState, ErrorState, LoadingState } from "@/components/ds";
 import { SortableTh } from "@/components/super-investors/SortableTh";
 import type { IndexTab } from "@/lib/indices/catalog";
 import { BREADTH_BUCKETS, bucketOf } from "@/lib/indices/catalog";
@@ -285,11 +286,11 @@ export default function BSEIndicesTerminal() {
           </div>
 
           {error && !data ? (
-            <p className="px-4 py-12 text-center text-xs text-error">BSE index data is unavailable right now. Retrying shortly.</p>
+            <ErrorState title="BSE index data is unavailable right now. Retrying shortly." />
           ) : !data ? (
-            <p className="px-4 py-12 text-center text-xs text-muted-foreground">Loading BSE indices…</p>
+            <LoadingState message="Loading BSE indices…" />
           ) : rows.length === 0 ? (
-            <p className="px-4 py-12 text-center text-xs text-muted-foreground">No index matches.</p>
+            <EmptyState className="py-10" title="No index matches." />
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full min-w-[820px] border-collapse text-left">
