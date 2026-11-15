@@ -147,11 +147,23 @@ apiClient.interceptors.response.use(
       setAuth(refreshedSession.user, refreshedSession.accessToken);
       setAuthorizationHeader(originalRequest, refreshedSession.accessToken);
       resolvePendingRequests(refreshedSession.accessToken);
+      void fetch("/session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accessToken: refreshedSession.accessToken }),
+      }).catch(() => undefined);
 
       return apiClient(originalRequest);
     } catch (refreshError: unknown) {
       rejectPendingRequests(refreshError);
       useAuthStore.getState().logout();
+      if (
+        typeof window !== "undefined" &&
+        window.location.pathname !== "/" &&
+        window.location.pathname !== "/register"
+      ) {
+        window.location.assign("/");
+      }
       return Promise.reject(refreshError);
     } finally {
       isRefreshing = false;

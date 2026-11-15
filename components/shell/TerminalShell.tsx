@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { BarChart3, LogOut, Menu, Moon, PanelLeftClose, PanelLeftOpen, Sun, X } from "lucide-react";
+import { LogOut, Menu, Moon, PanelLeftClose, PanelLeftOpen, Sun, X } from "lucide-react";
+import { UpperWickMark } from "@/components/brand/UpperWickMark";
 import toast from "react-hot-toast";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useTheme } from "@/components/ThemeProvider";
@@ -27,6 +28,7 @@ function ThemeToggle() {
 
 export default function TerminalShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { user, isAuthenticated, logout } = useAuthStore();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -34,7 +36,7 @@ export default function TerminalShell({ children }: { children: React.ReactNode 
   const handleLogout = () => {
     logout();
     toast.success("Logged out successfully");
-    router.push("/login");
+    router.push("/");
   };
 
   return (
@@ -62,13 +64,14 @@ export default function TerminalShell({ children }: { children: React.ReactNode 
               </button>
             </>
           )}
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
-              <BarChart3 className="h-4 w-4 text-primary-foreground" />
-            </div>
+          <Link
+            href={isAuthenticated ? "/dashboard" : "/"}
+            className="flex items-center gap-2.5"
+          >
+            <UpperWickMark className="h-8 w-8" />
             <div className="flex flex-col leading-none">
               <span className="font-display text-[17px] font-semibold tracking-tight">
-                StockMarket<span className="text-primary">Pro</span>
+                Upper<span className="text-primary">Wick</span>
               </span>
               <span className="mt-0.5 text-[10px] font-medium tracking-wide text-muted-foreground uppercase">
                 Institutional Terminal
@@ -95,12 +98,14 @@ export default function TerminalShell({ children }: { children: React.ReactNode 
               </div>
             ) : (
               <div className="flex items-center gap-1">
-                <Link
-                  href="/login"
-                  className="rounded-md px-3 py-1.5 text-[13px] font-medium text-foreground transition-colors hover:bg-muted"
-                >
-                  Sign In
-                </Link>
+                {pathname !== "/" && (
+                  <Link
+                    href="/"
+                    className="rounded-md px-3 py-1.5 text-[13px] font-medium text-foreground transition-colors hover:bg-muted"
+                  >
+                    Sign In
+                  </Link>
+                )}
                 <Link
                   href="/register"
                   className="rounded-md bg-primary px-3.5 py-1.5 text-[13px] font-medium text-primary-foreground transition-colors hover:bg-primary/90"

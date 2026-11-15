@@ -9,6 +9,9 @@ Image=localhost/stock-market-web:latest
 ContainerName=stock-market-web
 Network=stock-market-api-net
 Environment=API_ORIGIN=http://stock-market-api:8080
+# Required for the server-side login gate (middleware + /session route).
+# Generate one with: openssl rand -hex 32
+#Environment=SESSION_SECRET=change-me
 PublishPort=127.0.0.1:3000:3000
 HealthCmd=curl -fsS http://127.0.0.1:3000/ > /dev/null
 HealthInterval=30s

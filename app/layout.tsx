@@ -18,7 +18,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "StockMarket Pro - Free Trading Platform",
+  title: "UpperWick - Institutional Trading Terminal",
   description: "Institutional-grade stock market data and portfolio management",
 };
 

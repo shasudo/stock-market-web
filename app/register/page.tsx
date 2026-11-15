@@ -7,12 +7,12 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import {
   UserPlus,
-  BarChart3,
   ArrowLeft,
   Check,
   Eye,
   EyeOff,
 } from "lucide-react";
+import { UpperWickMark } from "@/components/brand/UpperWickMark";
 import {
   isRegisterResponse,
   type ApiErrorResponse,
@@ -100,7 +100,7 @@ export default function RegisterPage() {
       }
 
       toast.success("Account created successfully!");
-      router.push("/login");
+      router.push("/");
     } catch (error: unknown) {
       toast.error(getRegistrationErrorMessage(error));
     } finally {
@@ -147,15 +147,13 @@ export default function RegisterPage() {
             className="group mb-8 inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            Back to home
+            Back to sign in
           </Link>
 
           <div className="mb-8 flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
-              <BarChart3 className="h-4 w-4 text-primary-foreground" />
-            </div>
+            <UpperWickMark className="h-8 w-8" />
             <span className="text-xl font-semibold tracking-tight text-foreground">
-              StockMarket Pro
+              Upper<span className="text-primary">Wick</span>
             </span>
           </div>
 
@@ -337,7 +335,7 @@ export default function RegisterPage() {
             <p className="text-sm text-muted-foreground">
               Already have an account?{" "}
               <Link
-                href="/login"
+                href="/"
                 className="font-semibold text-foreground hover:underline"
               >
                 Sign in here

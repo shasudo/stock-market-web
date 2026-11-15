@@ -1,226 +1,228 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuthStore, useHasHydrated } from "@/store/useAuthStore";
+import axios from "axios";
+import { normalizeAuthResponse } from "@/lib/api-client";
+import toast from "react-hot-toast";
+import { LogIn, Eye, EyeOff } from "lucide-react";
+import { UpperWickMark } from "@/components/brand/UpperWickMark";
+import { LoadingSpinner } from "@/components/common";
 import {
-  BarChart3,
-  Shield,
-  Zap,
-  TrendingUp,
-  ArrowRight,
-  LineChart,
-  Layers,
-  Sparkles,
-} from "lucide-react";
+  isLoginResponse,
+  type ApiErrorResponse,
+  type LoginRequest,
+} from "@/types/api";
 
-const features = [
-  {
-    icon: TrendingUp,
-    iconTone:
-      "border-emerald-600/25 bg-emerald-600/10 text-emerald-800 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-300",
-    title: "Real-Time Market Terminal",
-    description:
-      "Direct feed from NSE & BSE with institutional tick speed, advance-decline breadth, and multi-timeframe analytics.",
-  },
-  {
-    icon: Layers,
-    iconTone: "border-primary/25 bg-primary/[0.08] text-primary",
-    title: "High-Density Screeners",
-    description:
-      "Dense tabular screens with instant sorting, filters, sparklines, and level management.",
-  },
-  {
-    icon: LineChart,
-    iconTone:
-      "border-amber-600/25 bg-amber-500/10 text-amber-800 dark:border-amber-400/25 dark:bg-amber-400/10 dark:text-amber-300",
-    title: "Strategy Builder & Backtesting",
-    description:
-      "Build custom multi-leg candlestick strategies and backtest against historical ticks with detailed trade logs.",
-  },
-  {
-    icon: Shield,
-    iconTone:
-      "border-sky-600/25 bg-sky-600/10 text-sky-800 dark:border-sky-400/25 dark:bg-sky-400/10 dark:text-sky-300",
-    title: "Institutional Security",
-    description:
-      "Enterprise authentication and segregated paper & live execution sandboxes for total peace of mind.",
-  },
-  {
-    icon: Zap,
-    iconTone:
-      "border-amber-600/25 bg-amber-500/10 text-amber-800 dark:border-amber-400/25 dark:bg-amber-400/10 dark:text-amber-300",
-    title: "F&O & Derivatives Chain",
-    description:
-      "Comprehensive option chain, open interest heatmaps, PCR analysis, and max pain calculation.",
-  },
-  {
-    icon: Sparkles,
-    iconTone:
-      "border-rose-600/25 bg-rose-600/10 text-rose-800 dark:border-rose-400/25 dark:bg-rose-400/10 dark:text-rose-300",
-    title: "Super Investors & FII/DII",
-    description:
-      "Track institutional footprints, bulk & block deals, corporate actions, and super investor portfolios.",
-  },
-];
+function getLoginErrorMessage(error: unknown): string {
+  if (!axios.isAxiosError<ApiErrorResponse>(error)) {
+    return "Login failed";
+  }
 
-const stats = [
-  { value: "10K+", label: "Active Traders", tone: "text-primary" },
-  {
-    value: "₹50Cr+",
-    label: "Assets Tracked",
-    tone: "text-emerald-800 dark:text-emerald-300",
-  },
-  {
-    value: "99.9%",
-    label: "System Uptime",
-    tone: "text-sky-800 dark:text-sky-300",
-  },
-  {
-    value: "60+",
-    label: "Market Screens",
-    tone: "text-amber-800 dark:text-amber-300",
-  },
-];
+  const message = error.response?.data?.message;
+  return typeof message === "string" ? message : "Login failed";
+}
 
-export default function HomePage() {
+const inputClassName =
+  "w-full rounded-md border border-border bg-card px-4 py-2.5 text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary";
+
+function LoginForm() {
+  const router = useRouter();
+  const { setAuth } = useAuthStore();
+  const [formData, setFormData] = useState<LoginRequest>({
+    username: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await axios.post<unknown>("/api/auth/login", formData, {
+        withCredentials: true,
+      });
+      const payload = normalizeAuthResponse("/api/auth/login", response.data);
+      if (!isLoginResponse(payload)) {
+        toast.error("The authentication service returned an invalid response");
+        return;
+      }
+
+      const { user, accessToken } = payload;
+
+      const sessionResponse = await fetch("/session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accessToken }),
+      });
+      if (!sessionResponse.ok) {
+        toast.error("Could not establish a secure session. Please try again.");
+        return;
+      }
+
+      setAuth(user, accessToken);
+      toast.success("Welcome back!");
+      router.push("/dashboard");
+    } catch (error: unknown) {
+      toast.error(getLoginErrorMessage(error));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="bg-background">
-      {/* Hero */}
-      <section className="border-b border-border">
-        <div className="mx-auto w-full max-w-[1100px] px-4 pt-16 pb-14 text-center md:pt-20 md:pb-16 lg:px-6">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-md border border-emerald-600/25 bg-emerald-600/10 px-3 py-1.5 text-xs font-semibold text-emerald-800 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-300">
-            <span className="h-2 w-2 rounded-full bg-emerald-600 animate-pulse dark:bg-emerald-400" />
-            <span>Live NSE &amp; BSE Market Data Feed</span>
-          </div>
-
-          <h1 className="mx-auto max-w-3xl font-display text-4xl font-semibold tracking-tight text-foreground md:text-[52px] md:leading-[1.05]">
-            Institutional trading intelligence, engineered for clarity
-          </h1>
-
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
-            Market surveillance with dense tabular terminals, real-time F&amp;O
-            analytics, custom strategy backtests, and portfolio tracking.
-          </p>
-
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              href="/gainers"
-              className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Launch Terminal
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-
-            <Link
-              href="/dashboard"
-              className="inline-flex items-center justify-center rounded-md border border-border bg-card px-6 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
-            >
-              View Dashboard
-            </Link>
-          </div>
-
-          <p className="mt-5 text-xs font-medium text-muted-foreground">
-            Real-time synchronization • No account configuration needed
-          </p>
-        </div>
-      </section>
-
-      {/* Metrics */}
-      <section className="border-b border-border bg-muted/40">
-        <div className="mx-auto w-full max-w-[1100px] px-4 py-10 lg:px-6">
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-[10px] border border-border bg-card p-5 text-center"
-              >
-                <p
-                  className={`mb-1 font-mono text-3xl font-semibold tabular-nums tracking-tight md:text-4xl ${stat.tone}`}
-                >
-                  {stat.value}
-                </p>
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Feature grid */}
-      <section className="py-14 md:py-16">
-        <div className="mx-auto w-full max-w-[1100px] px-4 lg:px-6">
-          <div className="mx-auto mb-10 max-w-2xl text-center">
-            <h2 className="mb-2 text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
-              Complete pro terminal toolset
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              Engineered for speed, consistency, and analytical clarity.
-            </p>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature) => (
-              <div
-                key={feature.title}
-                className="rounded-[10px] border border-border bg-card p-5"
-              >
-                <div
-                  className={`mb-4 flex h-9 w-9 items-center justify-center rounded-md border ${feature.iconTone}`}
-                >
-                  <feature.icon className="h-4 w-4" />
-                </div>
-                <h3 className="mb-1.5 text-sm font-semibold tracking-tight text-foreground">
-                  {feature.title}
-                </h3>
-                <p className="text-[13px] leading-relaxed text-muted-foreground">
-                  {feature.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="pb-16">
-        <div className="mx-auto w-full max-w-[1100px] px-4 lg:px-6">
-          <div className="rounded-[10px] border border-border bg-card p-8 text-center md:p-12">
-            <h2 className="mb-2 text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
-              Ready to elevate your trading edge?
-            </h2>
-            <p className="mx-auto mb-6 max-w-xl text-sm text-muted-foreground">
-              Explore real-time gainers, track institutional positions, and
-              backtest your strategies.
-            </p>
-            <Link
-              href="/gainers"
-              className="inline-flex items-center justify-center rounded-md bg-primary px-7 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Explore Market Terminal
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-border">
-        <div className="mx-auto flex w-full max-w-[1100px] flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row lg:px-6">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <BarChart3 className="h-4 w-4" />
-            </div>
-            <span className="text-sm font-semibold tracking-tight text-foreground">
-              StockMarket Pro
+    <div className="flex min-h-screen bg-background">
+      <div className="flex flex-1 items-center justify-center p-8">
+        <div className="w-full max-w-md">
+          <div className="mb-8 flex items-center gap-2.5">
+            <UpperWickMark className="h-8 w-8" />
+            <span className="text-xl font-semibold tracking-tight text-foreground">
+              Upper<span className="text-primary">Wick</span>
             </span>
           </div>
-          <p className="text-xs font-medium text-muted-foreground">
-            Institutional-grade market data terminal &amp; quantitative
-            analytics platform.
-          </p>
+
+          <div className="mb-8">
+            <h1 className="mb-2 text-2xl font-semibold tracking-tight text-foreground">
+              Welcome back
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Sign in to your account to continue
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label
+                htmlFor="username"
+                className="mb-2 block text-[13px] font-medium text-foreground"
+              >
+                Username
+              </label>
+              <input
+                id="username"
+                type="text"
+                value={formData.username}
+                onChange={(e) =>
+                  setFormData({ ...formData, username: e.target.value })
+                }
+                className={inputClassName}
+                placeholder="Enter your username"
+                required
+                autoComplete="username"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="password"
+                className="mb-2 block text-[13px] font-medium text-foreground"
+              >
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                  className={`${inputClassName} pr-12`}
+                  placeholder="Enter your password"
+                  required
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
+                  className="absolute top-1/2 right-4 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex w-full items-center justify-center rounded-md bg-primary py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {loading ? (
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+              ) : (
+                <>
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Sign In
+                </>
+              )}
+            </button>
+          </form>
+
+          <div className="mt-8 text-center">
+            <p className="text-sm text-muted-foreground">
+              Don&apos;t have an account?{" "}
+              <Link
+                href="/register"
+                className="font-semibold text-foreground hover:underline"
+              >
+                Create one now
+              </Link>
+            </p>
+          </div>
         </div>
-      </footer>
+      </div>
+
+      <div className="hidden flex-1 items-center justify-center border-l border-border bg-muted/40 p-12 lg:flex">
+        <div className="max-w-lg">
+          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-foreground">
+            Professional trading made simple
+          </h2>
+          <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+            Access institutional-grade market data, build intelligent
+            watchlists, and manage your portfolio with precision.
+          </p>
+          <ul className="space-y-3">
+            {[
+              "Real-time market data",
+              "Advanced analytics",
+              "Secure & reliable",
+            ].map((feature) => (
+              <li key={feature} className="flex items-center gap-2.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                <span className="text-sm text-foreground">{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
+}
+
+export default function HomePage() {
+  const router = useRouter();
+  const { isAuthenticated } = useAuthStore();
+  const hasHydrated = useHasHydrated();
+
+  useEffect(() => {
+    if (hasHydrated && isAuthenticated) {
+      router.replace("/dashboard");
+    }
+  }, [hasHydrated, isAuthenticated, router]);
+
+  if (!hasHydrated || isAuthenticated) {
+    return <LoadingSpinner message="Loading..." />;
+  }
+
+  return <LoginForm />;
 }

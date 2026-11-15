@@ -23,6 +23,14 @@ function clearRefreshSession(): void {
       method: "POST",
     })
     .catch(() => undefined);
+
+  void window
+    .fetch("/session", {
+      credentials: "same-origin",
+      keepalive: true,
+      method: "DELETE",
+    })
+    .catch(() => undefined);
 }
 
 export const useAuthStore = create<AuthState>()(
