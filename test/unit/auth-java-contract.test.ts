@@ -70,3 +70,25 @@ test("normalizer leaves failures untouched", () => {
   );
   assert.equal(isLoginResponse(failure), false);
 });
+
+test("login guard accepts Java null profile fields", () => {
+  // Users registered with username+password only come back with
+  // email/firstName/lastName as JSON null. The login page must accept
+  // that shape instead of reporting "invalid response".
+  const payload = normalizeAuthResponse("/api/auth/login", {
+    success: true,
+    message: null,
+    data: {
+      user: {
+        id: "user-2",
+        username: "noprofile",
+        email: null,
+        firstName: null,
+        lastName: null,
+      },
+      accessToken: "access-token",
+    },
+    errors: null,
+  });
+  assert.equal(isLoginResponse(payload), true);
+});

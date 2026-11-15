@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import toast from "react-hot-toast";
-import axios from "axios";
+import apiClient from "@/lib/api-client";
 import { formatNumber } from "./ui";
 
 export type OrderSide = "buy" | "sell";
@@ -50,20 +50,18 @@ export default function OrderTicketDialog({
     }
     setBusy(true);
     try {
-      await axios.post(
-        "/api/trades",
-        {
-          mode: "paper",
-          tradingType: "intraday",
-          instrument: "EQUITY",
-          tradingSymbol: symbol,
-          sector: "-",
-          industry: "-",
-          quantity: qty,
-          entryPrice: type === "market" ? price : at,
-        },
-        { withCredentials: true },
-      );
+      // apiClient (not raw axios) so the Bearer token is attached;
+      // raw axios calls arrive without Authorization and get a 401.
+      await apiClient.post("/api/trades", {
+        mode: "paper",
+        tradingType: "intraday",
+        instrument: "EQUITY",
+        tradingSymbol: symbol,
+        sector: "-",
+        industry: "-",
+        quantity: qty,
+        entryPrice: type === "market" ? price : at,
+      });
       toast.success(
         `Paper ${direction} recorded: ${qty} ${symbol} @ ₹${formatNumber(type === "market" ? price : at)}`,
       );
