@@ -6,7 +6,7 @@ export function DsTableContainer({ className, ...props }: React.ComponentProps<"
     <div
       data-slot="ds-table-container"
       className={cn(
-        "w-full overflow-hidden rounded-[10px] border border-border bg-card",
+        "w-full overflow-hidden rounded-[8px] border border-border bg-card shadow-[var(--card-shadow)]",
         className,
       )}
       {...props}

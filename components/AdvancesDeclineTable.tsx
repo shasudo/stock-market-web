@@ -512,7 +512,7 @@ export default function AdvancesDeclineTable(): ReactElement {
     <div className="w-full">
       <div className="w-full">
         {/* Breadth summary card */}
-        <div className="rounded-[10px] border border-border bg-card p-4 mb-4">
+        <div className="rounded-lg border border-border bg-card p-4 mb-4 shadow-[var(--card-shadow)]">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             <div>
               <h1 className="text-xl font-semibold tracking-tight text-foreground">
@@ -699,7 +699,7 @@ export default function AdvancesDeclineTable(): ReactElement {
           id="advance-decline-table"
           role="tabpanel"
           aria-labelledby={`${activeTab}-tab`}
-          className="overflow-hidden rounded-[10px] border border-border bg-card"
+          className="overflow-hidden rounded-lg border border-border bg-card shadow-[var(--card-shadow)]"
         >
           <div className="w-full overflow-x-auto">
             <table className="w-full border-collapse text-left text-[13px]">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Fraunces } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import TerminalShell from "@/components/shell/TerminalShell";
@@ -8,6 +8,12 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-display",
   display: "swap",
 });
 
@@ -22,7 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.variable} ${fraunces.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -38,24 +48,24 @@ export default function RootLayout({
             toastOptions={{
               duration: 4000,
               style: {
-                background: "#18181B",
-                color: "#FAFAFA",
-                border: "1px solid #27272A",
-                borderRadius: "10px",
+                background: "#221A12",
+                color: "#F8F5EF",
+                border: "1px solid #3A3129",
+                borderRadius: "8px",
                 padding: "14px 20px",
                 fontSize: "14px",
                 fontWeight: "500",
               },
               success: {
                 iconTheme: {
-                  primary: "#22C55E",
-                  secondary: "#FAFAFA",
+                  primary: "#1E8E4E",
+                  secondary: "#F8F5EF",
                 },
               },
               error: {
                 iconTheme: {
-                  primary: "#EF4444",
-                  secondary: "#FAFAFA",
+                  primary: "#C0392B",
+                  secondary: "#F8F5EF",
                 },
               },
             }}

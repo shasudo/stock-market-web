@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AuthGuard } from "@/components/common";
-import { motion } from "framer-motion";
+
 import { PieChart, Save, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -513,17 +513,13 @@ function PortfolioManagementContent() {
   };
 
   return (
-    <div className="min-h-screen bg-background py-6 pb-20">
-      <div className="w-full px-4 lg:px-8 py-8 md:py-12">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
+    <div className="pb-16">
+      <div className="w-full">
+        <div className="mb-6">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-4">
-              <div className="w-14 h-14 bg-purple/10 rounded-2xl flex items-center justify-center">
-                <PieChart className="w-7 h-7 text-violet-500" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-md border border-border bg-card">
+                <PieChart className="h-4 w-4 text-primary" />
               </div>
               <div>
                 <h1
@@ -580,14 +576,13 @@ function PortfolioManagementContent() {
               <Button
                 onClick={handleSave}
                 disabled={saving}
-                className="bg-violet-600 hover:bg-violet-700"
               >
                 <Save className="w-4 h-4 mr-2" />
                 {saving ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {}
         <div className="w-full mb-8 overflow-x-auto pb-2">

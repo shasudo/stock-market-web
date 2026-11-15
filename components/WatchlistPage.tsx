@@ -1126,7 +1126,7 @@ export function WatchlistCategoryBoard({
         /* Main Table Card */
         <div
           key={activeTab}
-          className="overflow-hidden rounded-[10px] border border-border bg-card"
+          className="overflow-hidden rounded-lg border border-border bg-card shadow-[var(--card-shadow)]"
         >
         <div className="flex flex-col gap-3 border-b border-border bg-muted/60 px-4 py-3 md:flex-row md:items-center md:justify-between">
           <h2

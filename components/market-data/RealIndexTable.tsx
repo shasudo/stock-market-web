@@ -86,7 +86,7 @@ export default function RealIndexTable({
       <div className="w-full">
         <div>
           {/* Header Card */}
-          <div className="rounded-[10px] border border-border bg-card p-4 mb-4">
+          <div className="rounded-lg border border-border bg-card p-4 mb-4 shadow-[var(--card-shadow)]">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex items-center gap-3">
                 <div className={`p-2.5 rounded-xl border border-primary/20 ${iconWrapperClassName}`}>

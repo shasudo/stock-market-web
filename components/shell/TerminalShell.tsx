@@ -67,7 +67,7 @@ export default function TerminalShell({ children }: { children: React.ReactNode 
               <BarChart3 className="h-4 w-4 text-primary-foreground" />
             </div>
             <div className="flex flex-col leading-none">
-              <span className="text-[14px] font-semibold tracking-tight">
+              <span className="font-display text-[17px] font-semibold tracking-tight">
                 StockMarket<span className="text-primary">Pro</span>
               </span>
               <span className="mt-0.5 text-[10px] font-medium tracking-wide text-muted-foreground uppercase">

@@ -471,7 +471,7 @@ function NotesContent() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-card rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden"
+              className="w-full max-w-lg overflow-hidden rounded-lg border border-border bg-card shadow-[var(--card-shadow)]"
             >
               {}
               <div className="flex items-center justify-between px-6 py-4 border-b border-border">
@@ -628,13 +628,8 @@ function NoteCard({
   const colorClasses = getColorClasses(note.color);
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      whileHover={{ y: -4 }}
-      className={`group relative rounded-2xl border ${colorClasses.border} ${colorClasses.bg} p-5 cursor-pointer transition-all hover:shadow-lg`}
+    <div
+      className={`group relative cursor-pointer rounded-lg border ${colorClasses.border} ${colorClasses.bg} p-5 transition-colors hover:border-foreground/25`}
       onClick={() => onEdit(note)}
     >
       {}
@@ -719,6 +714,6 @@ function NoteCard({
           </button>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

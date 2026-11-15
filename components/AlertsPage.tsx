@@ -475,7 +475,7 @@ function AlertsTable({
           {alerts.length}
         </span>
       </h2>
-      <div className="overflow-hidden rounded-[10px] border border-border bg-card">
+      <div className="overflow-hidden rounded-lg border border-border bg-card shadow-[var(--card-shadow)]">
         <div className="w-full overflow-x-auto">
           <table className="w-full border-collapse text-left text-[13px]">
             <thead className="sticky top-0 z-10 border-b border-border bg-muted/70">

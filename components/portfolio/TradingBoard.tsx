@@ -655,7 +655,7 @@ export function TradingBoard({
             })}
           </div>
 
-        <div className="overflow-hidden rounded-[10px] border border-border bg-card"
+        <div className="overflow-hidden rounded-lg border border-border bg-card shadow-[var(--card-shadow)]"
         >
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-muted/60 px-4 py-3">
             <h2

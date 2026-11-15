@@ -21,7 +21,7 @@ import type { MoodHistoryPoint } from "@/lib/market-mood/mood-index-client";
 
 const REFRESH_INTERVAL_MS = 60_000;
 const CARD =
-  "rounded-2xl border border-border/80 bg-card shadow-[0_2px_12px_rgba(0,0,0,0.04)]";
+  "rounded-lg border border-border bg-card shadow-[var(--card-shadow)]";
 
 /** Dark text on the light zone colors (yellow, lime), white on the rest. */
 function onZone(zone: MoodZone): string {
@@ -254,7 +254,7 @@ export default function MarketMoodPage() {
         />
 
         {errorMessage ? (
-          <p role="alert" className="mb-4 rounded-xl border border-orange-500/30 bg-orange-500/10 px-4 py-3 text-sm text-orange-700 dark:text-orange-300">
+          <p role="alert" className="mb-4 rounded-md border border-amber-600/25 bg-amber-500/10 px-4 py-3 text-[13px] text-amber-800 dark:border-amber-400/25 dark:bg-amber-400/10 dark:text-amber-300">
             {errorMessage}
             {snapshot ? " Showing the last loaded reading." : ""}
           </p>

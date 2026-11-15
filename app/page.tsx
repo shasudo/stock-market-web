@@ -92,7 +92,7 @@ export default function HomePage() {
             <span>Live NSE &amp; BSE Market Data Feed</span>
           </div>
 
-          <h1 className="mx-auto max-w-3xl text-4xl font-semibold tracking-tight text-foreground md:text-5xl">
+          <h1 className="mx-auto max-w-3xl font-display text-4xl font-semibold tracking-tight text-foreground md:text-[52px] md:leading-[1.05]">
             Institutional trading intelligence, engineered for clarity
           </h1>
 

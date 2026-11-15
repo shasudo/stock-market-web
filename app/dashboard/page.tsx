@@ -193,7 +193,7 @@ function DashboardContent() {
       {/* Top KPI Cards */}
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
         {/* Total Gainers */}
-        <div className="rounded-[10px] border border-border bg-card p-5">
+        <div className="rounded-lg border border-border bg-card p-5 shadow-[var(--card-shadow)]">
           <div className="mb-3 flex items-center justify-between">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
               Total Gainers
@@ -212,7 +212,7 @@ function DashboardContent() {
         </div>
 
         {/* Total Losers */}
-        <div className="rounded-[10px] border border-border bg-card p-5">
+        <div className="rounded-lg border border-border bg-card p-5 shadow-[var(--card-shadow)]">
           <div className="mb-3 flex items-center justify-between">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
               Total Losers
@@ -231,7 +231,7 @@ function DashboardContent() {
         </div>
 
         {/* Market Activity */}
-        <div className="rounded-[10px] border border-border bg-card p-5">
+        <div className="rounded-lg border border-border bg-card p-5 shadow-[var(--card-shadow)]">
           <div className="mb-3 flex items-center justify-between">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
               Market Breadth
@@ -255,7 +255,7 @@ function DashboardContent() {
       <div className="mb-6 grid gap-4 md:grid-cols-2">
         {/* Top Gainer Spotlight */}
         {stats?.topGainer && (
-          <div className="relative overflow-hidden rounded-[10px] border border-border bg-card p-5">
+          <div className="relative overflow-hidden rounded-lg border border-border bg-card p-5 shadow-[var(--card-shadow)]">
             <div className="mb-4 flex items-start justify-between">
               <div>
                 <span className="mb-2 inline-flex rounded-md border border-emerald-600/25 bg-emerald-600/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-800 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-300">
@@ -294,7 +294,7 @@ function DashboardContent() {
 
         {/* Top Loser Spotlight */}
         {stats?.topLoser && (
-          <div className="relative overflow-hidden rounded-[10px] border border-border bg-card p-5">
+          <div className="relative overflow-hidden rounded-lg border border-border bg-card p-5 shadow-[var(--card-shadow)]">
             <div className="mb-4 flex items-start justify-between">
               <div>
                 <span className="mb-2 inline-flex rounded-md border border-rose-600/25 bg-rose-600/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-rose-800 dark:border-rose-400/25 dark:bg-rose-400/10 dark:text-rose-300">
@@ -342,7 +342,7 @@ function DashboardContent() {
             <div key={action.href}>
               <Link
                 href={action.href}
-                className="group block rounded-[10px] border border-border bg-card p-4"
+                className="group block rounded-lg border border-border bg-card p-4 shadow-[var(--card-shadow)]"
               >
                 <div
                   className={`mb-3 flex h-9 w-9 items-center justify-center rounded-md ${action.bgColor}`}

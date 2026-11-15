@@ -5,7 +5,10 @@ export function DsCard({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="ds-card"
-      className={cn("rounded-[10px] border border-border bg-card", className)}
+      className={cn(
+        "rounded-[8px] border border-border bg-card shadow-[var(--card-shadow)]",
+        className,
+      )}
       {...props}
     />
   );

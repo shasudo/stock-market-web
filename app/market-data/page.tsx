@@ -93,7 +93,7 @@ export default function MarketDataPage() {
   return (
     <div>
       <div className="w-full">
-        <div className="overflow-hidden rounded-[10px] border border-border bg-card">
+        <div className="overflow-hidden rounded-lg border border-border bg-card shadow-[var(--card-shadow)]">
           <table className="w-full border-collapse">
             <thead>
               <tr>

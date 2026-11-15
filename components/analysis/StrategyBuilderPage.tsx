@@ -156,7 +156,7 @@ function StrategyBuilderContent() {
     <div>
       <div className="w-full">
         {/* Header Card */}
-        <div className="rounded-[10px] border border-border bg-card p-4 mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="rounded-lg border border-border bg-card p-4 mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-[var(--card-shadow)]">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-primary/20 shadow-lg">
               <Layers className="w-6 h-6" />
@@ -190,7 +190,7 @@ function StrategyBuilderContent() {
         </div>
 
         {/* Strategies Table Card */}
-        <div className="overflow-hidden rounded-[10px] border border-border bg-card"
+        <div className="overflow-hidden rounded-lg border border-border bg-card shadow-[var(--card-shadow)]"
         >
           <div className="flex items-center justify-between border-b border-border bg-muted/60 px-4 py-3">
             <h2 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">

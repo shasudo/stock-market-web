@@ -149,8 +149,8 @@ function HoldingsContent() {
           />
         </div>
 
-        <div className="rounded-2xl border border-border/90 bg-card shadow-xs overflow-hidden">
-          <div className="overflow-x-auto">
+        <div className="overflow-hidden rounded-lg border border-border bg-card shadow-[var(--card-shadow)]">
+          <div className="w-full overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border">

@@ -957,7 +957,7 @@ export default function HistoricalDataPage() {
       <div className="w-full">
         <div
           ref={stockPickerRef}
-          className="relative mb-4 rounded-[10px] border border-border bg-card p-4"
+          className="relative mb-4 rounded-lg border border-border bg-card p-4 shadow-[var(--card-shadow)]"
         >
           {selectedStock && !isPickerOpen ? (
             <div className="flex items-center gap-3 flex-wrap">
