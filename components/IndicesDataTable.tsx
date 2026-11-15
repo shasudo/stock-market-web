@@ -2,7 +2,18 @@
 
 import React, { useState } from "react";
 import { SearchInput, matchesSearch } from "@/components/common/SearchInput";
-import { getChangeColorClasses, appleTableStyles } from "@/lib/table-styles";
+import {
+  DsTableContainer,
+  DsTableScroll,
+  DsTable,
+  DsTableHeader,
+  DsTableBody,
+  DsRow,
+  DsHead,
+  DsCell,
+  DsNumCell,
+  ChangePill,
+} from "@/components/ds";
 
 export interface IndexData {
   name: string;
@@ -70,10 +81,10 @@ export default function IndicesDataTable({
   const visibleData = data.filter((index) => matchesSearch(search, index.name));
 
   return (
-    <div className={appleTableStyles.container}>
+    <DsTableContainer>
       {/* Title & Toolbar */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-5 py-4 bg-muted/80 border-b border-border/90">
-        <span className="text-foreground font-bold text-xs md:text-sm tracking-tight">
+      <div className="flex flex-col gap-3 border-b border-border bg-muted/60 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <span className="text-[13px] font-semibold tracking-tight text-foreground">
           {title} ({visibleData.length})
         </span>
         <div className="flex items-center gap-3">
@@ -82,21 +93,21 @@ export default function IndicesDataTable({
             onChange={setSearch}
             placeholder="Search index..."
             className="relative w-48"
-            inputClassName="w-full rounded-xl border border-border/90 bg-card py-1.5 pl-7 pr-7 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary/30 focus:ring-1 focus:ring-ring/30 focus:outline-none shadow-xs"
           />
           <div className="flex items-center gap-1.5">
-            <span className="text-xs text-muted-foreground font-medium">
-              Live
-            </span>
-            {/* iOS Style Switch */}
+            <span className="text-xs font-medium text-muted-foreground">Live</span>
             <button
+              type="button"
+              role="switch"
+              aria-checked={streaming}
+              aria-label="Toggle live streaming"
               onClick={() => onStreamingChange(!streaming)}
               className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-                streaming ? "bg-[#34C759]" : "bg-black/[0.12]"
+                streaming ? "bg-primary" : "bg-muted-foreground/30"
               }`}
             >
               <span
-                className={`inline-block h-3.5 w-3.5 transform rounded-full bg-card shadow-xs transition-transform ${
+                className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform ${
                   streaming ? "translate-x-4.5" : "translate-x-1"
                 }`}
               />
@@ -105,133 +116,79 @@ export default function IndicesDataTable({
         </div>
       </div>
 
-      <div className={appleTableStyles.scrollWrapper}>
-        <table className={appleTableStyles.table}>
-          <thead className={appleTableStyles.thead}>
-            <tr>
-              <th className="px-4 py-3.5 text-[11px] font-bold text-foreground uppercase tracking-[0.06em] min-w-[160px] select-none">
-                Index
-              </th>
-              <th className="px-4 py-3.5 text-[11px] font-bold text-foreground uppercase tracking-[0.06em] text-right min-w-[100px] select-none">
-                Current
-              </th>
-              <th className="px-4 py-3.5 text-[11px] font-bold text-foreground uppercase tracking-[0.06em] text-right min-w-[80px] select-none">
-                % Change
-              </th>
-              <th className="px-4 py-3.5 text-[11px] font-bold text-muted-foreground uppercase tracking-[0.06em] text-right min-w-[90px] select-none">
-                Open
-              </th>
-              <th className="px-4 py-3.5 text-[11px] font-bold text-muted-foreground uppercase tracking-[0.06em] text-right min-w-[90px] select-none">
-                High
-              </th>
-              <th className="px-4 py-3.5 text-[11px] font-bold text-muted-foreground uppercase tracking-[0.06em] text-right min-w-[90px] select-none">
-                Low
-              </th>
-              <th className="px-4 py-3.5 text-[11px] font-bold text-muted-foreground uppercase tracking-[0.06em] text-right min-w-[90px] select-none">
-                Prev Close
-              </th>
-              <th className="px-4 py-3.5 text-[11px] font-bold text-muted-foreground uppercase tracking-[0.06em] text-right min-w-[100px] select-none">
+      <DsTableScroll>
+        <DsTable>
+          <DsTableHeader>
+            <DsRow>
+              <DsHead>Index</DsHead>
+              <DsHead align="right">Current</DsHead>
+              <DsHead align="right">% Change</DsHead>
+              <DsHead align="right">Open</DsHead>
+              <DsHead align="right">High</DsHead>
+              <DsHead align="right">Low</DsHead>
+              <DsHead align="right">Prev Close</DsHead>
+              <DsHead align="right">
                 <div>Prev Day</div>
-                <div className="text-[10px] font-normal text-muted-foreground">
+                <div className="text-[10px] font-normal normal-case tracking-normal">
                   {getDateLabel(1)}
                 </div>
-              </th>
-              <th className="px-4 py-3.5 text-[11px] font-bold text-muted-foreground uppercase tracking-[0.06em] text-right min-w-[100px] select-none">
+              </DsHead>
+              <DsHead align="right">
                 <div>1W Ago</div>
-                <div className="text-[10px] font-normal text-muted-foreground">
+                <div className="text-[10px] font-normal normal-case tracking-normal">
                   {getDateLabel(7)}
                 </div>
-              </th>
-              <th className="px-4 py-3.5 text-[11px] font-bold text-muted-foreground uppercase tracking-[0.06em] text-right min-w-[100px] select-none">
+              </DsHead>
+              <DsHead align="right">
                 <div>1M Ago</div>
-                <div className="text-[10px] font-normal text-muted-foreground">
+                <div className="text-[10px] font-normal normal-case tracking-normal">
                   {getDateLabel(30)}
                 </div>
-              </th>
-              <th className="px-4 py-3.5 text-[11px] font-bold text-muted-foreground uppercase tracking-[0.06em] text-right min-w-[100px] select-none">
+              </DsHead>
+              <DsHead align="right">
                 <div>1Y Ago</div>
-                <div className="text-[10px] font-normal text-muted-foreground">
+                <div className="text-[10px] font-normal normal-case tracking-normal">
                   {getDateLabel(365)}
                 </div>
-              </th>
-              <th className="px-4 py-3.5 text-[11px] font-bold text-muted-foreground uppercase tracking-[0.06em] text-right min-w-[90px] select-none">
-                52W High
-              </th>
-              <th className="px-4 py-3.5 text-[11px] font-bold text-muted-foreground uppercase tracking-[0.06em] text-right min-w-[90px] select-none">
-                52W Low
-              </th>
-            </tr>
-          </thead>
-          <tbody className={appleTableStyles.tbody}>
+              </DsHead>
+              <DsHead align="right">52W High</DsHead>
+              <DsHead align="right">52W Low</DsHead>
+            </DsRow>
+          </DsTableHeader>
+          <DsTableBody>
             {visibleData.length === 0 && (
-              <tr>
-                <td colSpan={13} className="px-4 py-20 text-center text-xs text-muted-foreground font-medium">
+              <DsRow>
+                <DsCell colSpan={13} align="center" className="py-20 text-xs font-medium text-muted-foreground">
                   {search.trim()
                     ? `No indices match "${search.trim()}".`
                     : "No index data available."}
-                </td>
-              </tr>
+                </DsCell>
+              </DsRow>
             )}
-            {visibleData.map((idx) => {
-              const isGainer = idx.changePercent >= 0;
-
-              return (
-                <tr
-                  key={idx.name}
-                  className="finder-row transition-colors border-b border-border/80 hover:bg-primary/10 even:bg-card odd:bg-muted/50 group"
-                >
-                  <td className="px-4 py-3 text-foreground font-bold hover:text-primary cursor-pointer whitespace-nowrap">
-                    {idx.name}
-                  </td>
-                  <td className="px-4 py-3 text-right font-mono font-bold text-foreground num-font whitespace-nowrap">
-                    {formatNumber(idx.current)}
-                  </td>
-                  <td className="px-4 py-3 text-right whitespace-nowrap">
-                    <span
-                      className={
-                        isGainer ? "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-mono font-bold border num-font bg-success/10 text-success border-success/30" : "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-mono font-bold border num-font bg-error/10 text-error border-error/30"
-                      }
-                    >
-                      {isGainer ? "+" : ""}
-                      {idx.changePercent.toFixed(2)}%
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-right font-mono text-muted-foreground num-font whitespace-nowrap">
-                    {formatNumber(idx.open)}
-                  </td>
-                  <td className="px-4 py-3 text-right font-mono text-muted-foreground num-font whitespace-nowrap">
-                    {formatNumber(idx.high)}
-                  </td>
-                  <td className="px-4 py-3 text-right font-mono text-muted-foreground num-font whitespace-nowrap">
-                    {formatNumber(idx.low)}
-                  </td>
-                  <td className="px-4 py-3 text-right font-mono text-muted-foreground num-font whitespace-nowrap">
-                    {formatNumber(idx.prevClose)}
-                  </td>
-                  <td className="px-4 py-3 text-right font-mono text-muted-foreground num-font whitespace-nowrap">
-                    {formatNumber(idx.prevDay)}
-                  </td>
-                  <td className="px-4 py-3 text-right font-mono text-muted-foreground num-font whitespace-nowrap">
-                    {formatNumber(idx.oneWeekAgo)}
-                  </td>
-                  <td className="px-4 py-3 text-right font-mono text-muted-foreground num-font whitespace-nowrap">
-                    {formatNumber(idx.oneMonthAgo)}
-                  </td>
-                  <td className="px-4 py-3 text-right font-mono text-muted-foreground num-font whitespace-nowrap">
-                    {formatNumber(idx.oneYearAgo)}
-                  </td>
-                  <td className="px-4 py-3 text-right font-mono text-muted-foreground num-font whitespace-nowrap">
-                    {formatNumber(idx.fiftyTwoWeekHigh)}
-                  </td>
-                  <td className="px-4 py-3 text-right font-mono text-muted-foreground num-font whitespace-nowrap">
-                    {formatNumber(idx.fiftyTwoWeekLow)}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
+            {visibleData.map((idx) => (
+              <DsRow key={idx.name}>
+                <DsCell className="font-semibold">{idx.name}</DsCell>
+                <DsNumCell className="font-bold">{formatNumber(idx.current)}</DsNumCell>
+                <DsNumCell>
+                  <div className="flex items-center justify-end">
+                    <ChangePill value={idx.changePercent} />
+                  </div>
+                </DsNumCell>
+                <DsNumCell className="font-normal text-muted-foreground">{formatNumber(idx.open)}</DsNumCell>
+                <DsNumCell className="font-normal text-muted-foreground">{formatNumber(idx.high)}</DsNumCell>
+                <DsNumCell className="font-normal text-muted-foreground">{formatNumber(idx.low)}</DsNumCell>
+                <DsNumCell className="font-normal text-muted-foreground">{formatNumber(idx.prevClose)}</DsNumCell>
+                <DsNumCell className="font-normal text-muted-foreground">{formatNumber(idx.prevDay)}</DsNumCell>
+                <DsNumCell className="font-normal text-muted-foreground">{formatNumber(idx.oneWeekAgo)}</DsNumCell>
+                <DsNumCell className="font-normal text-muted-foreground">{formatNumber(idx.oneMonthAgo)}</DsNumCell>
+                <DsNumCell className="font-normal text-muted-foreground">{formatNumber(idx.oneYearAgo)}</DsNumCell>
+                <DsNumCell className="font-normal text-muted-foreground">{formatNumber(idx.fiftyTwoWeekHigh)}</DsNumCell>
+                <DsNumCell className="font-normal text-muted-foreground">{formatNumber(idx.fiftyTwoWeekLow)}</DsNumCell>
+              </DsRow>
+            ))}
+          </DsTableBody>
+        </DsTable>
+      </DsTableScroll>
+    </DsTableContainer>
   );
 }

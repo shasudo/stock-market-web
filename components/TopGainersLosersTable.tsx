@@ -6,7 +6,22 @@ import type { TopGainerLoserStock } from "@/lib/mockData";
 import { DataFreshness } from "@/components/common/DataFreshness";
 import { StockActionsMenu } from "@/components/common/StockActionsMenu";
 import { SearchInput, matchesSearch } from "@/components/common/SearchInput";
-import { getChangeColorClasses, getGroupBadgeClasses, appleTableStyles } from "@/lib/table-styles";
+import {
+  DsTableContainer,
+  DsTableScroll,
+  DsTable,
+  DsTableHeader,
+  DsTableBody,
+  DsRow,
+  DsHead,
+  DsCell,
+  DsNumCell,
+  DsCard,
+  DsBadge,
+  ChangePill,
+  ChangeText,
+} from "@/components/ds";
+import { cn } from "@/lib/utils";
 
 interface TopGainersLosersTableProps {
   data: TopGainerLoserStock[];
@@ -151,19 +166,24 @@ const SparklineChart = ({
     })
     .join(" ");
 
-  const strokeColor = isGainer ? "#34C759" : "#FF3B30";
-
   return (
-    <svg width={width} height={height} className="inline-block overflow-visible">
-      <polyline
-        fill="none"
-        stroke={strokeColor}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        points={points}
-      />
-    </svg>
+    <span
+      className={cn(
+        "inline-block",
+        isGainer ? "text-emerald-700 dark:text-emerald-300" : "text-rose-700 dark:text-rose-300",
+      )}
+    >
+      <svg width={width} height={height} className="block overflow-visible" aria-hidden="true">
+        <polyline
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          points={points}
+        />
+      </svg>
+    </span>
   );
 };
 
@@ -222,265 +242,204 @@ export default function TopGainersLosersTable({
   const description = currentCategoryInfo.description;
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
-        {/* Apple Segmented Control Category Switcher */}
-        <div className="mb-6 overflow-x-auto scrollbar-thin pb-2">
-          <div className="flex items-center gap-1 flex-wrap">
-            {categoryTabs.map((tab) => {
-              const isActive = type === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => router.push(tab.href)}
-                  className={`text-xs px-3.5 py-1.5 whitespace-nowrap transition-all ${
-                    isActive ? "bg-primary text-primary-foreground shadow-xs shadow-primary/20 flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold transition-colors whitespace-nowrap" : "text-muted-foreground hover:bg-muted hover:text-foreground flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold transition-colors whitespace-nowrap"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Toolbar Header Card */}
-        <div className="rounded-2xl border border-border bg-card shadow-xs p-6 mb-6">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-3 flex-wrap">
-                <h1 className="text-2xl md:text-3xl font-extrabold tracking-[-0.035em] text-foreground">
-                  {title}
-                </h1>
-                <span className="px-2.5 py-0.5 rounded-lg text-[11px] font-bold bg-primary/10 dark:bg-indigo-400/10 text-primary dark:text-indigo-300 border border-primary/30 dark:border-indigo-400/30">
-                  {selectedExchange}
-                </span>
-                <DataFreshness lastSyncAt={lastSyncAt} className="text-xs text-muted-foreground" />
-              </div>
-              <p className="text-xs md:text-sm text-muted-foreground font-medium mt-1 max-w-3xl leading-relaxed">
-                {description}
-              </p>
-            </div>
-
-            {/* Apple Controls */}
-            <div className="flex items-center gap-3 flex-wrap">
-              {/* Apple Segmented Exchange Switcher */}
-              <div className="flex items-center gap-1 flex-wrap">
-                {(["NSE", "BSE"] as const).map((ex) => (
-                  <button
-                    key={ex}
-                    type="button"
-                    onClick={() => handleExchangeChange(ex)}
-                    className={`text-xs px-3.5 py-1.5 transition-all ${
-                      selectedExchange === ex
-                        ? "bg-primary text-primary-foreground shadow-xs shadow-primary/20"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                    }`}
-                  >
-                    {ex}
-                  </button>
-                ))}
-              </div>
-
-              {/* Search Box */}
-              <SearchInput
-                value={search}
-                onChange={setSearch}
-                placeholder="Search symbol, sector..."
-                className="relative w-56 md:w-64"
-                matchCount={visibleData.length}
-                totalCount={data.length}
-              />
-            </div>
-          </div>
-        </div>
-
-        {unavailableReason ? (
-          <div className="mb-6 rounded-2xl border border-warning/30 dark:border-amber-400/30 bg-warning/10 dark:bg-amber-400/10 p-4 text-xs font-semibold text-warning dark:text-amber-300">
-            {unavailableReason}
-          </div>
-        ) : null}
-
-        {/* Apple Table Card Container */}
-        <div className={appleTableStyles.container}>
-          <div className={appleTableStyles.scrollWrapper}>
-            <table className={appleTableStyles.table}>
-              <thead className={appleTableStyles.thead}>
-                <tr>
-                  <th className="px-3 py-2.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-center w-12 select-none">
-                    #
-                  </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider select-none">
-                    Symbol / Company
-                  </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider select-none">
-                    Sector
-                  </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-center select-none">
-                    Group
-                  </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-center select-none">
-                    Band
-                  </th>
-                  <th className={appleTableStyles.thRight}>
-                    Mkt Cap
-                  </th>
-                  <th className={appleTableStyles.thRight}>
-                    Prev Close
-                  </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-right select-none">
-                    LTP (₹)
-                  </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-right select-none">
-                    Change
-                  </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-right select-none">
-                    % Change
-                  </th>
-                  <th className="px-3 py-2.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-center select-none w-24">
-                    Trend (7D)
-                  </th>
-                </tr>
-              </thead>
-              <tbody className={appleTableStyles.tbody}>
-                {visibleData.length === 0 && !unavailableReason ? (
-                  <tr>
-                    <td
-                      colSpan={11}
-                      className="px-6 py-20 text-center text-xs text-muted-foreground font-medium"
-                    >
-                      {search.trim()
-                        ? `No equities match "${search.trim()}".`
-                        : "No equities currently qualify for this filter."}
-                    </td>
-                  </tr>
-                ) : null}
-                {visibleData.map((stock, index) => {
-                  const changeClasses = getChangeColorClasses(stock.changePercent);
-                  const isStockGainer = (stock.changePercent ?? 0) >= 0;
-
-                  return (
-                    <tr
-                      key={stock.id}
-                      className="finder-row transition-colors border-b border-border hover:bg-primary/10 even:bg-card odd:bg-muted/50 group"
-                    >
-                      {/* Serial Number */}
-                      <td className="px-3 py-2.5 text-center text-xs font-semibold text-muted-foreground num-font">
-                        {index + 1}
-                      </td>
-
-                      {/* Company & Symbol */}
-                      <td className="px-3 py-2.5 whitespace-nowrap">
-                        <div className="flex items-center justify-between gap-3">
-                          <div
-                            onClick={() =>
-                              router.push(`/stock/${encodeURIComponent(stock.symbol)}`)
-                            }
-                            className="cursor-pointer group/link"
-                          >
-                            <span className="font-bold text-foreground group-hover/link:text-primary dark:text-indigo-400 transition-colors block text-xs md:text-sm">
-                              {stock.stockName}
-                            </span>
-                            <span className="text-[10px] font-mono font-semibold text-muted-foreground uppercase">
-                              {stock.symbol}
-                            </span>
-                          </div>
-                          <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                            <StockActionsMenu
-                              stock={{
-                                symbol: stock.symbol,
-                                name: stock.stockName,
-                                ltp: stock.price,
-                                sector: stock.sector,
-                                industry: stock.industry,
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Sector & Industry */}
-                      <td className="px-3 py-2.5 whitespace-nowrap">
-                        <span className="text-xs font-semibold text-foreground block">
-                          {stock.sector && stock.sector !== "-" ? stock.sector : "—"}
-                        </span>
-                        <span className="text-[10px] text-muted-foreground block">
-                          {stock.industry && stock.industry !== "-" ? stock.industry : ""}
-                        </span>
-                      </td>
-
-                      {/* Group Badge */}
-                      <td className="px-3 py-2.5 text-center whitespace-nowrap">
-                        <span
-                          className={`inline-flex px-2 py-0.5 text-[10px] font-bold rounded-md ${getGroupBadgeClasses(
-                            stock.group || "",
-                          )}`}
-                        >
-                          {stock.group || "EQ"}
-                        </span>
-                      </td>
-
-                      {/* Price Band */}
-                      <td className="px-3 py-2.5 text-center text-xs text-muted-foreground font-mono num-font whitespace-nowrap">
-                        {stock.priceBand !== undefined ? (
-                          <span className="px-1.5 py-0.5 rounded-md bg-muted text-muted-foreground text-[10px] font-semibold">
-                            {stock.priceBand}%
-                          </span>
-                        ) : (
-                          "—"
-                        )}
-                      </td>
-
-                      {/* Market Cap */}
-                      <td className="px-3 py-2.5 text-right text-xs font-mono font-medium text-foreground num-font whitespace-nowrap">
-                        {stock.mktCap || "—"}
-                      </td>
-
-                      {/* Previous Close */}
-                      <td className="px-3 py-2.5 text-right text-xs font-mono text-muted-foreground num-font whitespace-nowrap">
-                        ₹{(stock.preClose ?? stock.price - stock.change).toFixed(2)}
-                      </td>
-
-                      {/* LTP */}
-                      <td className="px-3 py-2.5 text-right text-xs font-mono font-bold text-foreground num-font whitespace-nowrap">
-                        ₹{stock.price.toFixed(2)}
-                      </td>
-
-                      {/* Net Change */}
-                      <td className="px-3 py-2.5 text-right text-xs font-mono font-semibold num-font whitespace-nowrap">
-                        <span className={changeClasses.text}>
-                          {isStockGainer ? "+" : ""}₹{stock.change.toFixed(2)}
-                        </span>
-                      </td>
-
-                      {/* Apple Stocks-Style % Change Pill */}
-                      <td className="px-3 py-2.5 text-right whitespace-nowrap">
-                        <span
-                          className={
-                            changeClasses.pill
-                          }
-                        >
-                          {isStockGainer ? "+" : ""}
-                          {stock.changePercent.toFixed(2)}%
-                        </span>
-                      </td>
-
-                      {/* Sparkline Trend */}
-                      <td className="px-3 py-2.5 text-center whitespace-nowrap">
-                        <SparklineChart
-                          data={stock.sparklineData}
-                          isGainer={isStockGainer}
-                        />
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+    <div>
+      {/* Category switcher */}
+      <div className="mb-4 overflow-x-auto pb-1">
+        <div className="apple-segmented-group">
+          {categoryTabs.map((tab) => {
+            const isActive = type === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => router.push(tab.href)}
+                aria-current={isActive ? "page" : undefined}
+                className={cn(
+                  "apple-segmented-item text-xs whitespace-nowrap",
+                  isActive && "apple-segmented-item-active",
+                )}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
       </div>
+
+      {/* Toolbar header card */}
+      <DsCard className="mb-4 p-4">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-xl font-semibold tracking-tight text-foreground">
+                {title}
+              </h1>
+              <DsBadge tone="blue">{selectedExchange}</DsBadge>
+              <DataFreshness lastSyncAt={lastSyncAt} className="text-xs text-muted-foreground" />
+            </div>
+            <p className="mt-1 max-w-3xl text-[13px] leading-relaxed text-muted-foreground">
+              {description}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="apple-segmented-group" role="group" aria-label="Exchange">
+              {(["NSE", "BSE"] as const).map((ex) => (
+                <button
+                  key={ex}
+                  type="button"
+                  onClick={() => handleExchangeChange(ex)}
+                  aria-pressed={selectedExchange === ex}
+                  className={cn(
+                    "apple-segmented-item text-xs",
+                    selectedExchange === ex && "apple-segmented-item-active",
+                  )}
+                >
+                  {ex}
+                </button>
+              ))}
+            </div>
+
+            <SearchInput
+              value={search}
+              onChange={setSearch}
+              placeholder="Search symbol, sector..."
+              className="relative w-56 md:w-64"
+              matchCount={visibleData.length}
+              totalCount={data.length}
+            />
+          </div>
+        </div>
+      </DsCard>
+
+      {unavailableReason ? (
+        <div className="mb-4 rounded-[10px] border border-amber-600/25 bg-amber-500/10 p-3 text-xs font-medium text-amber-800 dark:border-amber-400/25 dark:bg-amber-400/10 dark:text-amber-300">
+          {unavailableReason}
+        </div>
+      ) : null}
+
+      {/* Table */}
+      <DsTableContainer>
+        <DsTableScroll>
+          <DsTable>
+            <DsTableHeader>
+              <DsRow>
+                <DsHead align="center">#</DsHead>
+                <DsHead>Symbol / Company</DsHead>
+                <DsHead>Sector</DsHead>
+                <DsHead align="center">Group</DsHead>
+                <DsHead align="center">Band</DsHead>
+                <DsHead align="right">Mkt Cap</DsHead>
+                <DsHead align="right">Prev Close</DsHead>
+                <DsHead align="right">LTP (₹)</DsHead>
+                <DsHead align="right">Change</DsHead>
+                <DsHead align="right">% Change</DsHead>
+                <DsHead align="center">Trend (7D)</DsHead>
+              </DsRow>
+            </DsTableHeader>
+            <DsTableBody>
+              {visibleData.length === 0 && !unavailableReason ? (
+                <DsRow>
+                  <DsCell colSpan={11} align="center" className="py-20 text-xs font-medium text-muted-foreground">
+                    {search.trim()
+                      ? `No equities match "${search.trim()}".`
+                      : "No equities currently qualify for this filter."}
+                  </DsCell>
+                </DsRow>
+              ) : null}
+              {visibleData.map((stock, index) => {
+                const isStockGainer = (stock.changePercent ?? 0) >= 0;
+
+                return (
+                  <DsRow key={stock.id} className="group">
+                    <DsNumCell align="center" className="font-semibold text-muted-foreground">
+                      {index + 1}
+                    </DsNumCell>
+
+                    <DsCell>
+                      <div className="flex items-center justify-between gap-3">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            router.push(`/stock/${encodeURIComponent(stock.symbol)}`)
+                          }
+                          className="group/link cursor-pointer text-left"
+                        >
+                          <span className="block text-[13px] font-semibold text-foreground group-hover/link:text-primary">
+                            {stock.stockName}
+                          </span>
+                          <span className="block font-mono text-[10px] font-semibold tracking-wide text-muted-foreground uppercase">
+                            {stock.symbol}
+                          </span>
+                        </button>
+                        <div className="opacity-0 transition-opacity group-hover:opacity-100">
+                          <StockActionsMenu
+                            stock={{
+                              symbol: stock.symbol,
+                              name: stock.stockName,
+                              ltp: stock.price,
+                              sector: stock.sector,
+                              industry: stock.industry,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </DsCell>
+
+                    <DsCell>
+                      <span className="block text-[13px] font-semibold text-foreground">
+                        {stock.sector && stock.sector !== "-" ? stock.sector : "—"}
+                      </span>
+                      <span className="block text-[11px] text-muted-foreground">
+                        {stock.industry && stock.industry !== "-" ? stock.industry : ""}
+                      </span>
+                    </DsCell>
+
+                    <DsCell align="center">
+                      <DsBadge>{stock.group || "EQ"}</DsBadge>
+                    </DsCell>
+
+                    <DsCell align="center" className="tabular-nums">
+                      {stock.priceBand !== undefined ? (
+                        <DsBadge>{stock.priceBand}%</DsBadge>
+                      ) : (
+                        <span className="text-muted-foreground">—</span>
+                      )}
+                    </DsCell>
+
+                    <DsNumCell>{stock.mktCap || "—"}</DsNumCell>
+
+                    <DsNumCell className="font-normal text-muted-foreground">
+                      ₹{(stock.preClose ?? stock.price - stock.change).toFixed(2)}
+                    </DsNumCell>
+
+                    <DsNumCell className="font-bold">₹{stock.price.toFixed(2)}</DsNumCell>
+
+                    <DsNumCell>
+                      <ChangeText value={stock.change}>
+                        {isStockGainer ? "+" : ""}₹{stock.change.toFixed(2)}
+                      </ChangeText>
+                    </DsNumCell>
+
+                    <DsNumCell>
+                      <div className="flex items-center justify-end">
+                        <ChangePill value={stock.changePercent} />
+                      </div>
+                    </DsNumCell>
+
+                    <DsCell align="center">
+                      <SparklineChart
+                        data={stock.sparklineData}
+                        isGainer={isStockGainer}
+                      />
+                    </DsCell>
+                  </DsRow>
+                );
+              })}
+            </DsTableBody>
+          </DsTable>
+        </DsTableScroll>
+      </DsTableContainer>
     </div>
   );
 }
-
