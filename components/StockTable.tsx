@@ -2,7 +2,11 @@
 
 import type { Stock } from "@/lib/mockData";
 import { TrendingUp, TrendingDown } from "lucide-react";
-import { motion } from "framer-motion";
+import {
+  appleTableStyles,
+  getChangeColorClasses,
+  getGroupBadgeClasses,
+} from "@/lib/table-styles";
 
 interface StockTableProps {
   stocks: Stock[];
@@ -15,12 +19,15 @@ function TrendSparkline({ positive }: { positive: boolean }) {
     : "0,0 10,2 20,4 30,3 40,8 50,10 60,12 70,14 80,16 90,18 100,20";
 
   return (
-    <div className="w-16 h-5">
+    <div className="w-16 h-5" aria-hidden="true">
       <svg viewBox="0 0 100 20" className="w-full h-full">
         <polyline
           fill="none"
-          stroke={positive ? "#10b981" : "#ef4444"}
-          strokeWidth="2"
+          stroke={positive ? "#059669" : "#e11d48"}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          opacity="0.85"
           points={points}
         />
       </svg>
@@ -30,143 +37,86 @@ function TrendSparkline({ positive }: { positive: boolean }) {
 
 export default function StockTable({ stocks, type }: StockTableProps) {
   return (
-    <div className="bg-background border border-border rounded-xl overflow-hidden shadow-luxury">
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-border">
-              <th className="px-2 py-2 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                #
-              </th>
-              <th className="px-2 py-2 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Company
-              </th>
-              <th className="px-2 py-2 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Sector
-              </th>
-              <th className="px-2 py-2 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Industry
-              </th>
-              <th className="px-2 py-2 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Group
-              </th>
-              <th className="px-2 py-2 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Face Value
-              </th>
-              <th className="px-2 py-2 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Price Band
-              </th>
-              <th className="px-2 py-2 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Mkt Cap
-              </th>
-              <th className="px-2 py-2 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Pre Close
-              </th>
-              <th className="px-2 py-2 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                LTP
-              </th>
-              <th className="px-2 py-2 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Net Change
-              </th>
-              <th className="px-2 py-2 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                % Change
-              </th>
-              <th className="px-2 py-2 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Trend
-              </th>
+    <div className={appleTableStyles.container}>
+      <div className={appleTableStyles.scrollWrapper}>
+        <table className={appleTableStyles.table}>
+          <thead className={appleTableStyles.thead}>
+            <tr>
+              <th className={appleTableStyles.thCenter}>#</th>
+              <th className={appleTableStyles.th}>Company</th>
+              <th className={appleTableStyles.th}>Sector</th>
+              <th className={appleTableStyles.th}>Industry</th>
+              <th className={appleTableStyles.thCenter}>Group</th>
+              <th className={appleTableStyles.thCenter}>Face Value</th>
+              <th className={appleTableStyles.th}>Price Band</th>
+              <th className={appleTableStyles.th}>Mkt Cap</th>
+              <th className={appleTableStyles.thRight}>Pre Close</th>
+              <th className={appleTableStyles.thRight}>LTP</th>
+              <th className={appleTableStyles.thRight}>Net Change</th>
+              <th className={appleTableStyles.thRight}>% Change</th>
+              <th className={appleTableStyles.thCenter}>Trend</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-border">
-            {stocks.map((stock, index) => (
-              <motion.tr
-                key={stock.sNo}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.02 }}
-                className="hover:bg-secondary/50 transition-colors group"
-              >
-                {/* Position in the rendered list, so any filtering upstream
+          <tbody className={appleTableStyles.tbody}>
+            {stocks.map((stock, index) => {
+              const change = getChangeColorClasses(stock.percentInChange);
+              const TrendIcon =
+                stock.percentInChange >= 0 ? TrendingUp : TrendingDown;
+              return (
+                <tr key={stock.sNo} className={appleTableStyles.row}>
+                  {/* Position in the rendered list, so any filtering upstream
                     still numbers 1, 2, 3. */}
-                <td className="px-2 py-1.5 text-xs text-muted-foreground font-medium">
-                  {index + 1}
-                </td>
-                <td className="px-2 py-1.5">
-                  <div className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
-                    {stock.company}
-                  </div>
-                </td>
-                <td className="px-2 py-1.5 text-xs text-muted-foreground">
-                  {stock.sector}
-                </td>
-                <td className="px-2 py-1.5 text-xs text-muted-foreground">
-                  {stock.industry}
-                </td>
-                <td className="px-2 py-1.5">
-                  <div className="flex justify-center">
-                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-secondary border border-border text-foreground">
-                      {stock.group}
+                  <td className={appleTableStyles.tdMuted}>{index + 1}</td>
+                  <td className={appleTableStyles.tdBold}>{stock.company}</td>
+                  <td className={appleTableStyles.tdMuted}>{stock.sector}</td>
+                  <td className={appleTableStyles.tdMuted}>{stock.industry}</td>
+                  <td className={appleTableStyles.td}>
+                    <div className="flex justify-center">
+                      <span className={getGroupBadgeClasses(stock.group)}>
+                        {stock.group}
+                      </span>
+                    </div>
+                  </td>
+                  <td className={appleTableStyles.tdMuted}>
+                    <div className="flex justify-center num-font">
+                      ₹{stock.faceValue}
+                    </div>
+                  </td>
+                  <td className={appleTableStyles.tdMuted}>
+                    <span className={change.text}>{stock.priceBand}</span>
+                  </td>
+                  <td className={appleTableStyles.tdMuted}>
+                    {stock.mktCapital}
+                  </td>
+                  <td className={appleTableStyles.tdMono}>
+                    ₹{stock.preClose.toFixed(2)}
+                  </td>
+                  <td className={appleTableStyles.tdMono}>
+                    ₹{stock.ltp.toFixed(2)}
+                  </td>
+                  <td className={appleTableStyles.tdMono}>
+                    <span className={change.text}>
+                      {stock.netChange >= 0 ? "+" : ""}₹
+                      {stock.netChange.toFixed(2)}
                     </span>
-                  </div>
-                </td>
-                <td className="px-2 py-1.5 text-center">
-                  <span className="text-xs font-medium text-muted-foreground">
-                    ₹{stock.faceValue}
-                  </span>
-                </td>
-                <td className="px-2 py-1.5 text-xs font-semibold whitespace-nowrap">
-                  <span
-                    className={
-                      stock.netChange >= 0 ? "text-success" : "text-error"
-                    }
-                  >
-                    {stock.priceBand}
-                  </span>
-                </td>
-                <td className="px-2 py-1.5 text-xs text-muted-foreground whitespace-nowrap">
-                  {stock.mktCapital}
-                </td>
-                <td className="px-2 py-1.5 text-xs text-muted-foreground text-right font-mono">
-                  ₹{stock.preClose.toFixed(2)}
-                </td>
-                <td className="px-2 py-1.5 text-xs font-semibold text-foreground text-right font-mono">
-                  ₹{stock.ltp.toFixed(2)}
-                </td>
-                <td className="px-2 py-1.5 text-xs text-right font-mono">
-                  <span
-                    className={`font-semibold ${
-                      stock.netChange >= 0 ? "text-success" : "text-error"
-                    }`}
-                  >
-                    {stock.netChange >= 0 ? "+" : ""}₹
-                    {stock.netChange.toFixed(2)}
-                  </span>
-                </td>
-                <td className="px-2 py-1.5 text-right">
-                  <div className="flex items-center justify-end">
-                    <span
-                      className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold font-mono ${
-                        stock.percentInChange >= 0
-                          ? "bg-success/10 text-success"
-                          : "bg-error/10 text-error"
-                      }`}
-                    >
-                      {stock.percentInChange >= 0 ? (
-                        <TrendingUp className="w-3 h-3 mr-0.5" />
-                      ) : (
-                        <TrendingDown className="w-3 h-3 mr-0.5" />
-                      )}
-                      {stock.percentInChange >= 0 ? "+" : ""}
-                      {stock.percentInChange.toFixed(2)}%
-                    </span>
-                  </div>
-                </td>
-                <td className="px-2 py-1.5">
-                  <div className="flex justify-center">
-                    <TrendSparkline positive={type === "gainers"} />
-                  </div>
-                </td>
-              </motion.tr>
-            ))}
+                  </td>
+                  <td className={appleTableStyles.tdMono}>
+                    <div className="flex items-center justify-end">
+                      <span className={change.pill}>
+                        <TrendIcon className="w-3 h-3" aria-hidden="true" />
+                        {stock.percentInChange >= 0 ? "+" : ""}
+                        {stock.percentInChange.toFixed(2)}%
+                      </span>
+                    </div>
+                  </td>
+                  <td className={appleTableStyles.td}>
+                    <div className="flex justify-center">
+                      <TrendSparkline positive={type === "gainers"} />
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

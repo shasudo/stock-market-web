@@ -1,41 +1,39 @@
 /**
- * Apple Human Interface Guidelines (HIG) Table & Brand Kit Styling Utilities
- * Provides macOS Sequoia / Apple Stocks-grade styling, frosted headers,
- * precision micro-pill badges, and tabular numeric typography.
- *
- * Colors use the infra token contract (`bg-card`, `border-border`,
- * `text-foreground`, `text-muted-foreground`) so surfaces adapt to dark mode
- * automatically; gain/loss semantics keep their emerald/rose palette in
- * light mode with `dark:` companions tuned for dark-mode contrast.
+ * Unified Table & Badge System — single visual language for every table.
+ * Structure-preserving: class strings only, no prop or data changes.
+ * Containers are 12px cards, headers are muted uppercase, numbers are
+ * tabular, hover is a single primary tint in both modes.
  */
 
 export const appleTableStyles = {
   container:
-    "w-full rounded-2xl border border-border bg-card shadow-xs overflow-hidden",
+    "w-full rounded-xl border border-border bg-card shadow-sm overflow-hidden",
   scrollWrapper: "w-full overflow-x-auto scrollbar-thin",
   table: "w-full text-left border-collapse text-xs md:text-sm",
-  thead: "bg-muted/90 backdrop-blur-md border-b border-border sticky top-0 z-10",
-  th: "px-3 py-2.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider whitespace-nowrap select-none",
+  thead: "bg-muted/60 border-b border-border sticky top-0 z-10",
+  th: "px-3.5 py-2.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider whitespace-nowrap select-none",
   thSortable:
-    "px-3 py-2.5 text-[11px] font-bold text-muted-foreground hover:text-primary uppercase tracking-wider whitespace-nowrap select-none cursor-pointer transition-colors inline-flex items-center gap-1",
-  thRight: "px-3 py-2.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-right whitespace-nowrap select-none",
-  thCenter: "px-3 py-2.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-center whitespace-nowrap select-none",
+    "px-3.5 py-2.5 text-[11px] font-semibold text-muted-foreground hover:text-foreground uppercase tracking-wider whitespace-nowrap select-none cursor-pointer transition-colors inline-flex items-center gap-1",
+  thRight: "px-3.5 py-2.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider text-right whitespace-nowrap select-none",
+  thCenter: "px-3.5 py-2.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider text-center whitespace-nowrap select-none",
   tbody: "divide-y divide-border",
-  row: "finder-row transition-colors border-b border-border hover:bg-blue-50/60 even:bg-card odd:bg-muted/50 group",
+  row: "transition-colors border-b border-border hover:bg-primary/[0.05] even:bg-card odd:bg-muted/40",
   rowEven: "bg-card",
-  rowOdd: "bg-muted/50",
-  rowHover: "hover:bg-blue-50/60",
-  td: "px-3 py-2.5 text-xs text-foreground font-medium whitespace-nowrap align-middle",
-  tdMono: "px-3 py-2.5 text-xs font-mono font-medium text-foreground whitespace-nowrap text-right num-font align-middle",
-  tdBold: "px-3 py-2.5 text-xs font-bold text-foreground whitespace-nowrap align-middle",
-  tdMuted: "px-3 py-2.5 text-xs text-muted-foreground whitespace-nowrap align-middle",
+  rowOdd: "bg-muted/40",
+  rowHover: "hover:bg-primary/[0.05]",
+  td: "px-3.5 py-2.5 text-[13px] text-foreground font-normal whitespace-nowrap align-middle",
+  tdMono: "px-3.5 py-2.5 text-[13px] font-mono font-medium text-foreground whitespace-nowrap text-right num-font align-middle",
+  tdBold: "px-3.5 py-2.5 text-[13px] font-semibold text-foreground whitespace-nowrap align-middle",
+  tdMuted: "px-3.5 py-2.5 text-[13px] text-muted-foreground whitespace-nowrap align-middle",
 };
 
 // Backwards-compatible alias
 export const finderTableStyles = appleTableStyles;
 
 /**
- * Returns color classes and Apple Stocks-style pill styles for price changes
+ * Returns color classes and pill styles for price changes.
+ * Single pill shape (rounded-full, tabular numbers, min-width) so
+ * % columns don't jitter between rows.
  */
 export function getChangeColorClasses(change: number | null | undefined): {
   text: string;
@@ -50,65 +48,53 @@ export function getChangeColorClasses(change: number | null | undefined): {
       badge: "bg-muted text-muted-foreground border border-border",
       border: "border-border",
       iconColor: "text-muted-foreground",
-      pill: "inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-muted text-muted-foreground border border-border num-font",
+      pill: "inline-flex items-center justify-end gap-1 min-w-[76px] px-2 py-0.5 rounded-full text-xs font-mono font-semibold bg-muted text-muted-foreground border border-border num-font",
     };
   }
 
   if (change > 0) {
     return {
-      text: "text-emerald-600 dark:text-emerald-400",
-      badge: "bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold dark:bg-emerald-400/10 dark:text-emerald-300 dark:border-emerald-400/30",
-      border: "border-emerald-200 dark:border-emerald-400/30",
-      iconColor: "text-emerald-600 dark:text-emerald-400",
-      pill: "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 num-font dark:bg-emerald-400/10 dark:text-emerald-300 dark:border-emerald-400/30",
+      text: "text-emerald-700 dark:text-emerald-300",
+      badge: "bg-emerald-500/10 text-emerald-700 border border-emerald-600/20 font-semibold dark:bg-emerald-400/10 dark:text-emerald-300 dark:border-emerald-400/25",
+      border: "border-emerald-600/20 dark:border-emerald-400/25",
+      iconColor: "text-emerald-700 dark:text-emerald-300",
+      pill: "inline-flex items-center justify-end gap-1 min-w-[76px] px-2 py-0.5 rounded-full text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-700 border border-emerald-600/20 num-font dark:bg-emerald-400/10 dark:text-emerald-300 dark:border-emerald-400/25",
     };
   }
 
   return {
-    text: "text-rose-600 dark:text-rose-400",
-    badge: "bg-rose-50 text-rose-700 border border-rose-200 font-bold dark:bg-rose-400/10 dark:text-rose-300 dark:border-rose-400/30",
-    border: "border-rose-200 dark:border-rose-400/30",
-    iconColor: "text-rose-600 dark:text-rose-400",
-    pill: "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-mono font-bold bg-rose-50 text-rose-700 border border-rose-200 num-font dark:bg-rose-400/10 dark:text-rose-300 dark:border-rose-400/30",
+    text: "text-rose-700 dark:text-rose-300",
+    badge: "bg-rose-500/10 text-rose-700 border border-rose-600/20 font-semibold dark:bg-rose-400/10 dark:text-rose-300 dark:border-rose-400/25",
+    border: "border-rose-600/20 dark:border-rose-400/25",
+    iconColor: "text-rose-700 dark:text-rose-300",
+    pill: "inline-flex items-center justify-end gap-1 min-w-[76px] px-2 py-0.5 rounded-full text-xs font-mono font-semibold bg-rose-500/10 text-rose-700 border border-rose-600/20 num-font dark:bg-rose-400/10 dark:text-rose-300 dark:border-rose-400/25",
   };
 }
 
 /**
- * Returns Apple-style micro badge classes for exchanges
+ * Exchange badges: quiet neutrals, one blue for NSE, amber only for derivatives.
  */
 export function getExchangeBadgeClasses(exchange: string): string {
   const norm = exchange?.toUpperCase().trim();
   switch (norm) {
     case "NSE":
-      return "bg-indigo-50 text-indigo-700 border border-indigo-200 font-bold rounded-md px-2 py-0.5 text-[11px] dark:bg-indigo-400/10 dark:text-indigo-300 dark:border-indigo-400/30";
+      return "bg-primary/[0.08] text-primary border border-primary/20 font-semibold rounded-md px-2 py-0.5 text-[11px]";
     case "BSE":
-      return "bg-fuchsia-50 text-fuchsia-700 border border-fuchsia-200 font-bold rounded-md px-2 py-0.5 text-[11px] dark:bg-fuchsia-400/10 dark:text-fuchsia-300 dark:border-fuchsia-400/30";
+      return "bg-muted text-foreground border border-border font-semibold rounded-md px-2 py-0.5 text-[11px]";
     case "FNO":
     case "NFO":
-      return "bg-amber-50 text-amber-700 border border-amber-200 font-bold rounded-md px-2 py-0.5 text-[11px] dark:bg-amber-400/10 dark:text-amber-300 dark:border-amber-400/30";
+      return "bg-amber-500/10 text-amber-700 border border-amber-600/20 font-semibold rounded-md px-2 py-0.5 text-[11px] dark:bg-amber-400/10 dark:text-amber-300 dark:border-amber-400/25";
     case "MCX":
-      return "bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold rounded-md px-2 py-0.5 text-[11px] dark:bg-emerald-400/10 dark:text-emerald-300 dark:border-emerald-400/30";
+      return "bg-emerald-500/10 text-emerald-700 border border-emerald-600/20 font-semibold rounded-md px-2 py-0.5 text-[11px] dark:bg-emerald-400/10 dark:text-emerald-300 dark:border-emerald-400/25";
     default:
       return "bg-muted text-muted-foreground border border-border font-semibold rounded-md px-2 py-0.5 text-[11px]";
   }
 }
 
 /**
- * Returns Apple-style pill class for Market Groups
+ * Market-cap group badges: single neutral style, no rainbow.
  */
 export function getGroupBadgeClasses(group: string): string {
-  const norm = group?.toLowerCase().trim() || "";
-  if (norm.includes("large") || norm.includes("nifty 50")) {
-    return "bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-md px-2 py-0.5 text-[11px] font-bold dark:bg-indigo-400/10 dark:text-indigo-300 dark:border-indigo-400/30";
-  }
-  if (norm.includes("mid")) {
-    return "bg-sky-50 text-sky-700 border border-sky-200 rounded-md px-2 py-0.5 text-[11px] font-bold dark:bg-sky-400/10 dark:text-sky-300 dark:border-sky-400/30";
-  }
-  if (norm.includes("small") || norm.includes("micro")) {
-    return "bg-fuchsia-50 text-fuchsia-700 border border-fuchsia-200 rounded-md px-2 py-0.5 text-[11px] font-bold dark:bg-fuchsia-400/10 dark:text-fuchsia-300 dark:border-fuchsia-400/30";
-  }
-  if (norm.includes("sme")) {
-    return "bg-amber-50 text-amber-700 border border-amber-200 rounded-md px-2 py-0.5 text-[11px] font-bold dark:bg-amber-400/10 dark:text-amber-300 dark:border-amber-400/30";
-  }
+  void group;
   return "bg-muted text-muted-foreground border border-border rounded-md px-2 py-0.5 text-[11px] font-semibold";
 }

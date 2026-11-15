@@ -1838,11 +1838,11 @@ function WatchlistStyleTable({
           })}
         </tr>
       </thead>
-      <tbody className="divide-y divide-slate-100">
+      <tbody className="divide-y divide-border">
         {rows.map((row, index) => (
           <tr
             key={row.id}
-            className="finder-row transition-colors border-b border-slate-100/80 hover:bg-blue-50/60 even:bg-white odd:bg-slate-50/75 group"
+            className="transition-colors border-b border-border hover:bg-primary/[0.05] even:bg-card odd:bg-muted/40"
           >
             {columnOrder.map((columnKey) => (
               <td key={columnKey} className={watchlistCellClass(columnKey)}>
@@ -1859,7 +1859,7 @@ function WatchlistStyleTable({
           <tr>
             <td
               colSpan={columnOrder.length}
-              className="px-6 py-16 text-center text-slate-400 text-xs"
+              className="px-6 py-16 text-center text-muted-foreground text-xs"
             >
               {emptyMessage}
             </td>
@@ -3504,25 +3504,17 @@ export default function VgsReddyStrategiesPage() {
   return (
     <div className="min-h-screen bg-slate-50/40 py-6">
       <div className="w-full px-4 lg:px-8">
-        {/* PageHeader (components/common/PageHeader.tsx) is shared with other
-            pages and takes a plain string title — the gradient here is
-            applied from outside it via a Tailwind arbitrary descendant
-            selector on this wrapper, targeting the shared component's own
-            <h1>, so no shared file changes and no effect on any other page
-            that renders PageHeader. */}
-        <div className="[&_h1]:bg-gradient-to-r [&_h1]:from-indigo-600 [&_h1]:via-fuchsia-600 [&_h1]:to-rose-500 [&_h1]:bg-clip-text [&_h1]:text-transparent">
-          <PageHeader
-            title="VGS Reddy Screener"
-            description="Institutional candlestick breakout setups and multi-timeframe pattern recognition scanner"
-            icon={CandlestickChart}
-          >
+        <PageHeader
+          title="VGS Reddy Screener"
+          description="Institutional candlestick breakout setups and multi-timeframe pattern recognition scanner"
+          icon={CandlestickChart}
+        >
             <SourceNav
               activeSource={activeSource}
               onSelect={setActiveSource}
               countBySource={countBySource}
             />
-          </PageHeader>
-        </div>
+        </PageHeader>
 
         {/* Controls row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">

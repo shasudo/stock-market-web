@@ -46,16 +46,15 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full apple-glass border-b border-border">
       <div className="w-full px-6 lg:px-10">
         <div className="flex h-16 items-center justify-between">
-          {/* Apple HIG Brand Mark */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-9 h-9 rounded-xl bg-primary dark:bg-indigo-400 flex items-center justify-center shadow-[0_2px_10px_rgba(0,122,255,0.3)] dark:shadow-[0_2px_10px_rgba(129,140,248,0.3)] group-hover:scale-105 transition-transform">
-              <BarChart3 className="h-4.5 w-4.5 text-primary-foreground dark:text-zinc-950" />
+          <Link href="/" className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
+              <BarChart3 className="h-4.5 w-4.5 text-primary-foreground" />
             </div>
             <div className="flex flex-col">
-              <span className="text-base font-extrabold text-foreground tracking-[-0.025em] leading-tight">
-                StockMarket<span className="text-primary dark:text-indigo-400">Pro</span>
+              <span className="text-[15px] font-bold text-foreground tracking-tight leading-tight">
+                StockMarket<span className="text-primary">Pro</span>
               </span>
-              <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-[0.06em]">
+              <span className="text-[10px] font-medium text-muted-foreground tracking-wide">
                 Institutional Terminal
               </span>
             </div>
@@ -76,7 +75,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/register"
-                className="px-4 py-1.5 text-xs font-semibold text-primary-foreground dark:text-zinc-950 bg-primary dark:bg-indigo-400 hover:bg-primary/90 dark:hover:bg-indigo-300 rounded-xl transition-all shadow-[0_2px_8px_rgba(0,122,255,0.25)] dark:shadow-[0_2px_8px_rgba(129,140,248,0.25)] hover:scale-[1.02] active:scale-[0.98]"
+                className="px-4 py-1.5 text-xs font-semibold text-primary-foreground bg-primary hover:bg-primary/90 rounded-lg transition-colors"
               >
                 Get Started
               </Link>
@@ -128,7 +127,7 @@ export default function Navbar() {
                   <Link
                     href="/register"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block px-6 py-2 text-xs font-semibold text-center text-primary-foreground dark:text-zinc-950 bg-primary dark:bg-indigo-400 rounded-xl hover:bg-primary/90 dark:hover:bg-indigo-300 transition-all"
+                    className="block px-6 py-2 text-xs font-semibold text-center text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors"
                   >
                     Get Started
                   </Link>

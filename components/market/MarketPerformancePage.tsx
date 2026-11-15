@@ -3102,14 +3102,12 @@ function MarketPageContent({
     >
       <div className={vgs ? "w-full px-4 lg:px-8" : "w-full px-4 py-4"}>
         {vgs && (
-          <div className="[&_h1]:bg-gradient-to-r [&_h1]:from-indigo-600 [&_h1]:via-fuchsia-600 [&_h1]:to-rose-500 [&_h1]:bg-clip-text [&_h1]:text-transparent">
-            <PageHeader
-              title="Total Market Performance"
-              description="Breadth, movers and performance across every listed stock"
-              icon={Activity}
-              iconColor="text-primary dark:text-indigo-400"
-            />
-          </div>
+          <PageHeader
+            title="Total Market Performance"
+            description="Breadth, movers and performance across every listed stock"
+            icon={Activity}
+            iconColor="text-primary"
+          />
         )}
         {}
         <div className="relative mb-4">

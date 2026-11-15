@@ -26,7 +26,7 @@
   --border: 240 6% 90%;       /* Subtle hairline divider */
   --input: 240 6% 90%;
   --ring: 211 100% 50%;
-  --radius: 1rem;             /* 16px Apple smooth corner */
+  --radius: 0.75rem;          /* 12px organized card corner */
   
   --success: 142 69% 49%;     /* #34C759 Apple System Green */
   --error: 354 100% 59%;       /* #FF3B30 Apple System Red */
@@ -45,7 +45,7 @@
 }
 
 /* Class-based dark mode: zinc-950 base (#09090b), zinc-900 elevated
-   surfaces (#18181b), white/10 hairlines, indigo-400 accents.
+   surfaces (#18181b), white/10 hairlines, Apple blue accents.
    Market semantics stay emerald/rose, brightened for dark contrast. */
 .dark {
   color-scheme: dark;
@@ -57,19 +57,19 @@
   --popover: 240 6% 10%;
   --popover-foreground: 0 0% 98%;
 
-  --primary: 234 89% 74%;       /* indigo-400 #818CF8 */
-  --primary-foreground: 240 10% 3.9%;
+  --primary: 212 100% 62%;      /* #0A84FF Apple dark-mode blue */
+  --primary-foreground: 0 0% 100%;
   --secondary: 240 4% 16%;
   --secondary-foreground: 0 0% 98%;
   --muted: 240 4% 16%;
   --muted-foreground: 240 5% 65%;
   --accent: 240 4% 16%;
-  --accent-foreground: 234 89% 80%;
+  --accent-foreground: 212 100% 70%;
   --destructive: 351 95% 71%;   /* rose-400 #FB7185 */
   --destructive-foreground: 0 0% 98%;
   --border: 240 5% 16%;         /* white/10 over zinc-950 */
   --input: 240 4% 18%;
-  --ring: 234 89% 74%;
+  --ring: 212 100% 62%;
 
   --success: 160 84% 55%;       /* emerald-400 #34D399 */
   --error: 351 95% 71%;         /* rose-400 #FB7185 */
@@ -81,7 +81,7 @@
   --apple-table-bg: 240 6% 10%;
   --apple-row-even: 240 6% 10%;
   --apple-row-odd: 240 6% 6%;
-  --apple-row-hover: 234 89% 74%;
+  --apple-row-hover: 212 100% 62%;
   --apple-header-bg: 240 5% 8%;
   --apple-border: 240 4% 16%;
 }
@@ -158,31 +158,29 @@ body {
   background: rgba(0, 0, 0, 0.32);
 }
 
-/* Apple Glassmorphic & Materials Utility Classes */
+/* Navbar glass only — cards use plain bg-card + border, not blur. */
 .apple-glass {
   background-color: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(24px) saturate(190%);
   -webkit-backdrop-filter: blur(24px) saturate(190%);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  border-bottom: 1px solid hsl(var(--border));
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
 }
 
 .apple-glass-card {
-  background-color: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 1.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.03), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+  background-color: hsl(var(--card));
+  border-radius: 0.75rem;
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
 }
 
 .apple-card-hover {
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .apple-card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.06), 0 2px 6px 0 rgba(0, 0, 0, 0.03);
+  border-color: hsl(var(--border));
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.06), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
 }
 
 /* Apple Segmented Control System */
@@ -245,12 +243,12 @@ body {
   border: 1px solid rgba(255, 59, 48, 0.2);
 }
 
-/* Apple Table Styling Primitives */
+/* Unified table primitives — single radius, single hover, token borders. */
 .finder-table-container {
-  border-radius: 1.25rem;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  background-color: #ffffff;
-  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.03), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  border-radius: 0.75rem;
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--card));
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
   overflow: hidden;
 }
 
@@ -263,48 +261,46 @@ body {
 }
 
 .finder-thead {
-  background-color: rgba(245, 245, 247, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background-color: hsl(var(--muted) / 0.6);
   position: sticky;
   top: 0;
   z-index: 10;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid hsl(var(--border));
 }
 
 .finder-th {
   padding: 0.625rem 0.875rem;
   font-size: 0.6875rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #86868b;
+  color: hsl(var(--muted-foreground));
   white-space: nowrap;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid hsl(var(--border));
 }
 
 .finder-row {
   transition: background-color 0.12s ease;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid hsl(var(--border));
 }
 
 .finder-row:nth-child(even) {
-  background-color: #ffffff;
+  background-color: hsl(var(--card));
 }
 
 .finder-row:nth-child(odd) {
-  background-color: rgba(245, 245, 247, 0.45);
+  background-color: hsl(var(--muted) / 0.4);
 }
 
 .finder-row:hover {
-  background-color: rgba(0, 122, 255, 0.04) !important;
+  background-color: hsl(var(--primary) / 0.05) !important;
 }
 
 .finder-td {
   padding: 0.625rem 0.875rem;
   white-space: nowrap;
   vertical-align: middle;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid hsl(var(--border));
 }
 
 /* Tabular figures for financial numbers */
@@ -313,17 +309,17 @@ body {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
-/* Specular glows for Apple badges */
+/* Subtle focus rings for badges — reserved for active/focus states only. */
 .glow-emerald {
-  box-shadow: 0 0 16px rgba(52, 199, 89, 0.3);
+  box-shadow: 0 0 0 1px rgba(5, 150, 105, 0.25);
 }
 
 .glow-rose {
-  box-shadow: 0 0 16px rgba(255, 59, 48, 0.3);
+  box-shadow: 0 0 0 1px rgba(225, 29, 72, 0.25);
 }
 
 .glow-indigo {
-  box-shadow: 0 0 16px rgba(0, 122, 255, 0.3);
+  box-shadow: 0 0 0 1px hsl(var(--primary) / 0.25);
 }
 
 /* Dark-mode companions for the Apple utility classes above.
@@ -331,7 +327,7 @@ body {
    screener filters, gainers/losers, watchlist, alerts, global markets);
    other surfaces migrate later. */
 .dark ::selection {
-  background-color: rgba(129, 140, 248, 0.32);
+  background-color: hsl(var(--primary) / 0.32);
   color: #fafafa;
 }
 
@@ -415,7 +411,7 @@ body {
 }
 
 .dark .finder-row:hover {
-  background-color: rgba(129, 140, 248, 0.08) !important;
+  background-color: hsl(var(--primary) / 0.1) !important;
 }
 
 .dark .finder-td {
