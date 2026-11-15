@@ -139,8 +139,8 @@ export default function FiiDiiTradingPage() {
   );
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
+    <div>
+      <div className="w-full">
         <UnofficialSourceBadge
           lastSyncAt={lastSyncAt}
           label="Provisional NSE cash-market flows, published after market close. History builds daily from first sync."

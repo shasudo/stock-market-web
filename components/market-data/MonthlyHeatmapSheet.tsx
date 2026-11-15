@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { PageShell } from "@/components/common/PageShell";
+
 import { threeColorScale } from "@/lib/market-data/heatmap-colors";
 import type {
   HeatmapCell,
@@ -287,10 +287,10 @@ export function MonthlyHeatmapSheet({
       : null;
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageShell className="py-6">
+    <div>
+      <div className="w-full">
         <div
-          className="rounded-lg border border-border bg-white p-4 text-black shadow-sm sm:p-6"
+          className="rounded-[10px] border border-border bg-white p-4 text-black sm:p-6"
           style={{ fontFamily: SHEET_FONT }}
         >
           <div className="mb-5 flex justify-center">
@@ -365,7 +365,7 @@ export function MonthlyHeatmapSheet({
             No liability is accepted for decisions based on this information.
           </div>
         </div>
-      </PageShell>
+      </div>
     </div>
   );
 }

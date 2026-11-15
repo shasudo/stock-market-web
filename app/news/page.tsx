@@ -2,9 +2,9 @@ import NewsFlowPage from "@/components/NewsFlowPage";
 
 export default function NewsPage() {
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
-        <div className="rounded-2xl border border-border/90 bg-card shadow-xs p-6">
+    <div>
+      <div className="w-full">
+        <div className="rounded-[10px] border border-border bg-card p-4">
           <NewsFlowPage />
         </div>
       </div>

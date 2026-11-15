@@ -72,9 +72,11 @@ function formatDate(iso: string): string {
 }
 
 const KIND_STYLES: Record<FlowItem["kind"], string> = {
-  "Corporate action": "bg-[#E3EFFD] text-[#2962FF]",
-  "Bulk deal": "bg-[#E7F6F0] text-[#089981]",
-  "Block deal": "bg-[#FFF4E5] text-[#B26A00]",
+  "Corporate action": "border border-primary/25 bg-primary/[0.08] text-primary",
+  "Bulk deal":
+    "border border-emerald-600/25 bg-emerald-600/10 text-emerald-800 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-300",
+  "Block deal":
+    "border border-amber-600/25 bg-amber-500/10 text-amber-800 dark:border-amber-400/25 dark:bg-amber-400/10 dark:text-amber-300",
 };
 
 /**
@@ -148,12 +150,12 @@ export default function NewsFlowPage() {
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-bold text-[#131722]">News Flow</h1>
-          <p className="text-[13px] text-[#787B86]">
+          <h1 className="text-xl font-semibold tracking-tight text-foreground">News Flow</h1>
+          <p className="text-[13px] text-muted-foreground">
             Latest corporate actions, bulk and block deals
           </p>
         </div>
-        <div className="flex gap-1 rounded-lg bg-[#F0F3FA] p-1">
+        <div className="apple-segmented-group">
           {(
             ["All", "Corporate action", "Bulk deal", "Block deal"] as const
           ).map((entry) => (
@@ -162,10 +164,8 @@ export default function NewsFlowPage() {
               type="button"
               aria-pressed={kind === entry}
               onClick={() => setKind(entry)}
-              className={`rounded-md px-2.5 py-1.5 text-[13px] font-semibold transition-colors ${
-                kind === entry
-                  ? "bg-card text-[#131722] shadow-sm"
-                  : "text-[#787B86] hover:text-[#131722]"
+              className={`apple-segmented-item px-2.5 py-1.5 text-[13px] font-semibold ${
+                kind === entry ? "apple-segmented-item-active" : ""
               }`}
             >
               {entry === "All" ? "All" : entry.replace(" deal", "s")}
@@ -180,43 +180,43 @@ export default function NewsFlowPage() {
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Search symbol, company or headline…"
           aria-label="Search news flow"
-          className="w-full max-w-md rounded-md border border-[#E0E3EB] bg-[#F8F9FD] px-3 py-2 text-[13px] outline-none placeholder:text-[#9598A1] focus:border-[#2962FF]"
+          className="w-full max-w-md rounded-md border border-border bg-card px-3 py-2 text-[13px] text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"
         />
       </div>
       {loading ? (
-        <p className="py-10 text-center text-[13px] text-[#787B86]">Loading…</p>
+        <p className="py-10 text-center text-[13px] text-muted-foreground">Loading…</p>
       ) : failed ? (
-        <p className="py-10 text-center text-[13px] text-[#787B86]">
+        <p className="py-10 text-center text-[13px] text-muted-foreground">
           Couldn&apos;t load the news flow right now.
         </p>
       ) : visible.length === 0 ? (
-        <p className="py-10 text-center text-[13px] text-[#787B86]">
+        <p className="py-10 text-center text-[13px] text-muted-foreground">
           Nothing matches your filters.
         </p>
       ) : (
-        <ul className="mt-2 divide-y divide-[#F0F3FA]">
+        <ul className="mt-2 divide-y divide-border">
           {visible.map((item) => (
             <li key={item.id} className="flex items-start gap-3 py-3">
               <span
-                className={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10.5px] font-bold ${KIND_STYLES[item.kind]}`}
+                className={`mt-0.5 shrink-0 rounded-md px-1.5 py-0.5 text-[11px] font-semibold ${KIND_STYLES[item.kind]}`}
               >
                 {item.kind === "Corporate action" ? "Action" : item.kind}
               </span>
               <div className="min-w-0 flex-1">
                 <Link
                   href={`/chart/${encodeURIComponent(item.symbol)}`}
-                  className="text-[13.5px] font-semibold text-[#131722] hover:text-[#2962FF]"
+                  className="text-[13px] font-semibold text-foreground hover:text-primary"
                 >
                   {item.symbol}
                 </Link>
-                <span className="truncate text-[12.5px] text-[#787B86]">
+                <span className="truncate text-xs text-muted-foreground">
                   {" "}
                   · {item.company}
                 </span>
-                <p className="pt-0.5 text-[13px] leading-snug text-[#131722]">
+                <p className="pt-0.5 text-[13px] leading-snug text-foreground">
                   {item.title}
                 </p>
-                <p className="pt-0.5 text-[12px] text-[#787B86]">
+                <p className="pt-0.5 text-xs text-muted-foreground">
                   {formatDate(item.date)}
                   {item.detail ? ` · ${item.detail}` : ""}
                 </p>

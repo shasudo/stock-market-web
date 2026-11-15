@@ -360,9 +360,9 @@ function DiaryContent() {
     });
 
   return (
-    <div className="min-h-screen bg-background py-6">
+    <div>
       {}
-      <div className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-16 z-40">
+      <div className="sticky top-14 z-30 border-b border-border bg-background/95 backdrop-blur">
         <div className="w-full px-4 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-center gap-3">

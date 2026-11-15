@@ -1524,8 +1524,8 @@ export default function FnoSnapshotPage() {
       : "Unavailable";
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
+    <div>
+      <div className="w-full">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="text-xl font-extrabold tracking-tight text-foreground md:text-2xl">F&amp;O Market Snapshot</h1>

@@ -81,9 +81,9 @@ function ScreensContent() {
   }, [symbol]);
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
-        <h1 className="text-xl font-extrabold text-foreground">Screens</h1>
+    <div>
+      <div className="w-full">
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">Screens</h1>
         <p className="mt-1 text-xs font-medium text-muted-foreground">
           Screener-style full summary with chart, peers, statements, pros and
           cons. The stock page keeps the classic summary.

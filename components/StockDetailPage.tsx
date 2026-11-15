@@ -213,8 +213,8 @@ function StockDetailContent({ symbol }: { symbol: string }) {
   }
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
+    <div>
+      <div className="w-full">
         <button
           type="button"
           onClick={handleBack}
@@ -227,7 +227,7 @@ function StockDetailContent({ symbol }: { symbol: string }) {
         {errorMessage ? (
           <div
             role="alert"
-            className="mb-6 rounded-2xl border border-[#FF3B30]/25 bg-[#FF3B30]/10 px-4 py-3 text-xs font-semibold text-[#FF3B30]"
+            className="mb-4 rounded-[10px] border border-destructive/30 bg-destructive/10 px-4 py-3 text-xs font-medium text-destructive"
           >
             {errorMessage}
           </div>

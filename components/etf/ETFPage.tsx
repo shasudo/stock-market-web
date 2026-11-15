@@ -132,8 +132,8 @@ export default function ETFPage() {
   }, [etfs, exchangeFilter, searchQuery, sortBy]);
 
   return (
-    <div className="w-full min-h-screen bg-background py-6">
-      <div className="w-full px-4 lg:px-8">
+    <div className="w-full">
+      <div className="w-full">
         {/* Header Card */}
         <div className="bg-card border border-border/80 rounded-2xl p-6 mb-6 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex items-center gap-3">
