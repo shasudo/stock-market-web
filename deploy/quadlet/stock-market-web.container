@@ -12,7 +12,7 @@ Environment=API_ORIGIN=http://stock-market-api:8080
 # Required for the server-side login gate (proxy.ts + /session route).
 # Not stored here: put SESSION_SECRET=... in the file below (mode 600).
 # Generate with: openssl rand -hex 32
-EnvironmentFile=-%h/.config/stock-market-web/session.env
+EnvironmentFile=%h/.config/stock-market-web/session.env
 PublishPort=127.0.0.1:3000:3000
 HealthCmd=curl -fsS http://127.0.0.1:3000/ > /dev/null
 HealthInterval=30s

@@ -28,6 +28,13 @@ echo "==> building image"
 podman build --build-arg API_ORIGIN=http://stock-market-api:8080 -f "$SRC/Containerfile" \
   -t localhost/stock-market-web:latest "$SRC"
 
+# The auth gate reads SESSION_SECRET from this file (mode 600). Touching an
+# absent file keeps the service startable; the app then fails closed to login
+# until a real secret is placed there.
+mkdir -p "$HOME/.config/stock-market-web"
+touch "$HOME/.config/stock-market-web/session.env"
+chmod 600 "$HOME/.config/stock-market-web/session.env"
+
 echo "==> restarting web"
 systemctl --user restart stock-market-web.service
 
