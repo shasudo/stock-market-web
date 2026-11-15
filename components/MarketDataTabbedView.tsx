@@ -40,6 +40,23 @@ import {
   filterIndicesByCategory,
   type IndexCategory,
 } from "@/lib/market-data/index-categories";
+import {
+  DsTableContainer,
+  DsTableScroll,
+  DsTable,
+  DsTableHeader,
+  DsTableBody,
+  DsRow,
+  DsHead,
+  DsCell,
+  DsNumCell,
+  DsCard,
+  DsBadge,
+  ChangePill,
+  ChangeText,
+  LoadingState,
+} from "@/components/ds";
+import { cn } from "@/lib/utils";
 
 import { unwrapApiEnvelope } from "@/lib/api-envelope";
 const REFRESH_INTERVAL_MS = 30_000;
@@ -149,11 +166,6 @@ function formatSignedPercent(value: number | null | undefined): string {
   return `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`;
 }
 
-function changeTextClasses(value: number | null | undefined): string {
-  if (value === null || value === undefined) return "text-muted-foreground";
-  return value >= 0 ? "text-success" : "text-error";
-}
-
 function formatCrore(value: number | null | undefined): string {
   if (value === null || value === undefined || !Number.isFinite(value)) {
     return "—";
@@ -259,52 +271,61 @@ const SparklineChart = ({ data }: { data: number[] }) => {
   const isPositive = data[data.length - 1] >= data[0];
 
   return (
-    <svg width="80" height="30" className="inline-block">
-      <polyline
-        points={points}
-        fill="none"
-        stroke={isPositive ? "#10b981" : "#ef4444"}
-        strokeWidth="1.5"
-      />
-    </svg>
+    <span
+      className={cn(
+        "inline-block",
+        isPositive
+          ? "text-emerald-700 dark:text-emerald-300"
+          : "text-rose-700 dark:text-rose-300",
+      )}
+    >
+      <svg width="80" height="30" className="block" aria-hidden="true">
+        <polyline
+          points={points}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
+      </svg>
+    </span>
   );
 };
 
 const categoryInfo: Record<TabType, { title: string; description: string }> = {
   indicesFno: {
-    title: "INDICES IN F&O",
+    title: "Indices in F&O",
     description:
-      "Indices eligible for Futures and Options trading on NSE. These derivative-eligible indices include benchmark indices like NIFTY 50, NIFTY BANK and other key indices with active derivatives contracts....",
+      "Indices eligible for Futures and Options trading on NSE. These derivative-eligible indices include benchmark indices like NIFTY 50, NIFTY Bank and other key indices with active derivatives contracts.",
   },
   broadMarket: {
-    title: "BROAD MARKET INDICES",
+    title: "Broad Market Indices",
     description:
-      "Broad market indices covering large-cap, mid-cap, small-cap and multi-cap segments. Track overall market breadth and performance across different market capitalization segments....",
+      "Broad market indices covering large-cap, mid-cap, small-cap and multi-cap segments. Track overall market breadth and performance across different market capitalization segments.",
   },
   sectoralIndices: {
-    title: "SECTORAL INDICES",
+    title: "Sectoral Indices",
     description:
-      "NSE sectoral indices tracking performance of specific sectors like Auto, IT, Pharma, Banking, FMCG, Metal, Realty and more. Identify sector trends and rotation patterns....",
+      "NSE sectoral indices tracking performance of specific sectors like Auto, IT, Pharma, Banking, FMCG, Metal, Realty and more. Identify sector trends and rotation patterns.",
   },
   stocks: {
-    title: "ALL STOCKS",
+    title: "All Stocks",
     description:
-      "Comprehensive listing of all stocks trading on NSE/BSE with real-time prices, market capitalization, sector classification, and detailed performance metrics. Filter by exchange, index, and various parameters....",
+      "Comprehensive listing of all stocks trading on NSE/BSE with real-time prices, market capitalization, sector classification, and detailed performance metrics. Filter by exchange, index, and various parameters.",
   },
   sectors: {
-    title: "SECTOR-WISE PERFORMANCE",
+    title: "Sector-Wise Performance",
     description:
-      "Sector indices showing aggregate performance of stocks grouped by sectors like Banking, IT, Pharma, Auto, FMCG, and more. Track sector rotation and identify trending industries....",
+      "Sector indices showing aggregate performance of stocks grouped by sectors like Banking, IT, Pharma, Auto, FMCG, and more. Track sector rotation and identify trending industries.",
   },
   industry: {
-    title: "INDUSTRY-WISE PERFORMANCE",
+    title: "Industry-Wise Performance",
     description:
-      "Industry-wise market performance showing granular classification within sectors. Analyze sub-sector trends like Software Services, Private Banks, Steel Products, and more for detailed insights....",
+      "Industry-wise market performance showing granular classification within sectors. Analyze sub-sector trends like Software Services, Private Banks, Steel Products, and more for detailed insights.",
   },
   fnoStocks: {
-    title: "F&O ELIGIBLE STOCKS",
+    title: "F&O Eligible Stocks",
     description:
-      "Stocks eligible for Futures and Options trading with higher liquidity and institutional participation. These stocks meet NSE/BSE criteria for derivatives trading....",
+      "Stocks eligible for Futures and Options trading with higher liquidity and institutional participation. These stocks meet NSE/BSE criteria for derivatives trading.",
   },
 };
 
@@ -635,7 +656,7 @@ export default function MarketDataTabbedView({
   const stockNameCell = (stock: MarketStockData) => (
     <Link
       href={`/stock/${encodeURIComponent(stock.tradingSymbol)}`}
-      className="text-primary hover:text-info font-medium"
+      className="font-medium text-primary hover:underline"
     >
       {stock.companyName || stock.tradingSymbol}
     </Link>
@@ -644,69 +665,52 @@ export default function MarketDataTabbedView({
   const tabAlert = (message: string) => (
     <p
       role="alert"
-      className="mx-6 mt-4 rounded-md border border-error/30 bg-error/10 px-4 py-3 text-sm text-error"
+      className="rounded-[10px] border border-destructive/30 bg-destructive/10 px-4 py-3 text-[13px] text-destructive"
     >
       {message}
     </p>
   );
 
-  const tabLoading = (message: string) => (
-    <div className="px-6 py-12 text-center text-sm text-muted-foreground">
-      {message}
-    </div>
-  );
+  const tabLoading = (message: string) => <LoadingState message={message} />;
 
   const renderReturnsTable = () => (
-    <div className="overflow-x-auto">
-      <table className="w-full text-[13px]">
-        <thead>
-          <tr className="bg-muted/90 border-b border-border">
-            <th className="px-2 py-2 text-left font-semibold text-foreground uppercase tracking-wide">
-              #
-            </th>
-            <th className="px-2 py-2 text-left font-semibold text-foreground uppercase tracking-wide">
-              Company
-            </th>
-            <th className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide">
-              LTP
-            </th>
-            {RETURNS_COLUMNS.map((column) => (
-              <th
-                key={column.key}
-                className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide"
-              >
-                {column.label}
-              </th>
+    <DsTableContainer>
+      <DsTableScroll>
+        <DsTable>
+          <DsTableHeader>
+            <DsRow>
+              <DsHead align="center">#</DsHead>
+              <DsHead>Company</DsHead>
+              <DsHead align="right">LTP</DsHead>
+              {RETURNS_COLUMNS.map((column) => (
+                <DsHead key={column.key} align="right">
+                  {column.label}
+                </DsHead>
+              ))}
+            </DsRow>
+          </DsTableHeader>
+          <DsTableBody>
+            {filteredStocks.map((stock, index) => (
+              <DsRow key={`${stock.exchange}:${stock.securityId}`}>
+                <DsNumCell align="center" className="text-muted-foreground">
+                  {index + 1}
+                </DsNumCell>
+                <DsCell>{stockNameCell(stock)}</DsCell>
+                <DsNumCell className="font-bold">₹{stock.cmp.toFixed(2)}</DsNumCell>
+                {RETURNS_COLUMNS.map((column) => {
+                  const value = stock.percentChanges[column.key] ?? null;
+                  return (
+                    <DsNumCell key={column.key}>
+                      <ChangeText value={value}>{formatSignedPercent(value)}</ChangeText>
+                    </DsNumCell>
+                  );
+                })}
+              </DsRow>
             ))}
-          </tr>
-        </thead>
-        <tbody className="bg-card">
-          {filteredStocks.map((stock, index) => (
-            <tr
-              key={`${stock.exchange}:${stock.securityId}`}
-              className="border-b border-border hover:bg-muted transition-colors"
-            >
-              <td className="px-2 py-3 text-foreground">{index + 1}</td>
-              <td className="px-2 py-3">{stockNameCell(stock)}</td>
-              <td className="px-2 py-3 text-right font-bold text-foreground">
-                ₹{stock.cmp.toFixed(2)}
-              </td>
-              {RETURNS_COLUMNS.map((column) => {
-                const value = stock.percentChanges[column.key] ?? null;
-                return (
-                  <td
-                    key={column.key}
-                    className={`px-2 py-3 text-right font-semibold ${changeTextClasses(value)}`}
-                  >
-                    {formatSignedPercent(value)}
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </DsTableBody>
+        </DsTable>
+      </DsTableScroll>
+    </DsTableContainer>
   );
 
   const renderFundamentalTable = () => {
@@ -715,83 +719,73 @@ export default function MarketDataTabbedView({
       return tabLoading("Loading fundamental data…");
     }
     return (
-      <div className="overflow-x-auto">
-        <table className="w-full text-[13px]">
-          <thead>
-            <tr className="bg-muted/90 border-b border-border">
-              <th className="px-2 py-2 text-left font-semibold text-foreground uppercase tracking-wide">
-                #
-              </th>
-              <th className="px-2 py-2 text-left font-semibold text-foreground uppercase tracking-wide">
-                Company
-              </th>
-              <th className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide">
-                LTP
-              </th>
-              {["P/E", "EPS", "BV", "ROE %", "Net Margin %", "Op Margin %", "Div Yield", "Beta", "Revenue TTM"].map(
-                (label) => (
-                  <th
-                    key={label}
-                    className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide"
-                  >
-                    {label}
-                  </th>
-                ),
-              )}
-            </tr>
-          </thead>
-          <tbody className="bg-card">
-            {filteredStocks.map((stock, index) => {
-              const row = fundamentals.get(
-                fundamentalsKey(stock.exchange, stock.tradingSymbol),
-              );
-              return (
-                <tr
-                  key={`${stock.exchange}:${stock.securityId}`}
-                  className="border-b border-border hover:bg-muted transition-colors"
-                >
-                  <td className="px-2 py-3 text-foreground">{index + 1}</td>
-                  <td className="px-2 py-3">{stockNameCell(stock)}</td>
-                  <td className="px-2 py-3 text-right font-bold text-foreground">
-                    ₹{stock.cmp.toFixed(2)}
-                  </td>
-                  <td className="px-2 py-3 text-right text-foreground">
-                    {formatNumber(row?.pe)}
-                  </td>
-                  <td className="px-2 py-3 text-right text-foreground">
-                    {formatNumber(row?.eps)}
-                  </td>
-                  <td className="px-2 py-3 text-right text-foreground">
-                    {formatNumber(row?.bookValue)}
-                  </td>
-                  <td className="px-2 py-3 text-right text-foreground">
-                    {row?.roe == null ? "—" : `${row.roe.toFixed(2)}%`}
-                  </td>
-                  <td className="px-2 py-3 text-right text-foreground">
-                    {row?.profitMargin == null
-                      ? "—"
-                      : `${row.profitMargin.toFixed(2)}%`}
-                  </td>
-                  <td className="px-2 py-3 text-right text-foreground">
-                    {row?.operatingMargin == null
-                      ? "—"
-                      : `${row.operatingMargin.toFixed(2)}%`}
-                  </td>
-                  <td className="px-2 py-3 text-right text-foreground">
-                    {formatNumber(row?.dividendYield)}
-                  </td>
-                  <td className="px-2 py-3 text-right text-foreground">
-                    {formatNumber(row?.beta)}
-                  </td>
-                  <td className="px-2 py-3 text-right text-foreground">
-                    {formatCrore(row?.revenueTtm)}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      <DsTableContainer>
+        <DsTableScroll>
+          <DsTable>
+            <DsTableHeader>
+              <DsRow>
+                <DsHead align="center">#</DsHead>
+                <DsHead>Company</DsHead>
+                <DsHead align="right">LTP</DsHead>
+                {["P/E", "EPS", "BV", "ROE %", "Net Margin %", "Op Margin %", "Div Yield", "Beta", "Revenue TTM"].map(
+                  (label) => (
+                    <DsHead key={label} align="right">
+                      {label}
+                    </DsHead>
+                  ),
+                )}
+              </DsRow>
+            </DsTableHeader>
+            <DsTableBody>
+              {filteredStocks.map((stock, index) => {
+                const row = fundamentals.get(
+                  fundamentalsKey(stock.exchange, stock.tradingSymbol),
+                );
+                return (
+                  <DsRow key={`${stock.exchange}:${stock.securityId}`}>
+                    <DsNumCell align="center" className="text-muted-foreground">
+                      {index + 1}
+                    </DsNumCell>
+                    <DsCell>{stockNameCell(stock)}</DsCell>
+                    <DsNumCell className="font-bold">₹{stock.cmp.toFixed(2)}</DsNumCell>
+                    <DsNumCell className="font-normal text-muted-foreground">
+                      {formatNumber(row?.pe)}
+                    </DsNumCell>
+                    <DsNumCell className="font-normal text-muted-foreground">
+                      {formatNumber(row?.eps)}
+                    </DsNumCell>
+                    <DsNumCell className="font-normal text-muted-foreground">
+                      {formatNumber(row?.bookValue)}
+                    </DsNumCell>
+                    <DsNumCell className="font-normal text-muted-foreground">
+                      {row?.roe == null ? "—" : `${row.roe.toFixed(2)}%`}
+                    </DsNumCell>
+                    <DsNumCell className="font-normal text-muted-foreground">
+                      {row?.profitMargin == null
+                        ? "—"
+                        : `${row.profitMargin.toFixed(2)}%`}
+                    </DsNumCell>
+                    <DsNumCell className="font-normal text-muted-foreground">
+                      {row?.operatingMargin == null
+                        ? "—"
+                        : `${row.operatingMargin.toFixed(2)}%`}
+                    </DsNumCell>
+                    <DsNumCell className="font-normal text-muted-foreground">
+                      {formatNumber(row?.dividendYield)}
+                    </DsNumCell>
+                    <DsNumCell className="font-normal text-muted-foreground">
+                      {formatNumber(row?.beta)}
+                    </DsNumCell>
+                    <DsNumCell className="font-normal text-muted-foreground">
+                      {formatCrore(row?.revenueTtm)}
+                    </DsNumCell>
+                  </DsRow>
+                );
+              })}
+            </DsTableBody>
+          </DsTable>
+        </DsTableScroll>
+      </DsTableContainer>
     );
   };
 
@@ -801,66 +795,53 @@ export default function MarketDataTabbedView({
       return tabLoading("Loading financial statements…");
     }
     return (
-      <div className="overflow-x-auto">
-        <table className="w-full text-[13px]">
-          <thead>
-            <tr className="bg-muted/90 border-b border-border">
-              <th className="px-2 py-2 text-left font-semibold text-foreground uppercase tracking-wide">
-                #
-              </th>
-              <th className="px-2 py-2 text-left font-semibold text-foreground uppercase tracking-wide">
-                Company
-              </th>
-              <th className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide">
-                LTP
-              </th>
-              <th className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide">
-                Revenue FY
-              </th>
-              <th className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide">
-                Net Profit FY
-              </th>
-              <th className="px-2 py-2 text-center font-semibold text-foreground uppercase tracking-wide">
-                FY End
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-card">
-            {filteredStocks.map((stock, index) => {
-              const row = fundamentals.get(
-                fundamentalsKey(stock.exchange, stock.tradingSymbol),
-              );
-              return (
-                <tr
-                  key={`${stock.exchange}:${stock.securityId}`}
-                  className="border-b border-border hover:bg-muted transition-colors"
-                >
-                  <td className="px-2 py-3 text-foreground">{index + 1}</td>
-                  <td className="px-2 py-3">{stockNameCell(stock)}</td>
-                  <td className="px-2 py-3 text-right font-bold text-foreground">
-                    ₹{stock.cmp.toFixed(2)}
-                  </td>
-                  <td className="px-2 py-3 text-right text-foreground">
-                    {formatCrore(row?.revenueAnnual)}
-                  </td>
-                  <td
-                    className={`px-2 py-3 text-right ${changeTextClasses(row?.netIncomeAnnual)}`}
-                  >
-                    {row?.netIncomeAnnual == null
-                      ? "—"
-                      : `₹${Math.round(row.netIncomeAnnual).toLocaleString("en-IN")} Cr`}
-                  </td>
-                  <td className="px-2 py-3 text-center text-foreground">
-                    {row?.revenueAnnualDate
-                      ? row.revenueAnnualDate.slice(0, 4)
-                      : "—"}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      <DsTableContainer>
+        <DsTableScroll>
+          <DsTable>
+            <DsTableHeader>
+              <DsRow>
+                <DsHead align="center">#</DsHead>
+                <DsHead>Company</DsHead>
+                <DsHead align="right">LTP</DsHead>
+                <DsHead align="right">Revenue FY</DsHead>
+                <DsHead align="right">Net Profit FY</DsHead>
+                <DsHead align="center">FY End</DsHead>
+              </DsRow>
+            </DsTableHeader>
+            <DsTableBody>
+              {filteredStocks.map((stock, index) => {
+                const row = fundamentals.get(
+                  fundamentalsKey(stock.exchange, stock.tradingSymbol),
+                );
+                return (
+                  <DsRow key={`${stock.exchange}:${stock.securityId}`}>
+                    <DsNumCell align="center" className="text-muted-foreground">
+                      {index + 1}
+                    </DsNumCell>
+                    <DsCell>{stockNameCell(stock)}</DsCell>
+                    <DsNumCell className="font-bold">₹{stock.cmp.toFixed(2)}</DsNumCell>
+                    <DsNumCell className="font-normal text-muted-foreground">
+                      {formatCrore(row?.revenueAnnual)}
+                    </DsNumCell>
+                    <DsNumCell>
+                      <ChangeText value={row?.netIncomeAnnual}>
+                        {row?.netIncomeAnnual == null
+                          ? "—"
+                          : `₹${Math.round(row.netIncomeAnnual).toLocaleString("en-IN")} Cr`}
+                      </ChangeText>
+                    </DsNumCell>
+                    <DsCell align="center" className="text-muted-foreground">
+                      {row?.revenueAnnualDate
+                        ? row.revenueAnnualDate.slice(0, 4)
+                        : "—"}
+                    </DsCell>
+                  </DsRow>
+                );
+              })}
+            </DsTableBody>
+          </DsTable>
+        </DsTableScroll>
+      </DsTableContainer>
     );
   };
 
@@ -870,72 +851,60 @@ export default function MarketDataTabbedView({
       return tabLoading("Computing technical indicators…");
     }
     return (
-      <div className="overflow-x-auto">
-        <table className="w-full text-[13px]">
-          <thead>
-            <tr className="bg-muted/90 border-b border-border">
-              <th className="px-2 py-2 text-left font-semibold text-foreground uppercase tracking-wide">
-                #
-              </th>
-              <th className="px-2 py-2 text-left font-semibold text-foreground uppercase tracking-wide">
-                Company
-              </th>
-              <th className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide">
-                LTP
-              </th>
-              <th className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide">
-                % Change
-              </th>
-              {TECHNICAL_COLUMNS.map((column) => (
-                <th
-                  key={column.id}
-                  className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide"
-                >
-                  {column.label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="bg-card">
-            {filteredStocks.map((stock, index) => {
-              const values =
-                techValues[
-                  seasonalityKey(stock.exchangeSegment, stock.securityId)
-                ] ?? {};
-              return (
-                <tr
-                  key={`${stock.exchange}:${stock.securityId}`}
-                  className="border-b border-border hover:bg-muted transition-colors"
-                >
-                  <td className="px-2 py-3 text-foreground">{index + 1}</td>
-                  <td className="px-2 py-3">{stockNameCell(stock)}</td>
-                  <td className="px-2 py-3 text-right font-bold text-foreground">
-                    ₹{stock.cmp.toFixed(2)}
-                  </td>
-                  <td
-                    className={`px-2 py-3 text-right font-semibold ${changeTextClasses(stock.percentChange)}`}
-                  >
-                    {formatSignedPercent(stock.percentChange)}
-                  </td>
-                  {TECHNICAL_COLUMNS.map((column) => {
-                    const value = values[column.id];
-                    const ready = value?.state === "ready";
-                    return (
-                      <td
-                        key={column.id}
-                        title={ready ? undefined : (value?.message ?? "Not available")}
-                        className="px-2 py-3 text-right font-mono text-foreground"
-                      >
-                        {ready ? value.display : "—"}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      <DsTableContainer>
+        <DsTableScroll>
+          <DsTable>
+            <DsTableHeader>
+              <DsRow>
+                <DsHead align="center">#</DsHead>
+                <DsHead>Company</DsHead>
+                <DsHead align="right">LTP</DsHead>
+                <DsHead align="right">% Change</DsHead>
+                {TECHNICAL_COLUMNS.map((column) => (
+                  <DsHead key={column.id} align="right">
+                    {column.label}
+                  </DsHead>
+                ))}
+              </DsRow>
+            </DsTableHeader>
+            <DsTableBody>
+              {filteredStocks.map((stock, index) => {
+                const values =
+                  techValues[
+                    seasonalityKey(stock.exchangeSegment, stock.securityId)
+                  ] ?? {};
+                return (
+                  <DsRow key={`${stock.exchange}:${stock.securityId}`}>
+                    <DsNumCell align="center" className="text-muted-foreground">
+                      {index + 1}
+                    </DsNumCell>
+                    <DsCell>{stockNameCell(stock)}</DsCell>
+                    <DsNumCell className="font-bold">₹{stock.cmp.toFixed(2)}</DsNumCell>
+                    <DsNumCell>
+                      <ChangeText value={stock.percentChange}>
+                        {formatSignedPercent(stock.percentChange)}
+                      </ChangeText>
+                    </DsNumCell>
+                    {TECHNICAL_COLUMNS.map((column) => {
+                      const value = values[column.id];
+                      const ready = value?.state === "ready";
+                      return (
+                        <DsNumCell
+                          key={column.id}
+                          title={ready ? undefined : (value?.message ?? "Not available")}
+                          className="font-normal text-muted-foreground"
+                        >
+                          {ready ? value.display : "—"}
+                        </DsNumCell>
+                      );
+                    })}
+                  </DsRow>
+                );
+              })}
+            </DsTableBody>
+          </DsTable>
+        </DsTableScroll>
+      </DsTableContainer>
     );
   };
 
@@ -945,73 +914,60 @@ export default function MarketDataTabbedView({
       return tabLoading("Loading December seasonality…");
     }
     return (
-      <div className="overflow-x-auto">
-        <table className="w-full text-[13px]">
-          <thead>
-            <tr className="bg-muted/90 border-b border-border">
-              <th className="px-2 py-2 text-left font-semibold text-foreground uppercase tracking-wide">
-                #
-              </th>
-              <th className="px-2 py-2 text-left font-semibold text-foreground uppercase tracking-wide">
-                Company
-              </th>
-              <th className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide">
-                LTP
-              </th>
-              {["Dec Avg %", "Hit Rate %", "Decembers", "Best Dec %", "Worst Dec %"].map(
-                (label) => (
-                  <th
-                    key={label}
-                    className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide"
-                  >
-                    {label}
-                  </th>
-                ),
-              )}
-            </tr>
-          </thead>
-          <tbody className="bg-card">
-            {filteredStocks.map((stock, index) => {
-              const row = seasonality.get(
-                seasonalityKey(stock.exchangeSegment, stock.securityId),
-              );
-              return (
-                <tr
-                  key={`${stock.exchange}:${stock.securityId}`}
-                  className="border-b border-border hover:bg-muted transition-colors"
-                >
-                  <td className="px-2 py-3 text-foreground">{index + 1}</td>
-                  <td className="px-2 py-3">{stockNameCell(stock)}</td>
-                  <td className="px-2 py-3 text-right font-bold text-foreground">
-                    ₹{stock.cmp.toFixed(2)}
-                  </td>
-                  <td
-                    className={`px-2 py-3 text-right font-semibold ${changeTextClasses(row?.avg)}`}
-                  >
-                    {formatSignedPercent(row?.avg)}
-                  </td>
-                  <td className="px-2 py-3 text-right text-foreground">
-                    {row?.hitRate == null ? "—" : `${row.hitRate.toFixed(1)}%`}
-                  </td>
-                  <td className="px-2 py-3 text-center text-foreground">
-                    {row?.years ?? "—"}
-                  </td>
-                  <td
-                    className={`px-2 py-3 text-right font-semibold ${changeTextClasses(row?.best)}`}
-                  >
-                    {formatSignedPercent(row?.best)}
-                  </td>
-                  <td
-                    className={`px-2 py-3 text-right font-semibold ${changeTextClasses(row?.worst)}`}
-                  >
-                    {formatSignedPercent(row?.worst)}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      <DsTableContainer>
+        <DsTableScroll>
+          <DsTable>
+            <DsTableHeader>
+              <DsRow>
+                <DsHead align="center">#</DsHead>
+                <DsHead>Company</DsHead>
+                <DsHead align="right">LTP</DsHead>
+                {["Dec Avg %", "Hit Rate %", "Decembers", "Best Dec %", "Worst Dec %"].map(
+                  (label) => (
+                    <DsHead
+                      key={label}
+                      align={label === "Decembers" ? "center" : "right"}
+                    >
+                      {label}
+                    </DsHead>
+                  ),
+                )}
+              </DsRow>
+            </DsTableHeader>
+            <DsTableBody>
+              {filteredStocks.map((stock, index) => {
+                const row = seasonality.get(
+                  seasonalityKey(stock.exchangeSegment, stock.securityId),
+                );
+                return (
+                  <DsRow key={`${stock.exchange}:${stock.securityId}`}>
+                    <DsNumCell align="center" className="text-muted-foreground">
+                      {index + 1}
+                    </DsNumCell>
+                    <DsCell>{stockNameCell(stock)}</DsCell>
+                    <DsNumCell className="font-bold">₹{stock.cmp.toFixed(2)}</DsNumCell>
+                    <DsNumCell>
+                      <ChangeText value={row?.avg}>{formatSignedPercent(row?.avg)}</ChangeText>
+                    </DsNumCell>
+                    <DsNumCell className="font-normal text-muted-foreground">
+                      {row?.hitRate == null ? "—" : `${row.hitRate.toFixed(1)}%`}
+                    </DsNumCell>
+                    <DsCell align="center" className="text-muted-foreground">
+                      {row?.years ?? "—"}
+                    </DsCell>
+                    <DsNumCell>
+                      <ChangeText value={row?.best}>{formatSignedPercent(row?.best)}</ChangeText>
+                    </DsNumCell>
+                    <DsNumCell>
+                      <ChangeText value={row?.worst}>{formatSignedPercent(row?.worst)}</ChangeText>
+                    </DsNumCell>
+                  </DsRow>
+                );
+              })}
+            </DsTableBody>
+          </DsTable>
+        </DsTableScroll>
+      </DsTableContainer>
     );
   };
 
@@ -1037,59 +993,113 @@ export default function MarketDataTabbedView({
   const description = currentCategoryInfo.description;
 
   return (
-    <div className="min-h-screen bg-background py-6">
-      {}
-      <div className="border-b border-border px-4 py-3 overflow-x-auto">
-        <div className="flex space-x-2">
-          {categoryTabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveCategory(tab.id as TabType)}
-              className={`px-3 py-2 rounded-lg text-xs font-bold whitespace-nowrap transition-colors ${
-                activeCategory === tab.id
-                  ? "bg-primary text-primary-foreground shadow-xs"
-                  : "bg-card text-muted-foreground border border-border hover:bg-muted"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+    <div>
+      {/* Category switcher */}
+      <div className="mb-4 overflow-x-auto pb-1">
+        <div className="apple-segmented-group">
+          {categoryTabs.map((tab) => {
+            const isActive = activeCategory === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveCategory(tab.id as TabType)}
+                aria-current={isActive ? "page" : undefined}
+                className={cn(
+                  "apple-segmented-item text-xs whitespace-nowrap",
+                  isActive && "apple-segmented-item-active",
+                )}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {}
-      <div className="px-6 py-4 border-b border-border">
-        <p className="text-sm text-foreground leading-relaxed">
-          {description}
-        </p>
-      </div>
+      <DsCard className="mb-4 p-4">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-xl font-semibold tracking-tight text-foreground">
+                {title}
+                {!isIndicesTab && (
+                  <span className="text-muted-foreground"> — {selectedExchange}</span>
+                )}
+              </h1>
+              {isIndicesTab && (
+                <DataFreshness
+                  lastSyncAt={indicesLastSyncAt}
+                  className="text-xs text-muted-foreground"
+                />
+              )}
+            </div>
+            <p className="mt-1 max-w-3xl text-[13px] leading-relaxed text-muted-foreground">
+              {description}
+            </p>
+          </div>
+
+          {!isIndicesTab && (
+            <div className="flex flex-wrap items-center gap-3">
+              <SearchInput
+                value={search}
+                onChange={setSearch}
+                placeholder="Search company, symbol, sector..."
+                className="relative w-64"
+                matchCount={data.length}
+                totalCount={allRows.length}
+              />
+
+              <div className="apple-segmented-group" role="group" aria-label="Exchange">
+                {(["NSE", "BSE"] as const).map((ex) => (
+                  <button
+                    key={ex}
+                    type="button"
+                    onClick={() => setSelectedExchange(ex)}
+                    aria-pressed={selectedExchange === ex}
+                    className={cn(
+                      "apple-segmented-item text-xs",
+                      selectedExchange === ex && "apple-segmented-item-active",
+                    )}
+                  >
+                    {ex}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {!isIndicesTab && (
+          <div className="mt-4 flex space-x-1 overflow-x-auto border-t border-border pt-1">
+            {subTabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveSubTab(tab.id)}
+                aria-current={activeSubTab === tab.id ? "page" : undefined}
+                className={cn(
+                  "border-b-2 px-4 py-2.5 text-[13px] font-medium whitespace-nowrap transition-colors",
+                  activeSubTab === tab.id
+                    ? "border-primary text-primary"
+                    : "border-transparent text-muted-foreground hover:text-foreground",
+                )}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </DsCard>
 
       {isIndicesTab ? (
         <>
-          {}
-          <div className="px-6 py-4 flex items-center justify-between border-b border-border">
-            <div className="flex items-center space-x-3">
-              <h1 className="text-xl font-bold text-foreground">{title}</h1>
-              <DataFreshness
-                lastSyncAt={indicesLastSyncAt}
-                className="text-sm"
-              />
-            </div>
-          </div>
-
           {indicesErrorMessage ? (
-            <p
-              role="alert"
-              className="mx-6 mt-4 rounded-md border border-error/30 bg-error/10 px-4 py-3 text-sm text-error"
-            >
-              {indicesErrorMessage}
-            </p>
+            <div className="mb-4">{tabAlert(indicesErrorMessage)}</div>
           ) : null}
 
           {isLoadingIndices && indexQuotes.length === 0 ? (
-            <div className="px-6 py-12 text-center text-sm text-muted-foreground">
-              Loading index data…
-            </div>
+            tabLoading("Loading index data…")
           ) : (
             <IndicesDataTable
               streaming={indicesStreaming}
@@ -1110,209 +1120,109 @@ export default function MarketDataTabbedView({
         </>
       ) : (
         <>
-          {}
-          <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-4 border-b border-border">
-            <div className="flex items-center space-x-3">
-              {/* No timestamp here: fetchAllLiveMarketStocks does not surface
-                  the snapshot's lastSyncAt, and a locally generated one would
-                  date days-old rows to this second. */}
-              <h1 className="text-xl font-bold text-foreground">
-                {title} - {selectedExchange}
-              </h1>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <SearchInput
-                value={search}
-                onChange={setSearch}
-                placeholder="Search company, symbol, sector..."
-                className="relative w-64"
-                matchCount={data.length}
-                totalCount={allRows.length}
-              />
-
-              {}
-              <div className="flex items-center space-x-3">
-                {(["NSE", "BSE"] as const).map((ex) => (
-                  <label key={ex} className="flex items-center cursor-pointer">
-                    <input
-                      type="radio"
-                      name="exchange"
-                      checked={selectedExchange === ex}
-                      onChange={() => setSelectedExchange(ex)}
-                      className="w-4 h-4 accent-indigo-600"
-                    />
-                    <span className="ml-2 text-sm font-medium text-foreground">
-                      {ex}
-                    </span>
-                  </label>
-                ))}
-              </div>
-
-            </div>
-          </div>
-
-          {}
-          <div className="px-6 border-b border-border">
-            <div className="flex space-x-1 overflow-x-auto">
-              {subTabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveSubTab(tab.id)}
-                  className={`px-4 py-3 text-sm font-medium whitespace-nowrap transition-all border-b-2 ${
-                    activeSubTab === tab.id
-                      ? "border-primary text-primary"
-                      : "border-transparent text-muted-foreground hover:text-muted-foreground"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
           {needsLiveStocks && liveErrorMessage ? (
-            <p
-              role="alert"
-              className="mx-6 mt-4 rounded-md border border-error/30 bg-error/10 px-4 py-3 text-sm text-error"
-            >
-              {liveErrorMessage}
-            </p>
+            <div className="mb-4">{tabAlert(liveErrorMessage)}</div>
           ) : null}
 
           {activeSubTab !== "overview" ? (
             renderSubTabContent()
           ) : needsLiveStocks && isLoadingLive && liveStocks.length === 0 ? (
-            <div className="px-6 py-12 text-center text-sm text-muted-foreground">
-              Loading live stock data…
-            </div>
+            tabLoading("Loading live stock data…")
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-[13px]">
-                <thead>
-                  <tr className="bg-muted/90 border-b border-border">
-                    <th className="px-2 py-2 text-left font-semibold text-foreground uppercase tracking-wide">
-                      #
-                    </th>
-                    <th className="px-2 py-2 text-left font-semibold text-foreground uppercase tracking-wide">
-                      Company
-                    </th>
-                    <th className="px-2 py-2 text-left font-semibold text-foreground uppercase tracking-wide">
-                      Sector
-                    </th>
-                    <th className="px-2 py-2 text-left font-semibold text-foreground uppercase tracking-wide">
-                      Industry
-                    </th>
-                    <th className="px-2 py-2 text-center font-semibold text-foreground uppercase tracking-wide">
-                      Group
-                    </th>
-                    <th className="px-2 py-2 text-center font-semibold text-foreground uppercase tracking-wide">
-                      Face Value
-                    </th>
-                    <th className="px-2 py-2 text-center font-semibold text-foreground uppercase tracking-wide">
-                      Price Band
-                    </th>
-                    <th className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide">
-                      Mkt Cap
-                    </th>
-                    <th className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide">
-                      Pre Close
-                    </th>
-                    <th className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide">
-                      LTP
-                    </th>
-                    <th className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide">
-                      Net Change
-                    </th>
-                    <th className="px-2 py-2 text-right font-semibold text-foreground uppercase tracking-wide">
-                      % Change
-                    </th>
-                    <th className="px-2 py-2 text-center font-semibold text-foreground uppercase tracking-wide">
-                      Trend
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-card">
-                  {data.map((stock, index) => (
-                    <tr
-                      key={stock.id}
-                      className="border-b border-border hover:bg-muted transition-colors"
-                    >
-                      <td className="px-2 py-3 text-foreground">{index + 1}</td>
-                      <td className="px-2 py-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <Link
-                            href={`/stock/${encodeURIComponent(stock.symbol)}`}
-                            className="text-primary hover:text-info font-medium"
-                          >
-                            {stock.stockName}
-                          </Link>
-                          <div className="flex items-center gap-1">
-                            <StockActionsMenu
-                              stock={{
-                                symbol: stock.symbol,
-                                name: stock.stockName,
-                                ltp: stock.price,
-                                sector: stock.sector,
-                                industry: stock.industry,
-                              }}
-                            />
+            <DsTableContainer>
+              <DsTableScroll>
+                <DsTable>
+                  <DsTableHeader>
+                    <DsRow>
+                      <DsHead align="center">#</DsHead>
+                      <DsHead>Company</DsHead>
+                      <DsHead>Sector</DsHead>
+                      <DsHead>Industry</DsHead>
+                      <DsHead align="center">Group</DsHead>
+                      <DsHead align="center">Face Value</DsHead>
+                      <DsHead align="center">Price Band</DsHead>
+                      <DsHead align="right">Mkt Cap</DsHead>
+                      <DsHead align="right">Pre Close</DsHead>
+                      <DsHead align="right">LTP</DsHead>
+                      <DsHead align="right">Net Change</DsHead>
+                      <DsHead align="right">% Change</DsHead>
+                      <DsHead align="center">Trend</DsHead>
+                    </DsRow>
+                  </DsTableHeader>
+                  <DsTableBody>
+                    {data.map((stock, index) => (
+                      <DsRow key={stock.id}>
+                        <DsNumCell align="center" className="text-muted-foreground">
+                          {index + 1}
+                        </DsNumCell>
+                        <DsCell>
+                          <div className="flex items-center justify-between gap-2">
+                            <Link
+                              href={`/stock/${encodeURIComponent(stock.symbol)}`}
+                              className="font-medium text-primary hover:underline"
+                            >
+                              {stock.stockName}
+                            </Link>
+                            <div className="flex items-center gap-1">
+                              <StockActionsMenu
+                                stock={{
+                                  symbol: stock.symbol,
+                                  name: stock.stockName,
+                                  ltp: stock.price,
+                                  sector: stock.sector,
+                                  industry: stock.industry,
+                                }}
+                              />
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-2 py-3 text-foreground">
-                        {stock.sector && stock.sector !== "-"
-                          ? stock.sector
-                          : "—"}
-                      </td>
-                      <td className="px-2 py-3 text-foreground">
-                        {stock.industry && stock.industry !== "-"
-                          ? stock.industry
-                          : "—"}
-                      </td>
-                      <td className="px-2 py-3 text-center text-foreground">
-                        {stock.group || "—"}
-                      </td>
-                      <td className="px-2 py-3 text-center text-foreground">
-                        {stock.faceValue ? `₹${stock.faceValue}` : "—"}
-                      </td>
-                      <td className="px-2 py-3 text-center text-foreground">
-                        {stock.priceBand || "—"}
-                      </td>
-                      <td className="px-2 py-3 text-right text-foreground">
-                        {stock.mktCap || "—"}
-                      </td>
-                      <td className="px-2 py-3 text-right text-foreground">
-                        ₹{(stock.preClose || stock.price).toFixed(2)}
-                      </td>
-                      <td className="px-2 py-3 text-right font-bold text-foreground">
-                        ₹{stock.price.toFixed(2)}
-                      </td>
-                      <td
-                        className={`px-2 py-3 text-right font-semibold ${
-                          stock.change >= 0 ? "text-success" : "text-error"
-                        }`}
-                      >
-                        {stock.change >= 0 ? "+" : ""}₹{stock.change.toFixed(2)}
-                      </td>
-                      <td
-                        className={`px-2 py-3 text-right font-semibold ${
-                          stock.changePercent >= 0
-                            ? "text-success"
-                            : "text-error"
-                        }`}
-                      >
-                        {stock.changePercent >= 0 ? "+" : ""}
-                        {stock.changePercent.toFixed(2)}%
-                      </td>
-                      <td className="px-2 py-3 text-center">
-                        <SparklineChart data={stock.sparklineData} />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                        </DsCell>
+                        <DsCell className="text-muted-foreground">
+                          {stock.sector && stock.sector !== "-"
+                            ? stock.sector
+                            : "—"}
+                        </DsCell>
+                        <DsCell className="text-muted-foreground">
+                          {stock.industry && stock.industry !== "-"
+                            ? stock.industry
+                            : "—"}
+                        </DsCell>
+                        <DsCell align="center">
+                          <DsBadge>{stock.group || "—"}</DsBadge>
+                        </DsCell>
+                        <DsCell align="center" className="tabular-nums text-muted-foreground">
+                          {stock.faceValue ? `₹${stock.faceValue}` : "—"}
+                        </DsCell>
+                        <DsCell align="center" className="text-muted-foreground">
+                          {stock.priceBand || "—"}
+                        </DsCell>
+                        <DsNumCell className="font-normal text-muted-foreground">
+                          {stock.mktCap || "—"}
+                        </DsNumCell>
+                        <DsNumCell className="font-normal text-muted-foreground">
+                          ₹{(stock.preClose || stock.price).toFixed(2)}
+                        </DsNumCell>
+                        <DsNumCell className="font-bold">
+                          ₹{stock.price.toFixed(2)}
+                        </DsNumCell>
+                        <DsNumCell>
+                          <ChangeText value={stock.change}>
+                            {stock.change >= 0 ? "+" : ""}₹{stock.change.toFixed(2)}
+                          </ChangeText>
+                        </DsNumCell>
+                        <DsNumCell>
+                          <div className="flex items-center justify-end">
+                            <ChangePill value={stock.changePercent} />
+                          </div>
+                        </DsNumCell>
+                        <DsCell align="center">
+                          <SparklineChart data={stock.sparklineData} />
+                        </DsCell>
+                      </DsRow>
+                    ))}
+                  </DsTableBody>
+                </DsTable>
+              </DsTableScroll>
+            </DsTableContainer>
           )}
         </>
       )}
