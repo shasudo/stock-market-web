@@ -5,8 +5,8 @@ import Link from "next/link";
 const marketDataRows = [
   ["Indices", "Indices in F&O", "Calendar"],
   ["NSE Indices", "Broad Market Indices", "FII & DII Activity"],
-  ["BSE Indices", "Sectoral Indices", "Promoters Activity"],
-  ["", "Stocks", "Mutual Funds Activity"],
+  ["BSE Indices", "Sectoral Indices", ""],
+  ["", "Stocks", ""],
   ["Sectors", "Sectors", "Super Investors"],
   ["NSE Sectors", "Industry", "Corporate Action"],
   ["BSE Sectors", "F&O Stocks", "Deals"],
@@ -39,19 +39,45 @@ const boldItems = [
   "Deals",
 ];
 
-function isBold(text: string): boolean {
-  return boldItems.includes(text);
-}
+// Category headers with no destination page render as plain text, never links.
+const plainItems = new Set(["Indices", "Monthly", "Deals", "Filterings"]);
 
 const customHrefs: Record<string, string> = {
   "Indices in F&O": "/market-data/indices-fno",
   "Broad Market Indices": "/market-data/broad-market-indices",
   "Sectoral Indices": "/market-data/sectoral-indices",
   Calendar: "/market-data/results-calendar",
+  "Total Market": "/market",
+  "All Statistics": "/market",
+  "Market Mood": "/market-mood",
+  "NSE Indices": "/market-data/indices/nse",
+  "BSE Indices": "/market-data/indices/bse",
+  "NSE Sectors": "/market-data/sectors/nse",
+  "BSE Sectors": "/market-data/sectors/bse",
+  "FII & DII Activity": "/market-data/fii-dii",
+  "F&O Stocks": "/market-data/fno-stocks",
+  "IPO's": "/market-data/ipo",
+  "Futures Support & Resistance": "/market-data/fno",
+  "Intraday Large Deals": "/market-data/intraday-deals",
+  "Top Gainers": "/gainers",
+  "Top Losers": "/losers",
+  "Only Buyers": "/only-buyers",
+  "Only Sellers": "/only-sellers",
+  "Price Shockers": "/price-shockers",
+  "Volume Shockers": "/volume-shockers",
+  "Most Active Stocks": "/most-active-by-value",
+  "52 Week High": "/52-week-high",
+  "52 Week Low": "/52-week-low",
+  "All Time High (ATH)": "/all-time-high",
+  "All Time Low (ATL)": "/all-time-low",
 };
 
-function getHref(text: string): string {
-  if (!text) return "#";
+function isBold(text: string): boolean {
+  return boldItems.includes(text);
+}
+
+function getHref(text: string): string | null {
+  if (!text || plainItems.has(text)) return null;
   if (customHrefs[text]) return customHrefs[text];
   const slug = text
     .toLowerCase()
@@ -92,36 +118,16 @@ export default function MarketDataPage() {
             <tbody>
               {marketDataRows.map((row, idx) => (
                 <tr key={idx} className="finder-row transition-colors border-b border-border/80 hover:bg-primary/10 even:bg-card odd:bg-muted/50 group">
-                  <td className="py-2 px-4 border-r border-border text-sm text-muted-foreground font-medium">
-                    {row[0] ? (
-                      <Link
-                        href={getHref(row[0])}
-                        className={`text-muted-foreground hover:text-primary hover:no-underline transition-colors ${isBold(row[0]) ? "font-bold" : ""}`}
-                      >
-                        {row[0]}
-                      </Link>
-                    ) : null}
-                  </td>
-                  <td className="py-2 px-4 border-r border-border text-sm text-muted-foreground font-medium">
-                    {row[1] ? (
-                      <Link
-                        href={getHref(row[1])}
-                        className={`text-muted-foreground hover:text-primary hover:no-underline transition-colors ${isBold(row[1]) ? "font-bold" : ""}`}
-                      >
-                        {row[1]}
-                      </Link>
-                    ) : null}
-                  </td>
-                  <td className="py-2 px-4 text-sm text-muted-foreground font-medium">
-                    {row[2] ? (
-                      <Link
-                        href={getHref(row[2])}
-                        className={`text-muted-foreground hover:text-primary hover:no-underline transition-colors ${isBold(row[2]) ? "font-bold" : ""}`}
-                      >
-                        {row[2]}
-                      </Link>
-                    ) : null}
-                  </td>
+                  {[row[0], row[1], row[2]].map((text, cell) => {
+                    if (!text) return <td key={cell} className={cell === 2 ? "py-2 px-4 text-sm text-muted-foreground font-medium" : "py-2 px-4 border-r border-border text-sm text-muted-foreground font-medium"} />;
+                    const href = getHref(text);
+                    const className = `text-muted-foreground hover:text-primary hover:no-underline transition-colors ${isBold(text) ? "font-bold" : ""}`;
+                    return (
+                      <td key={cell} className={cell === 2 ? "py-2 px-4 text-sm text-muted-foreground font-medium" : "py-2 px-4 border-r border-border text-sm text-muted-foreground font-medium"}>
+                        {href ? <Link href={href} className={className}>{text}</Link> : <span className={className}>{text}</span>}
+                      </td>
+                    );
+                  })}
                 </tr>
               ))}
             </tbody>
