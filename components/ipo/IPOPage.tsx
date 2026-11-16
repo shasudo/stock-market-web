@@ -85,7 +85,7 @@ function SegmentBadge({ segment }: { segment: IpoIssue["segment"] }) {
       className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
         segment === "SME"
           ? "bg-amber-500/15 text-amber-700 dark:text-amber-300"
-          : "bg-indigo-500/15 text-indigo-700 dark:text-indigo-300"
+          : "bg-primary/10 text-primary"
       }`}
     >
       {segment}
@@ -186,7 +186,7 @@ function Documents({ issue }: { issue: IpoIssue }) {
         href={issue.nseUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1 rounded-lg border border-border px-2 py-1 text-[11px] font-semibold text-primary hover:bg-muted dark:text-indigo-300"
+        className="inline-flex items-center gap-1 rounded-lg border border-border px-2 py-1 text-[11px] font-semibold text-primary hover:bg-muted"
       >
         NSE issue page
         <ExternalLink className="h-3 w-3" aria-hidden />
@@ -224,7 +224,7 @@ function IssueCard({ issue }: { issue: IpoIssue }) {
         </div>
         <span
           className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold ${
-            issue.status === "open" ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" : "bg-sky-500/15 text-sky-700 dark:text-sky-300"
+            issue.status === "open" ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" : "bg-primary/10 text-primary"
           }`}
         >
           <CalendarClock className="h-3.5 w-3.5" aria-hidden />
@@ -351,7 +351,7 @@ function ClosedTable({ issues }: { issues: readonly IpoIssue[] }) {
               <td className="px-3 py-2.5">
                 <div className="flex gap-1.5">
                   {issue.documents.slice(0, 2).map((document) => (
-                    <a key={document.url} href={document.url} target="_blank" rel="noopener noreferrer" className="text-[11px] font-semibold text-primary hover:underline dark:text-indigo-300">
+                    <a key={document.url} href={document.url} target="_blank" rel="noopener noreferrer" className="text-[11px] font-semibold text-primary hover:underline">
                       {document.label === "Red Herring Prospectus" ? "RHP" : document.label}
                     </a>
                   ))}
@@ -426,7 +426,7 @@ function DraftsTable({ drafts }: { drafts: IpoBoardResponse["drafts"] }) {
               <td className="px-3 py-2.5 text-sm font-semibold text-foreground">{draft.company}</td>
               <td className={TD}>{draft.documentType}</td>
               <td className="px-3 py-2.5">
-                <a href={draft.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline dark:text-indigo-300">
+                <a href={draft.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
                   View on SEBI <ExternalLink className="h-3 w-3" aria-hidden />
                 </a>
               </td>

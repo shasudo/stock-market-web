@@ -712,7 +712,7 @@ const PatternSummaryCell = ({
         <span
           key={label}
           title={`${label} · ${[...new Set(timeframes)].join(", ")}`}
-          className="inline-flex items-center rounded-full border border-primary/30 dark:border-indigo-400/30 bg-primary/10 dark:bg-indigo-400/10 px-1.5 py-px text-[10px] font-bold whitespace-nowrap text-primary dark:text-indigo-300"
+          className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-1.5 py-px text-[10px] font-bold whitespace-nowrap text-primary"
         >
           {label}
         </span>
@@ -778,7 +778,7 @@ function renderBaseCell(
           title={stock.companyName}
         >
           <div className="flex items-center justify-between gap-2">
-            <span className="hover:text-primary dark:hover:text-indigo-300 cursor-pointer transition-colors">
+            <span className="hover:text-primary cursor-pointer transition-colors">
               {stock.companyName}
             </span>
             <div className="flex items-center gap-1">
@@ -798,7 +798,7 @@ function renderBaseCell(
     case "Exchange":
       return (
         <td key={col} className={`${cls} text-center`}>
-          <span className="inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary/10 dark:bg-indigo-400/10 text-primary dark:text-indigo-300 border border-primary/30 dark:border-indigo-400/30">
+          <span className="inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary/10 text-primary border border-primary/30">
             {stock.exchange}
           </span>
         </td>
@@ -1227,7 +1227,7 @@ const SummaryHeaderFilter = ({
                       type="checkbox"
                       checked={selectedIds.includes(option.id)}
                       onChange={() => toggleId(option.id)}
-                      className="h-3.5 w-3.5 shrink-0 cursor-pointer accent-indigo-600"
+                      className="h-3.5 w-3.5 shrink-0 cursor-pointer accent-primary"
                     />
                     <span className="flex-1 truncate">{option.label}</span>
                     <span className="num-font text-[10px] text-muted-foreground">
@@ -1380,9 +1380,9 @@ const StockTable = ({
     },
     {
       superHeaderClass:
-        "text-primary dark:text-indigo-300 bg-primary/10 dark:bg-indigo-400/10 border-b border-primary/30 dark:border-indigo-400/30 border-r border-primary/30 dark:border-indigo-400/30",
+        "text-primary bg-primary/10 border-b border-primary/30 border-r border-primary/30",
       subHeaderClass:
-        "text-primary dark:text-indigo-300 bg-primary/10 dark:bg-indigo-400/10 border-r border-primary/20 dark:border-indigo-400/20",
+        "text-primary bg-primary/10 border-r border-primary/20",
     },
   ];
 
@@ -1453,7 +1453,7 @@ const StockTable = ({
                   <th
                     key={col}
                     rowSpan={hasGroupedAddedColumns ? 2 : 1}
-                    className="px-3 py-2.5 text-[11px] font-bold text-primary dark:text-indigo-300 uppercase tracking-wider text-right whitespace-nowrap bg-primary/10 dark:bg-indigo-400/10 border-r border-primary/20 dark:border-indigo-400/20 cursor-pointer hover:bg-primary/20/70 dark:bg-indigo-400/20 transition-colors select-none"
+                    className="px-3 py-2.5 text-[11px] font-bold text-primary uppercase tracking-wider text-right whitespace-nowrap bg-primary/10 border-r border-primary/20 cursor-pointer hover:bg-primary/20/70 transition-colors select-none"
                     onClick={() => onSort(col)}
                   >
                     {label}
@@ -1667,7 +1667,7 @@ const StockTable = ({
                             )
                           ) : state === "warming-live-feed" ||
                             state === "warming-intraday" ? (
-                            <span className="text-indigo-500 dark:text-indigo-300 text-[11px] animate-pulse">
+                            <span className="text-primary text-[11px] animate-pulse">
                               Syncing...
                             </span>
                           ) : (
@@ -3202,7 +3202,7 @@ function MarketPageContent({
                       <span
                         className={
                           vgs
-                            ? "flex h-9 w-9 items-center justify-center rounded-xl bg-card border border-border shadow-[0_2px_12px_rgba(0,0,0,0.04)] text-primary dark:text-indigo-400 shrink-0"
+                            ? "flex h-9 w-9 items-center justify-center rounded-xl bg-card border border-border shadow-[0_2px_12px_rgba(0,0,0,0.04)] text-primary shrink-0"
                             : "flex h-8 w-8 items-center justify-center border border-black dark:border-border bg-black dark:bg-muted text-white dark:text-zinc-950"
                         }
                       >
@@ -3302,10 +3302,10 @@ function MarketPageContent({
                           week: "mt-1 flex w-full",
                           day: "relative h-8 w-8 p-0 text-center text-sm",
                           day_button: vgs
-                            ? "h-8 w-8 rounded-lg text-[13px] font-medium text-foreground transition-colors hover:bg-primary/10 dark:bg-indigo-400/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                            ? "h-8 w-8 rounded-lg text-[13px] font-medium text-foreground transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             : "h-8 w-8 rounded-md text-[13px] font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black",
                           today: vgs
-                            ? "font-bold text-primary dark:text-indigo-300 after:absolute after:bottom-1 after:left-1/2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:bg-primary dark:after:bg-indigo-400"
+                            ? "font-bold text-primary after:absolute after:bottom-1 after:left-1/2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:bg-primary"
                             : "font-bold text-foreground after:absolute after:bottom-1 after:left-1/2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:bg-black dark:after:bg-muted",
                           outside: "text-muted-foreground opacity-60",
                           disabled:
@@ -3320,7 +3320,7 @@ function MarketPageContent({
                             ? "rounded-r-lg bg-primary text-primary-foreground"
                             : "rounded-r-md bg-black dark:bg-muted text-white dark:text-zinc-950",
                           range_middle: vgs
-                            ? "rounded-none bg-primary/10 dark:bg-indigo-400/10 text-primary dark:text-indigo-200"
+                            ? "rounded-none bg-primary/10 text-primary"
                             : "rounded-none bg-muted text-foreground",
                         }}
                       />
@@ -3548,7 +3548,7 @@ function MarketPageContent({
                         onClick={applyDateRange}
                         className={
                           vgs
-                            ? "mt-5 h-10 w-full rounded-xl bg-primary dark:bg-indigo-400 px-4 text-sm font-bold text-white dark:text-zinc-950 shadow-primary/25 shadow-xs transition-colors hover:bg-primary/90 dark:hover:bg-indigo-300"
+                            ? "mt-5 h-10 w-full rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground shadow-xs transition-colors hover:bg-primary/90"
                             : "mt-5 h-9 w-full bg-black px-4 text-sm font-semibold text-white transition-colors hover:bg-primary/90 dark:bg-zinc-100 dark:text-zinc-950 dark:hover:bg-zinc-200"
                         }
                       >
@@ -3585,20 +3585,20 @@ function MarketPageContent({
           <div
             className={
               vgs
-                ? "mb-4 flex items-center gap-3 rounded-xl border border-primary/30 dark:border-indigo-400/30 bg-primary/10 dark:bg-indigo-400/10 px-3 py-2 text-xs"
+                ? "mb-4 flex items-center gap-3 rounded-xl border border-primary/30 bg-primary/10 px-3 py-2 text-xs"
                 : "mb-4 flex items-center gap-3 border border-black dark:border-border bg-muted px-3 py-2 text-xs"
             }
           >
             <span
               className={
-                vgs ? "text-primary dark:text-indigo-200" : "text-foreground"
+                vgs ? "text-primary" : "text-foreground"
               }
             >
               Custom date active:{" "}
               <strong
                 className={
                   vgs
-                    ? "text-indigo-950 dark:text-indigo-200"
+                    ? "text-primary"
                     : "text-foreground"
                 }
               >
@@ -3611,7 +3611,7 @@ function MarketPageContent({
               <strong
                 className={
                   vgs
-                    ? "text-indigo-950 dark:text-indigo-200"
+                    ? "text-primary"
                     : "text-foreground"
                 }
               >
@@ -3627,7 +3627,7 @@ function MarketPageContent({
               onClick={openCustomDatePicker}
               className={
                 vgs
-                  ? "font-semibold text-primary dark:text-indigo-300 underline underline-offset-2 hover:text-primary dark:hover:text-indigo-200"
+                  ? "font-semibold text-primary underline underline-offset-2 hover:text-primary"
                   : "font-medium text-foreground underline underline-offset-2 hover:text-muted-foreground"
               }
             >
@@ -3758,8 +3758,8 @@ function MarketPageContent({
                     : "flex items-center gap-2"
                 }
               >
-                <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-blue-500"></div>
-                <span className="text-xs text-primary dark:text-blue-300">
+                <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-primary"></div>
+                <span className="text-xs text-primary">
                   Syncing historical: {syncStatus.historicalProgress.completed}/
                   {syncStatus.historicalProgress.total} (
                   {syncStatus.cachedCount} cached)
@@ -3925,7 +3925,7 @@ function MarketPageContent({
               </button>
               <button
                 onClick={downloadCSV}
-                className="flex items-center gap-2 px-3 py-1.5 text-sm text-primary dark:text-blue-300 hover:text-blue-800 dark:text-blue-300 font-medium"
+                className="flex items-center gap-2 px-3 py-1.5 text-sm text-primary font-medium"
               >
                 <Download className="w-4 h-4" />
                 CSV
@@ -3936,8 +3936,8 @@ function MarketPageContent({
 
         {}
         {vgs ? (
-          <div className="mb-4 rounded-2xl border border-purple/30 dark:border-violet-400/30 bg-gradient-to-r from-violet-50 dark:from-violet-400/10 via-fuchsia-50/50 dark:via-fuchsia-400/5 to-white dark:to-transparent shadow-xs p-3">
-            <p className="flex items-center gap-1.5 text-[11px] font-bold text-purple dark:text-violet-300 uppercase tracking-wider pb-2">
+          <div className="mb-4 rounded-xl border border-border bg-card p-3">
+            <p className="flex items-center gap-1.5 text-[11px] font-bold text-muted-foreground uppercase tracking-wider pb-2">
               Advanced Filters
             </p>
             {filterPanel}
@@ -4226,7 +4226,7 @@ function MarketPageContent({
                   </div>
                 </div>
                 {addedColumnsLoading && (
-                  <div className="mt-2 text-[11px] text-primary dark:text-blue-300 font-medium animate-pulse">
+                  <div className="mt-2 text-[11px] text-primary font-medium animate-pulse">
                     Syncing live technical signals...
                   </div>
                 )}

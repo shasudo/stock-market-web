@@ -36,9 +36,9 @@
   --purple: 30 12% 45%;
   --indigo: 154 60% 30%;
 
-  /* Ink hairline + hard print shadow for cards. */
+  /* Ink hairline rules — flat ledger surfaces, never boxes with shadows. */
   --ink-line: 26 26% 13%;
-  --card-shadow: 2px 2px 0 0 hsl(var(--ink-line));
+  --card-shadow: none;
 
   /* Legacy table tokens — mapped onto the paper system. */
   --apple-table-bg: 40 40% 99%;
@@ -51,20 +51,20 @@
 
 .dark {
   color-scheme: dark;
-  /* Espresso — dark roast canvas, cream text, bright green accent. */
-  --background: 24 22% 7.5%;
-  --foreground: 40 28% 91%;
-  --card: 24 18% 10.5%;
-  --card-foreground: 40 28% 91%;
-  --popover: 24 18% 10.5%;
-  --popover-foreground: 40 28% 91%;
+  /* Lit Ledger — espresso-ink canvas, cream-ink text, phosphor green accent. */
+  --background: 24 24% 6%;
+  --foreground: 40 32% 93%;
+  --card: 24 20% 8.5%;
+  --card-foreground: 40 32% 93%;
+  --popover: 24 20% 8.5%;
+  --popover-foreground: 40 32% 93%;
 
-  --primary: 152 55% 58%;
+  --primary: 152 58% 60%;
   --primary-foreground: 24 25% 9%;
-  --secondary: 24 14% 15%;
-  --secondary-foreground: 40 28% 91%;
-  --muted: 24 14% 14%;
-  --muted-foreground: 32 12% 60%;
+  --secondary: 24 14% 13%;
+  --secondary-foreground: 40 32% 93%;
+  --muted: 24 14% 12%;
+  --muted-foreground: 33 14% 62%;
   --accent: 24 14% 15%;
   --accent-foreground: 152 55% 66%;
   --destructive: 4 75% 66%;
@@ -311,6 +311,14 @@ body {
 .num-font,
 .tnum {
   font-variant-numeric: tabular-nums;
+}
+
+/* Lit Ledger hero numerals — old-style serif figures for headline prices,
+   P&L and stat values. Printed-ledger voice, tabular where supported. */
+.hero-num {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.01em;
 }
 
 .num-font {

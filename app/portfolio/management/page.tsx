@@ -807,7 +807,7 @@ function PortfolioManagementContent() {
             <Button
               onClick={handleSaveNotes}
               disabled={savingNotes}
-              className="bg-violet-600 hover:bg-violet-700 ml-4"
+              className="bg-primary hover:bg-primary/90 ml-4"
               size="sm"
             >
               <Save className="w-4 h-4 mr-2" />

@@ -21,7 +21,7 @@ export function Stat({
       <p className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
         {label}
       </p>
-      <p className="mt-1 truncate text-lg font-semibold tabular-nums text-foreground">
+      <p className="hero-num mt-1 truncate text-[22px] font-semibold text-foreground">
         {value}
       </p>
       {(change !== undefined || hint) && (

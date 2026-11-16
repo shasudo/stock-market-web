@@ -369,7 +369,7 @@ function FilterDropdown({
                   name={single ? label : undefined}
                   checked={selected.includes(opt)}
                   onChange={() => toggle(opt)}
-                  className="w-3.5 h-3.5 accent-indigo-600"
+                  className="w-3.5 h-3.5 accent-primary"
                 />
                 <span className="truncate">{opt}</span>
               </label>
@@ -986,7 +986,7 @@ export default function HistoricalDataPage() {
                 <button
                   type="button"
                   onClick={reopenPicker}
-                  className="h-8 px-3 text-xs font-medium text-primary hover:text-blue-800 hover:underline"
+                  className="h-8 px-3 text-xs font-medium text-primary hover:text-primary/80 hover:underline"
                 >
                   Change
                 </button>

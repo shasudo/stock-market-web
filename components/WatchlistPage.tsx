@@ -808,7 +808,7 @@ export function WatchlistCategoryBoard({
             <span
               className={`inline-flex px-2 py-0.5 text-xs font-semibold rounded ${
                 stock.segments === "NSE"
-                  ? "bg-blue-500/10 dark:bg-blue-400/10 text-primary dark:text-blue-300"
+                  ? "bg-primary/10 text-primary"
                   : stock.segments === "BSE"
                     ? "bg-purple-500/10 dark:bg-purple-400/10 text-purple-600 dark:text-purple-300"
                     : "bg-warning/10 dark:bg-orange-400/10 text-warning dark:text-orange-300"

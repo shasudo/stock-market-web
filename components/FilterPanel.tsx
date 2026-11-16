@@ -178,7 +178,7 @@ function MultiSelect({
         onClick={() => setOpen(!open)}
         className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors ${
           selected.length > 0
-            ? "border-primary dark:border-indigo-400 bg-primary text-primary-foreground shadow-xs"
+            ? "border-primary bg-primary text-primary-foreground shadow-xs"
             : "border-border bg-card text-muted-foreground hover:bg-muted"
         } flex items-center gap-1.5`}
       >
@@ -209,7 +209,7 @@ function MultiSelect({
           <div className="flex gap-3 px-2 py-1.5 border-b border-border">
             <button
               onClick={() => onChange([...options])}
-              className="text-[11px] text-primary dark:text-blue-300 hover:underline font-medium"
+              className="text-[11px] text-primary hover:underline font-medium"
             >
               Select All
             </button>
@@ -235,7 +235,7 @@ function MultiSelect({
                   type="checkbox"
                   checked={selected.includes(opt)}
                   onChange={() => toggle(opt)}
-                  className="w-3.5 h-3.5 accent-indigo-600"
+                  className="w-3.5 h-3.5 accent-primary"
                 />
                 <span className="truncate">{opt}</span>
               </label>
@@ -528,7 +528,7 @@ export default function FilterPanel({
                             }
                             if (onAddColumn) onAddColumn(option);
                           }}
-                          className="h-3.5 w-3.5 accent-indigo-600"
+                          className="h-3.5 w-3.5 accent-primary"
                         />
                         <span>{option}</span>
                       </label>
@@ -689,7 +689,7 @@ export default function FilterPanel({
                   type="checkbox"
                   checked={!hiddenColumns.has(col)}
                   onChange={() => toggleColumn(col)}
-                  className="w-3.5 h-3.5 accent-indigo-600"
+                  className="w-3.5 h-3.5 accent-primary"
                 />
                 <span
                   className={

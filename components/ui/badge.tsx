@@ -21,7 +21,7 @@ const badgeVariants = cva(
           "border-warning/30 bg-warning/10 text-warning hover:bg-warning/20",
         info:
           "border-info/30 bg-info/10 text-info hover:bg-info/20",
-        indigo:
+        brand:
           "border-primary/30 bg-primary/10 text-primary hover:bg-primary/20",
         purple:
           "border-purple/30 bg-purple/10 text-purple hover:bg-purple/20",

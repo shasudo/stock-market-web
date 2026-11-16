@@ -14,10 +14,10 @@ const ACTIONS_PREVIEW = 8;
 
 const KIND_STYLES: Readonly<Record<CorporateActionKind, { label: string; className: string }>> = {
   dividend: { label: "Dividend", className: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300" },
-  bonus: { label: "Bonus", className: "bg-indigo-500/10 text-indigo-700 dark:text-indigo-300" },
-  split: { label: "Split", className: "bg-sky-500/10 text-sky-700 dark:text-sky-300" },
+  bonus: { label: "Bonus", className: "bg-primary/10 text-primary" },
+  split: { label: "Split", className: "bg-secondary text-secondary-foreground" },
   rights: { label: "Rights", className: "bg-amber-500/10 text-amber-700 dark:text-amber-300" },
-  buyback: { label: "Buyback", className: "bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300" },
+  buyback: { label: "Buyback", className: "bg-success/10 text-success" },
   demerger: { label: "Demerger", className: "bg-rose-500/10 text-rose-700 dark:text-rose-300" },
   other: { label: "Other", className: "bg-muted text-muted-foreground" },
 };
@@ -47,7 +47,7 @@ function DocLink({ href, children }: { href: string; children: React.ReactNode }
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 font-semibold text-primary hover:underline dark:text-indigo-300"
+      className="inline-flex items-center gap-1 font-semibold text-primary hover:underline"
     >
       {children}
       <ExternalLink className="h-3 w-3 shrink-0" aria-hidden />
@@ -229,7 +229,7 @@ export function DocumentsSection({ symbol }: { symbol: string }) {
                 <button
                   type="button"
                   onClick={() => setExpandedFor(showAllActions ? null : symbol)}
-                  className="mt-2 text-xs font-semibold text-primary hover:underline dark:text-indigo-300"
+                  className="mt-2 text-xs font-semibold text-primary hover:underline"
                 >
                   {showAllActions ? "Show fewer" : `Show all ${data.actions.length}`}
                 </button>

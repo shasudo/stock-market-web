@@ -26,19 +26,19 @@ const SCOPES: readonly Scope[] = ["Upcoming", "Past", "All"];
 function getBadgeStyle(category: CorporateActionCategory): string {
   switch (category) {
     case "Dividends":
-      return "bg-info/20 text-info border-blue-300";
+      return "bg-primary/10 text-primary border-primary/25";
     case "Interest":
       return "bg-muted text-muted-foreground border-border";
     case "Distributions":
-      return "bg-cyan-100 text-cyan-700 border-cyan-300";
+      return "bg-secondary text-secondary-foreground border-border";
     case "Buyback":
-      return "bg-success/20 text-success border-green-300";
+      return "bg-success/10 text-success border-success/25";
     case "Bonus":
-      return "bg-purple-100 text-purple-700 border-purple-300";
+      return "bg-purple/10 text-purple border-purple/25";
     case "Split":
-      return "bg-orange-100 text-warning border-orange-300";
+      return "bg-warning/10 text-warning border-warning/25";
     case "Rights":
-      return "bg-cyan-100 text-cyan-700 border-cyan-300";
+      return "bg-secondary text-secondary-foreground border-border";
     default:
       return "bg-muted text-muted-foreground border-border";
   }

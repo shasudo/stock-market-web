@@ -377,7 +377,7 @@ export function SummaryPriceChart({
               type="checkbox"
               checked={showVolume}
               onChange={(e) => setShowVolume(e.target.checked)}
-              className="h-3.5 w-3.5 accent-blue-600"
+              className="h-3.5 w-3.5 accent-primary"
             />
             Volume
           </label>

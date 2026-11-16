@@ -456,7 +456,7 @@ function EventsContent() {
       <div className="w-full px-4 lg:px-8 py-8">
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="animate-spin rounded-full h-10 w-10 border-2 border-violet-600 border-t-transparent" />
+            <div className="animate-spin rounded-full h-10 w-10 border-2 border-primary border-t-transparent" />
           </div>
         ) : events.length === 0 ? (
           <motion.div
@@ -490,7 +490,7 @@ function EventsContent() {
             {upcoming.length > 0 && (
               <div className="mb-8">
                 <div className="flex items-center gap-2 mb-4">
-                  <Clock className="h-4 w-4 text-violet-600" />
+                  <Clock className="h-4 w-4 text-primary" />
                   <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
                     Upcoming
                   </h2>
@@ -632,7 +632,7 @@ function EventsContent() {
                     onChange={(e) =>
                       setFormData({ ...formData, isAllDay: e.target.checked })
                     }
-                    className="h-4 w-4 rounded border-border text-violet-600 focus:ring-violet-400"
+                    className="h-4 w-4 rounded border-border accent-primary"
                   />
                   All-day event
                 </label>

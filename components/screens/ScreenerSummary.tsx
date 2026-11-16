@@ -320,7 +320,7 @@ function ManageRatiosDialog({
                               type="checkbox"
                               checked={draft.includes(def.id)}
                               onChange={() => toggle(def.id)}
-                              className="mt-0.5 h-3.5 w-3.5 accent-indigo-600"
+                              className="mt-0.5 h-3.5 w-3.5 accent-primary"
                             />
                             <span>{def.label}</span>
                           </label>

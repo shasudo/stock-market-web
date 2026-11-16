@@ -101,7 +101,7 @@ function ExpandButton({
       onClick={onClick}
       aria-expanded={open}
       title={`${open ? "Hide" : "Show"} ${count} named holder${count === 1 ? "" : "s"} under ${label}`}
-      className="inline-flex items-center gap-1 font-semibold text-primary hover:underline dark:text-indigo-300"
+      className="inline-flex items-center gap-1 font-semibold text-primary hover:underline"
     >
       {label}
       <span aria-hidden className="text-sm leading-none">{open ? "−" : "+"}</span>

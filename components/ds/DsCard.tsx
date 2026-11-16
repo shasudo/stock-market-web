@@ -6,7 +6,7 @@ export function DsCard({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="ds-card"
       className={cn(
-        "rounded-[8px] border border-border bg-card shadow-[var(--card-shadow)]",
+        "rounded-[8px] border border-border bg-card",
         className,
       )}
       {...props}

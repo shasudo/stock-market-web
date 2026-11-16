@@ -72,7 +72,7 @@ function NSECircuitChanges() {
     <div>
       <div className="px-6 py-5 border-b border-border">
         <UnofficialSourceBadge lastSyncAt={lastSyncAt} />
-        <h3 className="text-base font-semibold text-foreground border-b-2 border-indigo-700 inline-block pb-2 mb-2 mt-2">
+        <h3 className="text-base font-semibold text-foreground border-b-2 border-primary inline-block pb-2 mb-2 mt-2">
           Note
         </h3>
         <ul className="list-disc list-inside text-sm text-muted-foreground space-y-2 mt-3">

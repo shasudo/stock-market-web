@@ -233,7 +233,7 @@ export function CategoryDropdown({
             <button
               type="button"
               onClick={selectAll}
-              className="font-semibold text-primary dark:text-blue-300 hover:underline"
+              className="font-semibold text-primary hover:underline"
             >
               Select All
             </button>

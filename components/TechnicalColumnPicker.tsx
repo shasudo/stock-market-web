@@ -153,7 +153,7 @@ export function TechnicalColumnPicker({
                 setView("timeframes");
                 setSearch("");
               }}
-              className="text-primary dark:text-blue-300 hover:underline normal-case text-[11px]"
+              className="text-primary hover:underline normal-case text-[11px]"
             >
               All ({selection.timeframes.length}) &rarr;
             </button>
@@ -331,7 +331,7 @@ export function TechnicalColumnPicker({
                       onClick={() =>
                         setTimeframes(timeframeOptions.map((item) => item.id))
                       }
-                      className="font-medium text-primary dark:text-blue-300 hover:underline"
+                      className="font-medium text-primary hover:underline"
                     >
                       Select All
                     </button>
@@ -417,7 +417,7 @@ export function TechnicalColumnPicker({
                           group.items.map((item) => item.id),
                         )
                       }
-                      className="font-medium text-primary dark:text-blue-300 hover:underline"
+                      className="font-medium text-primary hover:underline"
                     >
                       Select All
                     </button>

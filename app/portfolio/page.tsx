@@ -28,8 +28,8 @@ const portfolioOptions = [
     icon: FileText,
     title: "Paper Trading",
     description: "Practice trading with simulated positions and virtual money",
-    tile: "border-sky-600/25 bg-sky-600/10 dark:border-sky-400/25 dark:bg-sky-400/10",
-    iconColor: "text-sky-800 dark:text-sky-300",
+    tile: "border-primary/25 bg-primary/[0.08]",
+    iconColor: "text-primary",
   },
   {
     href: "/portfolio/management",

@@ -571,7 +571,7 @@ function AlertsTable({
                       {daysSince(alert.createdAt)}
                     </td>
                     <td className="px-3 py-2.5 text-xs font-bold text-foreground">
-                      <span className="hover:text-primary dark:hover:text-indigo-300 cursor-pointer transition-colors block">
+                      <span className="hover:text-primary cursor-pointer transition-colors block">
                         {alert.displayName}
                       </span>
                       <span className="block text-[10px] font-mono text-muted-foreground">
@@ -619,7 +619,7 @@ function AlertsTable({
                         className={`inline-flex px-2.5 py-0.5 text-[10px] font-bold rounded-md uppercase tracking-[0.06em] ${
                           alert.status === "triggered"
                             ? "bg-success/10 text-success border border-success/20"
-                            : "bg-primary/10 dark:bg-indigo-400/10 text-primary dark:text-indigo-300 border border-primary/30 dark:border-indigo-400/30"
+                            : "bg-primary/10 text-primary border border-primary/30"
                         }`}
                       >
                         {alert.status}

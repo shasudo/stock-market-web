@@ -126,7 +126,7 @@ function CompanyDetail({ slug, onClose }: { slug: string; onClose: () => void })
               {company.minLotShares ? <p>Minimum lot: {company.minLotShares.toLocaleString("en-IN")} shares</p> : null}
               <p>{company.quoteCount} recorded quote{company.quoteCount === 1 ? "" : "s"}</p>
               {company.website ? (
-                <a href={company.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-semibold text-primary hover:underline dark:text-indigo-300">
+                <a href={company.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-semibold text-primary hover:underline">
                   Company website <ExternalLink className="h-3 w-3" aria-hidden />
                 </a>
               ) : null}
@@ -341,7 +341,7 @@ export default function UnlistedSharesPage() {
                         <td className="px-3 py-2.5 text-sm font-semibold text-foreground">{draft.company}</td>
                         <td className={TD}>{draft.documentType}</td>
                         <td className="px-3 py-2.5">
-                          <a href={draft.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline dark:text-indigo-300">
+                          <a href={draft.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
                             View <ExternalLink className="h-3 w-3" aria-hidden />
                           </a>
                         </td>
